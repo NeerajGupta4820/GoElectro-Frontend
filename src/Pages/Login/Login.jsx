@@ -1,61 +1,52 @@
-import  { useContext, useEffect, useState } from "react";
+import { useState, useEffect } from "react";
+import { useLoginUserMutation } from "../../redux/api/userAPI.js";
+import loginImage from "../../assets/Images/login/img.webp";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import "./Login.css";
-import loginImage from "../../assets/Images/login/img.webp";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
-import axios from "axios";
-import { UserContext } from "../../Context/UserContext";
+import { setUser } from "../../redux/slices/userSlice"; 
+import "./Login.css";
 
 const Login = () => {
-  const {user,loginUser} = useContext(UserContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
   const navigate = useNavigate();
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-  });
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevData) => ({
-      ...prevData,
-      [name]: value,
-    }));
-  };
+  const [loginUser, { isLoading }] = useLoginUserMutation();
+
+  useEffect(() => {
+    const emailInput = document.getElementById("email");
+    if (emailInput) {
+      emailInput.focus();
+    }
+  }, []);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Login Data:", formData);
+    if (!validateEmail(email)) {
+      toast.error("Please enter a valid email.");
+      return;
+    }
+
     try {
-      if (!formData.email || !formData.password) {
-        toast("⚠️ All fields are mandatory", {
+      const result = await loginUser({ email, password }).unwrap();
+      if (result.success) {
+        const { token, user } = result;
+        dispatch(setUser({ user, token }));
+
+        toast.success("Login successful!", {
           position: "top-center",
-          autoClose: 5000,
+          autoClose: 3000,
           hideProgressBar: true,
           draggable: true,
           theme: "dark",
         });
-        return;
+
+        navigate("/");
       }
-
-      const res = await axios.post(`${import.meta.env.REACT_APP_BASE_URL}/api/user/login`, {
-        email: formData.email,
-        password: formData.password,
-      });
-
-      toast.success("Login successful!", {
-        position: "top-center",
-        autoClose: 3000,
-        hideProgressBar: true,
-        draggable: true,
-        theme: "dark",
-      });
-      loginUser(res.data.user,res.data.token);
-      navigate("/");
-      
     } catch (error) {
-      console.error("Login Error:", error.response?.data || error.message);
-
       toast.error(
         `❌ Login failed: ${error.response?.data?.message || error.message}`,
         {
@@ -68,16 +59,16 @@ const Login = () => {
     }
   };
 
+
+
+  const validateEmail = (email) => {
+    const re = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return re.test(email);
+  };
+
   const handleGoogleLogin = () => {
     console.log("Login with Google");
   };
-
-  useEffect(()=>{
-    console.log(user);
-    if(user){
-      return navigate("/");
-    }
-  },[]);
 
   return (
     <div className="login-page">
@@ -88,28 +79,28 @@ const Login = () => {
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
           <div className="form-group">
-            <label htmlFor="email">Email</label>
+            <label htmlFor="email">Email:</label>
             <input
               type="email"
               id="email"
-              name="email"
-              value={formData.email}
-              onChange={handleChange}
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
               required
             />
           </div>
           <div className="form-group">
-            <label htmlFor="password">Password</label>
+            <label htmlFor="password">Password:</label>
             <input
               type="password"
               id="password"
-              name="password"
-              value={formData.password}
-              onChange={handleChange}
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
               required
             />
           </div>
-          <button type="submit">Login</button>
+          <button type="submit" disabled={isLoading}>
+            {isLoading ? "Logging in..." : "Login"}
+          </button>
           <button className="google-login" onClick={handleGoogleLogin}>
             <FcGoogle /> <span>Sign in with Google</span>
           </button>

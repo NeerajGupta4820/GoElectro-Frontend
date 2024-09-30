@@ -1,11 +1,18 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { clearUser } from "../../redux/slices/userSlice";
+import { useNavigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import {toast} from "react-toastify"
 import "./Navbar.css";
-import { UserContext } from "../../Context/UserContext";
 import { FaRegUser } from "react-icons/fa";
 
 const Navbar = () => {
-  const { user, logoutUser } = useContext(UserContext);
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const user = useSelector((state) => state.user.user) || JSON.parse(localStorage.getItem('user'));
+
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchItem, setSearchItem] = useState("");
 
@@ -20,6 +27,13 @@ const Navbar = () => {
   const handleSearchSubmit = (e) => {
     e.preventDefault();
     console.log("Search Item:", searchItem);
+  };
+
+
+  const logoutUser = () => {
+    dispatch(clearUser());
+    toast.success("Logged out successfully!");
+    navigate("/");
   };
 
   return (

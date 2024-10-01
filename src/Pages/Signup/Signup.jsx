@@ -1,4 +1,4 @@
-import  { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import signupimg from "../../assets/Images/signup/img.webp";
 import "./Signup.css";
@@ -8,8 +8,8 @@ import { UserContext } from "../../Context/UserContext";
 import { useRegisterUserMutation } from "../../redux/api/userAPI";
 
 const Signup = () => {
-  const {user,loginUser} = useContext(UserContext);
-  const [registerUser,{isLoading}] = useRegisterUserMutation();
+  const { user, loginUser } = useContext(UserContext);
+  const [registerUser, { isLoading }] = useRegisterUserMutation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -27,13 +27,61 @@ const Signup = () => {
     }));
   };
 
-  const handleFileChange = (e) => {
+  const handleFileChange = async (e) => {
     const file = e.target.files[0];
-    if (file) {
+    const allowedTypes = ["image/jpeg", "image/jpg", "image/png", "image/gif"];
+
+    if (file && !allowedTypes.includes(file.type)) {
+      toast.error(
+        "Invalid file type! Please upload an image (JPG, PNG, GIF).",
+        {
+          position: "top-center",
+          autoClose: 3000,
+          theme: "dark",
+        }
+      );
+      return;
+    }
+
+    const cloudName = `${import.meta.env.VITE_CLOUD_NAME}`;
+    const uploadPreset = "IBM_Project";
+    const uploadUrl = `https://api.cloudinary.com/v1_1/${cloudName}/upload`;
+
+    const formData = new FormData();
+    formData.append("file", file);
+    formData.append("upload_preset", uploadPreset);
+
+    try {
+      toast.info("Uploading image, please wait...", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "dark",
+      });
+
+      const res = await axios.post(uploadUrl, formData, {
+        headers: { "Content-Type": "multipart/form-data" },
+      });
+
+      const uploadedFileUrl = res.data.secure_url;
+
+      toast.success("File uploaded successfully!", {
+        position: "top-center",
+        autoClose: 3000,
+        theme: "dark",
+      });
+
+      console.log("Uploaded File URL:", uploadedFileUrl);
       setFormData((prevData) => ({
         ...prevData,
-        photo: URL.createObjectURL(file),
+        photo: uploadedFileUrl,
       }));
+    } catch (error) {
+      toast.error(`File upload failed: ${error.message}`, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+      console.error("Error uploading file:", error);
     }
   };
 
@@ -56,7 +104,7 @@ const Signup = () => {
 
       const res = await registerUser(formData).unwrap();
 
-      toast.success("SignUp Successfull",{
+      toast.success("SignUp Successfull", {
         position: "top-center",
         autoClose: 3000,
         hideProgressBar: true,
@@ -65,32 +113,27 @@ const Signup = () => {
       });
 
       console.log(res);
-      loginUser(res.user,res.token);
+      loginUser(res.user, res.token);
       isLoading(false);
       navigate("/");
-
-
     } catch (error) {
       console.error("SignUp Error:", error);
 
-      toast.error(
-        `❌ SignUp failed: ${error.data?.message || error.message}`,
-        {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          theme: "dark",
-        }
-      );
+      toast.error(`❌ SignUp failed: ${error.data?.message || error.message}`, {
+        position: "top-center",
+        autoClose: 5000,
+        hideProgressBar: true,
+        theme: "dark",
+      });
       isLoading(false);
     }
   };
 
-  useEffect(()=>{
-    if(user){
+  useEffect(() => {
+    if (user) {
       return navigate("/");
     }
-  },[]);
+  }, []);
 
   return (
     <div className="main-signup">

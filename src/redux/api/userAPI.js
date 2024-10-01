@@ -13,7 +13,7 @@ const userApi = createApi({
     }),
     registerUser: builder.mutation({
       query: (userData) => ({
-        url: '/api/user/register',
+        url: '/api/user/signup',
         method: 'POST',
         body: userData,
       }),

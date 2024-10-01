@@ -38,7 +38,7 @@ const Login = () => {
 
         toast.success("Login successful!", {
           position: "top-center",
-          autoClose: 3000,
+          autoClose: 5000,
           hideProgressBar: true,
           draggable: true,
           theme: "dark",

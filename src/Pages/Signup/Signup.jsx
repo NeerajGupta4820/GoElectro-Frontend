@@ -5,9 +5,11 @@ import "./Signup.css";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { UserContext } from "../../Context/UserContext";
+import { useRegisterUserMutation } from "../../redux/api/userAPI";
 
 const Signup = () => {
   const {user,loginUser} = useContext(UserContext);
+  const [registerUser,{isLoading}] = useRegisterUserMutation();
   const navigate = useNavigate();
   const [formData, setFormData] = useState({
     name: "",
@@ -39,6 +41,7 @@ const Signup = () => {
     e.preventDefault();
     console.log("Form Data:", formData);
     try {
+      isLoading(true);
       const { name, email, password, phone, photo } = formData;
       if (!name || !email || !password) {
         toast("⚠️ All fields are mandatory", {
@@ -51,13 +54,7 @@ const Signup = () => {
         return;
       }
 
-      const res = await axios.post(`${import.meta.env.REACT_APP_BASE_URL}/api/user/signup`,{
-        email,
-        name,
-        password,
-        phone,
-        photo
-      });
+      const res = await registerUser(formData).unwrap();
 
       toast.success("SignUp Successfull",{
         position: "top-center",
@@ -68,15 +65,16 @@ const Signup = () => {
       });
 
       console.log(res);
-      loginUser(res.data.user,res.data.token);
+      loginUser(res.user,res.token);
+      isLoading(false);
       navigate("/");
 
 
     } catch (error) {
-      console.error("Login Error:", error.response?.data || error.message);
+      console.error("SignUp Error:", error);
 
       toast.error(
-        `❌ Login failed: ${error.response?.data?.message || error.message}`,
+        `❌ SignUp failed: ${error.data?.message || error.message}`,
         {
           position: "top-center",
           autoClose: 5000,
@@ -84,6 +82,7 @@ const Signup = () => {
           theme: "dark",
         }
       );
+      isLoading(false);
     }
   };
 

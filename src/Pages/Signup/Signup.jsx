@@ -89,8 +89,8 @@ const Signup = () => {
     e.preventDefault();
     console.log("Form Data:", formData);
     try {
-      isLoading(true);
-      const { name, email, password, phone, photo } = formData;
+      // isLoading(true);
+      const { name, email, password, } = formData;
       if (!name || !email || !password) {
         toast("⚠️ All fields are mandatory", {
           position: "top-center",
@@ -114,7 +114,7 @@ const Signup = () => {
 
       console.log(res);
       loginUser(res.user, res.token);
-      isLoading(false);
+      // isLoading(false);
       navigate("/");
     } catch (error) {
       console.error("SignUp Error:", error);

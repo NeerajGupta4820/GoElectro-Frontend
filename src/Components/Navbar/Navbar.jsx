@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../redux/slices/userSlice";
-import { useNavigate } from "react-router-dom";
-import { Link } from "react-router-dom";
-import {toast} from "react-toastify"
+import { useNavigate, Link } from "react-router-dom";
+import { toast } from "react-toastify";
 import "./Navbar.css";
 import { FaRegUser } from "react-icons/fa";
 
@@ -29,11 +28,18 @@ const Navbar = () => {
     console.log("Search Item:", searchItem);
   };
 
-
   const logoutUser = () => {
     dispatch(clearUser());
     toast.success("Logged out successfully!");
-    navigate("/");
+    navigate("/"); 
+  };
+
+  const handleProfileRedirect = () => {
+    if (user.role === "admin") {
+      navigate("/dashboard"); 
+    } else {
+      navigate("/profile");
+    }
   };
 
   return (
@@ -78,13 +84,13 @@ const Navbar = () => {
             </>
           ) : (
             <>
-              <li style={{color:"white",cursor:"pointer"}} onClick={()=>{logoutUser()}}>
+            <Link>
+              <li style={{ color: "white", cursor: "pointer" }} onClick={logoutUser}>
                 Logout
               </li>
-              <li>
-                <Link to="/profile">
-                  <FaRegUser />
-                </Link>
+            </Link>
+              <li style={{ cursor: "pointer" ,color:"white" }} onClick={handleProfileRedirect}>
+                <FaRegUser />
               </li>
             </>
           )}

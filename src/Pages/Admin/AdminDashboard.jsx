@@ -1,19 +1,33 @@
+import { Routes, Route } from "react-router-dom"; 
 import AdminSidebar from "../../Components/admin/SideBar";
-import "./AdminDashboard.css"; 
+import Dashboard from "../../Components/admin/Dashboard"; 
+import Product from "../../Components/admin/product/Product"; 
+import Categories from "../../Components/admin/category/Categories"; 
+import Customer from "../../Components/admin/customers/Customers"; 
+import Transaction from "../../Components/admin/transactions/Transactions"; 
+import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
   return (
     <div className="admin-dashboard">
       <AdminSidebar />
       <main className="dashboard-content">
-        <section className="content-section">
-          <h2>Welcome to the Admin Dashboard</h2>
-          <p>This is the admin dashboard content.</p>
-          <p>This is the admin dashboard content.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Phasellus varius felis et felis gravida, eu efficitur lorem lacinia. Praesent et ante non purus placerat sodales. Sed ut justo id nunc gravida malesuada a a lacus.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Phasellus varius felis et felis gravida, eu efficitur lorem lacinia. Praesent et ante non purus placerat sodales. Sed ut justo id nunc gravida malesuada a a lacus.</p>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Phasellus varius felis et felis gravida, eu efficitur lorem lacinia. Praesent et ante non purus placerat sodales. Sed ut justo id nunc gravida malesuada a a lacus.</p>
-        </section>
+        <Routes>
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/dashboard/product" element={<Product />} />
+          <Route path="/dashboard/categories" element={<Categories />} />
+          <Route path="/dashboard/customer" element={<Customer />} />
+          <Route path="/dashboard/transaction" element={<Transaction />} />
+          <Route
+            path="*"
+            element={
+              <section className="content-section">
+                <h2>Welcome to the Admin Dashboard</h2>
+                <p>Select an option from the sidebar to see the content.</p>
+              </section>
+            }
+          />
+        </Routes>
       </main>
     </div>
   );

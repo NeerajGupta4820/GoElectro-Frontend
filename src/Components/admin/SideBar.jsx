@@ -3,7 +3,7 @@ import { AiFillFileText } from "react-icons/ai";
 import { FaChartBar, FaChartLine, FaChartPie, FaGamepad, FaStopwatch } from "react-icons/fa";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { IoIosPeople } from "react-icons/io";
-import { RiApps2AddFill, RiCoupon3Fill, RiShoppingBag3Fill } from "react-icons/ri";
+import { RiApps2AddFill, RiCoupon3Fill, RiShoppingBag3Fill, RiDashboardFill } from "react-icons/ri";
 import { Link, useLocation } from "react-router-dom";
 import "./SideBar.css";
 
@@ -50,6 +50,7 @@ const DivOne = ({ location }) => (
   <div>
     <h5>Dashboard</h5>
     <ul>
+      <Li url="/dashboard" text="Dashboard" Icon={RiDashboardFill} location={location} />
       <Li url="/dashboard/product" text="Product" Icon={RiShoppingBag3Fill} location={location} />
       <Li url="/dashboard/categories" text="Category" Icon={RiApps2AddFill} location={location} />
       <Li url="/dashboard/customer" text="Customer" Icon={IoIosPeople} location={location} />
@@ -81,9 +82,7 @@ const DivThree = ({ location }) => (
 );
 
 const Li = ({ url, text, location, Icon }) => (
-  <li
-    className={location.pathname.includes(url) ? "active" : ""}
-  >
+  <li className={location.pathname === url ? "active" : ""}>
     <Link to={url}>
       <Icon />
       {text}

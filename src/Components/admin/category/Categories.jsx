@@ -1,10 +1,16 @@
+import { Routes, Route } from "react-router-dom";
+import AdminCategory from "./AdminCategory"; 
+import CreateCategory from "./CreateCategory"; 
+import UpdateCategory from "./UpdateCategory";
 
-const AdminCategories = () => {
+const Category = () => {
   return (
-    <div>
-      
-    </div>
-  )
-}
+    <Routes>
+      <Route path="/" element={<AdminCategory />} /> 
+      <Route path="create-category" element={<CreateCategory />} /> 
+      <Route path="edit-category/:id" element={<UpdateCategory />} /> 
+    </Routes>
+  );
+};
 
-export default AdminCategories
+export default Category;

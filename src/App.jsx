@@ -33,7 +33,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile/*" element={<ProtectedRoute role="user"><UserProfile /></ProtectedRoute>}/>
-        <Route path="/dashboard/*" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>}/>
+        <Route path="/admin/*" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>}/>
       </Routes>
       <Footer />
     </Router>

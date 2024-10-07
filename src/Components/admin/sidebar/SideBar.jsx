@@ -50,11 +50,11 @@ const DivOne = ({ location }) => (
   <div>
     <h5>Dashboard</h5>
     <ul>
-      <Li url="/dashboard" text="Dashboard" Icon={RiDashboardFill} location={location} />
-      <Li url="/dashboard/product" text="Product" Icon={RiShoppingBag3Fill} location={location} />
-      <Li url="/dashboard/categories" text="Category" Icon={RiApps2AddFill} location={location} />
-      <Li url="/dashboard/customer" text="Customer" Icon={IoIosPeople} location={location} />
-      <Li url="/dashboard/transaction" text="Transaction" Icon={AiFillFileText} location={location} />
+      <Li url="/admin/dashboard" text="Dashboard" Icon={RiDashboardFill} location={location} />
+      <Li url="/admin/product" text="Product" Icon={RiShoppingBag3Fill} location={location} />
+      <Li url="/admin/categories" text="Category" Icon={RiApps2AddFill} location={location} />
+      <Li url="/admin/customer" text="Customer" Icon={IoIosPeople} location={location} />
+      <Li url="/admin/transaction" text="Transaction" Icon={AiFillFileText} location={location} />
     </ul>
   </div>
 );
@@ -63,9 +63,9 @@ const DivTwo = ({ location }) => (
   <div>
     <h5>Charts</h5>
     <ul>
-      <Li url="/dashboard/chart/bar" text="Bar" Icon={FaChartBar} location={location} />
-      <Li url="/dashboard/chart/pie" text="Pie" Icon={FaChartPie} location={location} />
-      <Li url="/dashboard/chart/line" text="Line" Icon={FaChartLine} location={location} />
+      <Li url="/admin/chart/bar" text="Bar" Icon={FaChartBar} location={location} />
+      <Li url="/admin/chart/pie" text="Pie" Icon={FaChartPie} location={location} />
+      <Li url="/admin/chart/line" text="Line" Icon={FaChartLine} location={location} />
     </ul>
   </div>
 );
@@ -74,20 +74,23 @@ const DivThree = ({ location }) => (
   <div>
     <h5>Apps</h5>
     <ul>
-      <Li url="/dashboard/app/stopwatch" text="Stopwatch" Icon={FaStopwatch} location={location} />
-      <Li url="/dashboard/app/coupon" text="Coupon" Icon={RiCoupon3Fill} location={location} />
-      <Li url="/dashboard/app/toss" text="Toss" Icon={FaGamepad} location={location} />
+      <Li url="/admin/app/stopwatch" text="Stopwatch" Icon={FaStopwatch} location={location} />
+      <Li url="/admin/app/coupon" text="Coupon" Icon={RiCoupon3Fill} location={location} />
+      <Li url="/admin/app/toss" text="Toss" Icon={FaGamepad} location={location} />
     </ul>
   </div>
 );
 
-const Li = ({ url, text, location, Icon }) => (
-  <li className={location.pathname === url ? "active" : ""}>
-    <Link to={url}>
-      <Icon />
-      {text}
-    </Link>
-  </li>
-);
+const Li = ({ url, text, location, Icon }) => {
+  const isActive = location.pathname.startsWith(url);
+  return (
+    <li className={isActive ? "active" : ""}>
+      <Link to={url}>
+        <Icon />
+        {text}
+      </Link>
+    </li>
+  );
+};
 
 export default AdminSidebar;

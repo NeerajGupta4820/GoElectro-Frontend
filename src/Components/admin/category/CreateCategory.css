@@ -1,0 +1,62 @@
+.create-category-container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  }
+  
+  .create-category-container h2 {
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+  }
+  
+  .create-category-container form {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .create-category-container label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .create-category-container input[type="text"],
+  .create-category-container textarea {
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    font-size: 16px;
+    outline: none;
+    transition: border-color 0.3s;
+  }
+  
+  .create-category-container input[type="text"]:focus,
+  .create-category-container textarea:focus {
+    border-color: #4dbdd6; /* Highlight border color on focus */
+  }
+  
+  .create-category-container button {
+    padding: 12px;
+    border: none;
+    border-radius: 4px;
+    background-color: #4dbdd6; /* Button background color */
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+  }
+  
+  .create-category-container button:hover {
+    background-color: #3a9bbf; /* Darker shade on hover */
+  }
+  
+  .create-category-container button:disabled {
+    background-color: #ccc; /* Disabled button color */
+    cursor: not-allowed;
+  }
+  

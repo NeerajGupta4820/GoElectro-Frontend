@@ -1,0 +1,16 @@
+.product-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.add-product-btn {
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+.add-product-btn:hover {
+  background-color: #218838;
+}

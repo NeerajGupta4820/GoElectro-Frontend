@@ -1,6 +1,8 @@
 .create-product-container {
   width: 100%;
-  padding: 200px;
+  max-width: 100%; 
+  max-height: 80vh; 
+  padding: 20px; 
   background-color: #fff;
   border-radius: 8px;
   margin: 0 auto;
@@ -8,34 +10,32 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  overflow-y: auto; 
 }
-.back-btn {
-  background-color: #0c0c0c; 
-  border: none;
-  padding: 15px 15px;
-  border-radius: 50px;
-  cursor: pointer;
-  margin-bottom: 1rem;
-  display: flex;
-  align-items: center;
-  position: absolute; 
-  top: 100px;
-  left: 300px; 
+
+.create-product-container::-webkit-scrollbar {
+  width: 0; 
+  background: transparent; 
 }
-.back-btn:hover {
-  background-color: #424141; 
+
+.create-product-container {
+  -ms-overflow-style: none;
 }
+
+.create-product-container {
+  scrollbar-width: none;
+}
+
 h2 {
   text-align: center;
   margin-bottom: 20px;
 }
 
 .create-product-form {
-  width: 100%;
-  max-width: 600px;
+  width: 50%;
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-items: stretch; 
 }
 
 .create-product-form .form-group {
@@ -52,7 +52,8 @@ h2 {
 }
 
 .create-product-form input,
-.create-product-form textarea {
+.create-product-form textarea,
+.create-product-form select {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
@@ -61,6 +62,34 @@ h2 {
 
 .create-product-form input[type="file"] {
   padding: 3px;
+}
+
+.image-preview {
+  display: flex;
+  flex-wrap: wrap;
+  margin-top: 5px; /* Added margin for better spacing */
+}
+
+.image-thumbnail {
+  width: 50px; /* Adjusted size */
+  height: 50px; /* Adjusted size */
+  object-fit: cover;
+  margin-right: 5px; /* Added margin for spacing */
+}
+
+.create-product-form .add-color-btn {
+  background-color: #f0f0f0;
+  color: #333;
+  border: none;
+  padding: 10px 15px;
+  font-size: 16px;
+  cursor: pointer;
+  border-radius: 4px;
+  margin: 10px 0; /* Added margin for spacing */
+}
+
+.create-product-form .add-color-btn:hover {
+  background-color: #e0e0e0; /* Changed hover color */
 }
 
 .create-product-form .submit-btn {

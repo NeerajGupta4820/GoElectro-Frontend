@@ -1,4 +1,4 @@
-import  { useState, useRef } from 'react'; 
+import { useState, useRef } from 'react'; 
 import { FaShoppingCart } from 'react-icons/fa';
 import './ProductCard.css';
 
@@ -21,10 +21,14 @@ const ProductCard = ({ product }) => {
     }, 1500); 
   };
 
+  const productImage = product.images && product.images.length > 0 && product.images[0].imageLinks.length > 0 
+    ? product.images[0].imageLinks[0] 
+    : 'path/to/placeholder-image.jpg';
+
   return (
     <div className="product-card">
-      <img src={product.photos[0]} alt={product.name} className="product-photo" />
-      <h3>{product.name}</h3>
+      <img src={productImage} alt={product.title} className="product-photo" />
+      <h3>{product.title}</h3>
       <p>{product.price}</p>
       <p>{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</p>
       <p className="product-rating">Rating: {product.ratings}</p>

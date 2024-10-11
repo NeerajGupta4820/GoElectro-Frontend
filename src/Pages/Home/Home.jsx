@@ -1,20 +1,18 @@
 import  { useState } from "react";
+import { Link } from "react-router-dom";
 import "./Home.css";
 import Header from "../../Components/Header/Header";
-import { Link } from "react-router-dom";
-import img1 from "../../assets/Images/home/categories/electronics-shopping.webp";
-import img2 from "../../assets/Images/home/categories/fashion.jpeg";
-import img3 from "../../assets/Images/home/categories/home-appliances.jpeg";
-import img4 from "../../assets/Images/home/categories/books.jpeg";
-import img5 from "../../assets/Images/home/categories/toys.jpeg";
 import ProductSlider from "../../Components/ProductSlider/ProductSlider";
 import Sale from "../../Components/Sale/Sale";
 import UpcomingProducts from "../../Components/upcomingProducts/UpcomingProducts";
+import { useFetchAllCategoriesQuery } from "../../redux/api/categoryAPI"; 
 
 const Home = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
-
+  
+  const { data: categories, isLoading, isError } = useFetchAllCategoriesQuery();
+  console.log(categories)
   const handleSubscribe = (e) => {
     e.preventDefault();
     setMessage(`Thank you for subscribing with ${email}!`);
@@ -26,56 +24,20 @@ const Home = () => {
       <Header />
       <div className="categories-section">
         <ul className="categories-list">
-          <li>
-            <Link to="/category/electronics">
-              <img
-                src={img1}
-                alt="Electronics"
-                className="category-image"
-              />
-              Electronics
-            </Link>
-          </li>
-          <li>
-            <Link to="/category/fashion">
-              <img
-                src={img2}
-                alt="Fashion"
-                className="category-image"
-              />
-              Fashion
-            </Link>
-          </li>
-          <li>
-            <Link to="/category/home-appliances">
-              <img
-                src={img3}
-                alt="Home Appliances"
-                className="category-image"
-              />
-              Home Appliances
-            </Link>
-          </li>
-          <li>
-            <Link to="/category/books">
-              <img
-                src={img4}
-                alt="Books"
-                className="category-image"
-              />
-              Books
-            </Link>
-          </li>
-          <li>
-            <Link to="/category/toys">
-              <img
-                src={img5}
-                alt="Toys"
-                className="category-image"
-              />
-              Toys
-            </Link>
-          </li>
+          {isLoading && <p>Loading categories...</p>}
+          {isError && <p>Failed to load categories. Please try again later.</p>}
+          {categories && categories.data.map((category) => (
+            <li key={category.id}>
+              <Link to={`/category/${category.slug}`}>
+                <img
+                  src={category.image}
+                  alt={category.name}
+                  className="category-image"
+                />
+                {category.name}
+              </Link>
+            </li>
+          ))}
         </ul>
       </div>
       <ProductSlider />
@@ -95,7 +57,7 @@ const Home = () => {
         </form>
         {message && <p className="subscription-message">{message}</p>}
       </section>
-      <UpcomingProducts/>
+      <UpcomingProducts />
     </div>
   );
 };

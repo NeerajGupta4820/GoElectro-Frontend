@@ -7,7 +7,7 @@ import Customer from "../../Components/admin/customers/Customers";
 import Transaction from "../../Components/admin/transactions/Transactions"; 
 import "./AdminDashboard.css";
 import Stopwatch from "../../Components/admin/Apps/StopWatch";
-import CoinToss from "../../Components/admin/Apps/Toss";
+import CoinToss from "../../Components/admin/Apps/Toss"
 
 const AdminDashboard = () => {
   return (
@@ -19,8 +19,8 @@ const AdminDashboard = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/product/*" element={<Product />} /> 
           <Route path="/categories/*" element={<Categories />} />
-          <Route path="/customer" element={<Customer />} />
           <Route path="/transaction" element={<Transaction />} />
+          <Route path="/customer" element={<Customer />} />
           <Route path="/app/stopwatch" element={<Stopwatch />} />
           <Route path="/app/toss" element={<CoinToss />} />
         </Routes>

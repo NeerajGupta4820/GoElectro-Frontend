@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import { useGetAllProductsQuery } from '../../redux/api/productAPI'; 
+import { useGetLatestProductsQuery } from '../../redux/api/productAPI'; 
 import ProductCard from '../ProductCard/ProductCard'; 
 import Loader from '../Loader/Loader'; 
 import './ProductSlider.css'; 
@@ -8,7 +8,7 @@ import './ProductSlider.css';
 const ProductSlider = () => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isHovered, setIsHovered] = useState(false); 
-  const { data, isLoading } = useGetAllProductsQuery(); 
+  const { data, isLoading } = useGetLatestProductsQuery(); 
   const products = data?.products || []; 
 
   useEffect(() => {

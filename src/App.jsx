@@ -9,6 +9,7 @@ import Contact from './Pages/Contact/Contact';
 import Cart from './Pages/Cart/Cart';
 import UserProfile from './Pages/userProfile/userProfile'; 
 import AdminDashboard from './Pages/Admin/AdminDashboard';
+import ProductDetail from './Pages/ProductDetailpage/ProductDetail';
 
 const App = () => {
   const ProtectedRoute = ({ children, role }) => {
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/cart" element={<Cart />} />
         <Route path="/profile/*" element={<ProtectedRoute role="user"><UserProfile /></ProtectedRoute>}/>
         <Route path="/admin/*" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>}/>
+        <Route path="/product/:id" element={<ProductDetail />} /> 
       </Routes>
       <Footer />
     </Router>

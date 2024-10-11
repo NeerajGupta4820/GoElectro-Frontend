@@ -15,7 +15,7 @@ const CreateProduct = () => {
     const [brand, setBrand] = useState(""); 
     const [colorImages, setColorImages] = useState([{ color: "", images: [] }]);
     const [uploading, setUploading] = useState(false);
-    
+
     const { data: categories } = useFetchAllCategoriesQuery(); 
     const [addProduct] = useAddProductMutation(); 
     const navigate = useNavigate();
@@ -38,53 +38,66 @@ const CreateProduct = () => {
     };
 
     const handleUpload = async (files) => {
-        const cloudName = import.meta.env.VITE_CLOUD_NAME; 
+        const cloudName = import.meta.env.VITE_CLOUD_NAME;
         const uploadedImages = [];
-
-        for (const file of files) {
+    
+        const uploadPromises = files.map(async (file) => {
             const formData = new FormData();
             formData.append("file", file);
             formData.append("upload_preset", "IBM_Project");
-
-            setUploading(true);
+    
             try {
                 const response = await axios.post(
                     `https://api.cloudinary.com/v1_1/${cloudName}/image/upload`,
                     formData
                 );
-                uploadedImages.push(response.data.secure_url);
+                return response.data.secure_url;
             } catch (error) {
                 console.error("Error uploading image:", error);
                 toast.error("Failed to upload image.");
-            } finally {
-                setUploading(false);
+                return null;
             }
+        });
+    
+        setUploading(true);
+        try {
+            const results = await Promise.all(uploadPromises);
+            uploadedImages.push(...results.filter((url) => url !== null));
+        } catch (error) {
+            console.error("Error during bulk upload:", error);
+            toast.error("Image upload failed.");
+        } finally {
+            setUploading(false);
         }
+    
         return uploadedImages;
     };
+    
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
+    
         const productImages = [];
         for (const colorImage of colorImages) {
             if (colorImage.color && colorImage.images.length > 0) {
                 const uploadedImages = await handleUpload(colorImage.images);
-                productImages.push({ color: colorImage.color, images: uploadedImages });
+                if (uploadedImages.length > 0) {
+                    productImages.push({ color: colorImage.color, imageLinks: uploadedImages });
+                }
             }
         }
-
+    
         const productData = {
             title: productName,
             price,
             description,
             category,
-            brand, 
+            brand,
             images: productImages, 
         };
-
+    
         try {
-            await addProduct(productData).unwrap(); 
+            await addProduct(productData).unwrap();
             toast.success("Product created successfully");
             navigate("/admin/product");
         } catch (error) {
@@ -92,6 +105,9 @@ const CreateProduct = () => {
             toast.error("Failed to create product.");
         }
     };
+    
+    
+    
 
     return (
         <div className="create-product-container">
@@ -187,7 +203,6 @@ const CreateProduct = () => {
                 <button type="button" className="add-color-btn" onClick={addColorImage}>
                     Add Another Color and Images
                 </button>
-
                 <button className="submit-btn" type="submit" disabled={uploading}>
                     <FaPlusCircle /> Create Product
                 </button>

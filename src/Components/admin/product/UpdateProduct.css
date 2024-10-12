@@ -26,7 +26,7 @@
     scrollbar-width: none;
   }
   
-  h2 {
+  .update-product-container h2 {
     text-align: center;
     margin-bottom: 20px;
   }

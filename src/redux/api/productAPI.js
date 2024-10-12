@@ -22,6 +22,9 @@ const productApi = createApi({
     getLatestProducts: builder.query({
       query: () => '/api/product/latestproducts', 
     }),
+    getRelatedProducts: builder.query({
+      query: (id) => `api/product/related/${id}`,
+  }),
     addProduct: builder.mutation({
       query: (productData) => ({
         url: '/api/product/addproduct',
@@ -49,6 +52,7 @@ export const {
   useGetAllProductsQuery,
   useGetProductByIdQuery,
   useGetLatestProductsQuery,
+  useGetRelatedProductsQuery,
   useAddProductMutation,
   useUpdateProductMutation,
   useDeleteProductMutation,

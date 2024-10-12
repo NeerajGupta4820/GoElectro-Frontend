@@ -10,6 +10,9 @@
   transition: transform 0.3s ease;
   position: relative; 
 }
+.product-card a{
+  text-decoration: none;
+}
 .product-photo {
   width: 100%;            
   max-height: 12rem;     

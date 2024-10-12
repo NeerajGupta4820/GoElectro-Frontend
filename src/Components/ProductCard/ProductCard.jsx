@@ -30,9 +30,8 @@ const ProductCard = ({ product }) => {
     <div className="product-card">
       <Link to={`/product/${product._id}`}>
         <img src={productImage} alt={product.title} className="product-photo" />
-        <h3>{product.title}</h3>
+        <h3 className="product-title">{product.title}</h3>
       </Link>
-      <h3>{product.title}</h3>
       <p>{product.price}</p>
       <p>{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</p>
       <p className="product-rating">Rating: {product.ratings}</p>

@@ -1,53 +1,33 @@
-import  { useState } from 'react';
-import './Cart.css';
-import productImage from '../../assets/Images/dummy/1.webp';
+import { useDispatch, useSelector } from "react-redux";
+import { removeFromCart, updateQuantity } from "../../redux/slices/cartSlice";
+import "./Cart.css";
 
 const Cart = () => {
-  const [cartItems, setCartItems] = useState([
-    {
-      id: 1,
-      name: 'Sample Product 1',
-      price: 500,
-      quantity: 1,
-      image: productImage,
-    },
-    {
-      id: 2,
-      name: 'Sample Product 2',
-      price: 750,
-      quantity: 2,
-      image: productImage,
-    },
-    {
-      id: 3,
-      name: 'Sample Product 3',
-      price: 750,
-      quantity: 2,
-      image: productImage,
-    },
-  ]);
+  const cartItems = useSelector((state) => state.cart.cartItems);
+  const totalAmount = useSelector((state) => state.cart.totalAmount);
+  const dispatch = useDispatch();
 
-  const updateQuantity = (id, action) => {
-    const updatedCart = cartItems.map((item) =>
-      item.id === id
-        ? {
-            ...item,
-            quantity: action === 'increase' ? item.quantity + 1 : item.quantity - 1,
-          }
-        : item
+  const handleRemove = (id) => {
+    console.log(id);
+    
+    dispatch(removeFromCart({ id}));
+  };
+
+  const handleUpdateQuantity = (id, quantity) => {
+    dispatch(updateQuantity({ id, quantity }));
+  };
+
+  // Function to calculate the total price
+  const getTotalPrice = () => {
+    return cartItems.reduce(
+      (total, item) => total + item.price * item.quantity,
+      0
     );
-    setCartItems(updatedCart.filter((item) => item.quantity > 0));
   };
 
-  const removeFromCart = (id) => {
-    setCartItems(cartItems.filter((item) => item.id !== id));
-  };
-
-  const getTotalPrice = () =>
-    cartItems.reduce((acc, item) => acc + item.price * item.quantity, 0);
-
-  const discount = 0.1 * getTotalPrice(); // 10% discount for example
-  const tax = 0.05 * getTotalPrice(); // 5% tax
+  // Discount and tax calculations
+  const discount = getTotalPrice() * 0.1;
+  const tax = getTotalPrice() * 0.05;
   const subtotal = getTotalPrice() - discount + tax;
 
   return (
@@ -62,25 +42,38 @@ const Cart = () => {
           <div className="cart-items">
             {cartItems.map((item) => (
               <div key={item.id} className="cart-item">
-                <img src={item.image} alt={item.name} className="cart-item-image" />
+                <img
+                  src={item.product.images[0].imageLinks[0]}
+                  alt={item.product.title}
+                  className="cart-item-image"
+                />
                 <div className="cart-item-info">
-                  <h4>{item.name}</h4>
+                  <h4>{item.product.title}</h4>
                   <p>Price: ₹{item.price}</p>
                   <div className="quantity-control">
-                    <button onClick={() => updateQuantity(item.id, 'decrease')}>-</button>
+                    <button onClick={() => handleUpdateQuantity(item.id, item.quantity - 1)}>
+                      -
+                    </button>
                     <span>{item.quantity}</span>
-                    <button onClick={() => updateQuantity(item.id, 'increase')}>+</button>
+                    <button onClick={() => handleUpdateQuantity(item.id, item.quantity + 1)}>
+                      +
+                    </button>
                   </div>
                 </div>
                 <div className="cart-item-total">
                   ₹{item.price * item.quantity}
-                  <button className="delete-button" onClick={() => removeFromCart(item.id)}>
+                  <button
+                    className="delete-button"
+                    onClick={() => handleRemove(item.id)}
+                  >
                     Delete
                   </button>
                 </div>
               </div>
             ))}
           </div>
+
+          {/* Right Section: Order Summary */}
           <div className="cart-summary">
             <h3>Order Summary</h3>
             <div className="summary-item">

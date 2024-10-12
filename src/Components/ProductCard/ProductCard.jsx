@@ -1,9 +1,13 @@
 import { useState, useRef } from 'react'; 
 import { FaShoppingCart } from 'react-icons/fa';
 import {Link} from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { addToCart } from "../../redux/slices/cartSlice";
+import { toast } from "react-toastify";
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
+  const dispatch = useDispatch();
   const [isAdded, setIsAdded] = useState(false);
   const [buttonColor, setButtonColor] = useState('#rgb(247, 139, 90)'); 
 
@@ -13,7 +17,13 @@ const ProductCard = ({ product }) => {
   const handleAddToCart = () => {
     currentIndex.current = (currentIndex.current + 1) % colors.length;
     setButtonColor(colors[currentIndex.current]);
-
+    dispatch(addToCart({id:product._id,price:product.price,quantity:1,product:product}));
+    toast.success("Added",{
+      position:"top-center",
+      autoClose:1000,
+      hideProgressBar:true,
+      theme:"dark",
+    })
     setIsAdded(true);
     
     setTimeout(() => {

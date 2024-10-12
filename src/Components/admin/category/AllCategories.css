@@ -84,7 +84,7 @@
   z-index: 1000;
 }
 
-.modal-content {
+.all-categories-container .modal-content {
   background-color: #fff;
   padding: 2rem;
   border-radius: 8px;

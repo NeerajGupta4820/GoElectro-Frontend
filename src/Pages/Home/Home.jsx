@@ -12,7 +12,6 @@ const Home = () => {
   const [message, setMessage] = useState('');
   
   const { data: categories, isLoading, isError } = useFetchAllCategoriesQuery();
-  console.log(categories)
   const handleSubscribe = (e) => {
     e.preventDefault();
     setMessage(`Thank you for subscribing with ${email}!`);

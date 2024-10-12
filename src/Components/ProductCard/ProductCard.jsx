@@ -1,5 +1,6 @@
 import { useState, useRef } from 'react'; 
 import { FaShoppingCart } from 'react-icons/fa';
+import {Link} from "react-router-dom";
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
@@ -27,7 +28,10 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="product-card">
-      <img src={productImage} alt={product.title} className="product-photo" />
+      <Link to={`/product/${product._id}`}>
+        <img src={productImage} alt={product.title} className="product-photo" />
+        <h3>{product.title}</h3>
+      </Link>
       <h3>{product.title}</h3>
       <p>{product.price}</p>
       <p>{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</p>

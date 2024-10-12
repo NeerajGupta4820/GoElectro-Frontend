@@ -3,8 +3,10 @@ import { useGetAllProductsQuery, useDeleteProductMutation } from '../../../redux
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './AllProduct.css';
+import { useNavigate } from 'react-router-dom';
 
 const AllProduct = () => {
+  const navigate = useNavigate();
   const { data, isLoading, error, refetch } = useGetAllProductsQuery();
   const [deleteProduct] = useDeleteProductMutation();
   const [selectedProduct, setSelectedProduct] = useState(null);
@@ -14,6 +16,7 @@ const AllProduct = () => {
   }, [refetch]);
 
   const handleDelete = async (id) => {
+    console.log(id);
     try {
       await deleteProduct(id).unwrap();
       toast.success('Product deleted successfully!');
@@ -23,6 +26,10 @@ const AllProduct = () => {
       toast.error('Failed to delete product. Please try again.');
     }
   };
+
+  const handleUpdateProduct = async (id) =>{
+    navigate(`update/${id}`)
+  }
 
   if (isLoading) return <div>Loading...</div>;
   if (error) return <div>Error fetching products</div>;
@@ -71,8 +78,8 @@ const AllProduct = () => {
               <td>${product.price}</td>
               <td>{product.description.slice(0, 20)}...</td>
               <td>
-                <button className="edit-btn">Edit</button>
-                <button className="delete-btn" onClick={() => handleDelete(product.id)}>Delete</button>
+                <button className="edit-btn" onClick={() => handleUpdateProduct(product._id)}>Edit</button>
+                <button className="delete-btn" onClick={() => handleDelete(product._id)}>Delete</button>
               </td>
             </tr>
           ))}

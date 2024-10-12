@@ -33,7 +33,7 @@ const productApi = createApi({
       query: ({ id, productData }) => ({
         url: `/api/product/updateproduct/${id}`,
         method: 'POST',
-        body: productData,
+        body: JSON.stringify(productData),
       }),
     }),
     deleteProduct: builder.mutation({

@@ -1,14 +1,14 @@
 import { Routes, Route } from "react-router-dom";
 import AdminProduct from "./AdminProduct"; 
 import CreateProduct from "./CreateProduct"; 
-import EditProduct from "./UpdateProduct";
+import UpdateProduct from "./UpdateProduct";
 
 const Product = () => {
   return (
     <Routes>
       <Route path="/" element={<AdminProduct />} /> 
       <Route path="createproduct" element={<CreateProduct />} /> 
-      <Route path="edit/:id" element={<EditProduct />} /> 
+      <Route path="update/:id" element={<UpdateProduct />} /> 
     </Routes>
   );
 };

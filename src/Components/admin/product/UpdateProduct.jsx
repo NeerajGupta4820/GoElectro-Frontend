@@ -44,21 +44,17 @@ const UpdateProduct = () => {
 
   const handleImageChange = (index, e, color) => {
     const files = Array.from(e.target.files);
-  
-    // Check if the color already exists in the newImages array
     const colorExists = newImages.find(imageObj => imageObj.color === color);
   
     let updatedImages;
     
     if (colorExists) {
-      // If color exists, replace the images with the new files (don't append multiple times)
       updatedImages = newImages.map(imageObj =>
         imageObj.color === color
-          ? { ...imageObj, images: [...files] } // Replace images with new files
+          ? { ...imageObj, images: [...files] }
           : imageObj
       );
     } else {
-      // If color doesn't exist, create a new object with the color and files
       updatedImages = [
         ...newImages,
         { color: color, images: [...files] }
@@ -68,9 +64,6 @@ const UpdateProduct = () => {
     setNewImages(updatedImages);
   };
   
-  
-
-
   const handleColorChange = (index, e) => {
     const updatedColorImages = [...colorImages];
     updatedColorImages[index].color = e.target.value;
@@ -118,7 +111,6 @@ const UpdateProduct = () => {
   };
 
   const mergeImagesByColor = (colorImages, productImages) => {
-    // Initialize combinedImages by mapping productImages and ensuring the field is imageLinks
     let combinedImages = productImages.map(productImage => ({
       color: productImage.color,
       imageLinks: productImage.imageLinks || [] 
@@ -130,13 +122,11 @@ const UpdateProduct = () => {
       );
   
       if (existingColor) {
-        // Merge imageLinks from colorImages into imageLinks of existingColor
         existingColor.imageLinks = [
           ...existingColor.imageLinks,
-          ...(colorImage.imageLinks || []) // Ensure imageLinks exists
+          ...(colorImage.imageLinks || []) 
         ];
       } else {
-        // If the color doesn't exist, add it with imageLinks
         combinedImages.push({
           color: colorImage.color,
           imageLinks: colorImage.imageLinks || [] 
@@ -150,6 +140,7 @@ const UpdateProduct = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const toastId = toast.loading("Updating product...");
 
     const productImages = [];
     console.log(newImages);
@@ -184,11 +175,23 @@ const UpdateProduct = () => {
 
     try {
       await updateProduct({ id, productData: updatedProductData }).unwrap();
-      toast.success("Product updated successfully");
+      toast.update(toastId, {
+        render: "Product updated successfully!",
+        type: "success",
+        isLoading: false,
+        autoClose: 3000,
+      });
       navigate("/admin/product");
     } catch (error) {
       console.error("Failed to update product:", error);
-      toast.error("Failed to update product.");
+      toast.update(toastId, {
+        render: "Failed to update product.",
+        type: "error",
+        isLoading: false,
+        autoClose: 3000,
+      });
+    }finally{
+      toast.dismiss(toastId);
     }
   };
 

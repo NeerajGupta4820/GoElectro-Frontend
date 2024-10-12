@@ -62,7 +62,7 @@ const AllProduct = () => {
         </thead>
         <tbody>
           {products.map((product) => (
-            <tr key={product.id} onClick={() => handleRowClick(product)} className="product-row">
+            <tr key={product.id}  className="product-row">
               <td>
                 {product.images && product.images.length > 0 && product.images[0].imageLinks.length > 0 ? (
                   <img 

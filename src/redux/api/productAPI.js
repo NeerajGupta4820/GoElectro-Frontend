@@ -17,13 +17,13 @@ const productApi = createApi({
       query: () => '/api/product/allproducts',
     }),
     getProductById: builder.query({
-      query: (id) => `/api/product/product/${id}`,
+      query: (id) => `/api/product/${id}`,
     }),
     getLatestProducts: builder.query({
       query: () => '/api/product/latestproducts', 
     }),
     getRelatedProducts: builder.query({
-      query: (id) => `api/product/related/${id}`,
+      query: (id) => `api/product/related-products/${id}`,
   }),
     addProduct: builder.mutation({
       query: (productData) => ({

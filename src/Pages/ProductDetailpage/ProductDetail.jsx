@@ -4,6 +4,7 @@ import { useGetProductByIdQuery, useGetRelatedProductsQuery } from "../../redux/
 import Loader from "../../Components/Loader/Loader";
 import "./ProductDetail.css";
 import ProductSlider from "../../Components/ProductSlider/ProductSlider";
+import ReviewSection from "../../Components/reveiwsection/ReviewSection";
 
 const ProductDetail = () => {
   const { id } = useParams();
@@ -95,6 +96,7 @@ const ProductDetail = () => {
         title="Related Products" 
         isLoading={false}  
       />
+      <ReviewSection productId={id} />
     </div>
   );
 };

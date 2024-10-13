@@ -48,8 +48,8 @@ const ProductSlider = ({ products, title, isLoading, link }) => {
               &lt;
             </button>
             <div className="slider-track">
-              {getProductsToShow().map((product) => (
-                <ProductCard key={product._id} product={product} />
+              {getProductsToShow().map((product, index) => (
+                <ProductCard key={`${product._id}-${index}`} product={product} />
               ))}
             </div>
             <button className="slider-button next" onClick={handleNextClick}>

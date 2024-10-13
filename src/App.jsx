@@ -10,6 +10,7 @@ import Cart from './Pages/Cart/Cart';
 import UserProfile from './Pages/userProfile/userProfile'; 
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import ProductDetail from './Pages/ProductDetailpage/ProductDetail';
+import About from './Pages/About/About';
 
 const App = () => {
   const ProtectedRoute = ({ children, role }) => {
@@ -33,6 +34,7 @@ const App = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
+        <Route path='/about' element={<About/>}/>
         <Route path="/profile/*" element={<ProtectedRoute role="user"><UserProfile /></ProtectedRoute>}/>
         <Route path="/admin/*" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>}/>
         <Route path="/product/:id" element={<ProductDetail />} /> 

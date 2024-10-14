@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../redux/slices/userSlice";
+import { clearCart } from "../../redux/slices/cartSlice";
+import { useAddToCartMutation } from "../../redux/api/cartApi"; 
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./Navbar.css";
@@ -11,6 +13,9 @@ const Navbar = () => {
   const navigate = useNavigate();
 
   const user = useSelector((state) => state.user.user) || JSON.parse(localStorage.getItem('user'));
+  const cartItems = useSelector((state) => state.cart.cartItems); 
+
+  const [addToCart] = useAddToCartMutation(); 
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchItem, setSearchItem] = useState("");
@@ -28,11 +33,31 @@ const Navbar = () => {
     console.log("Search Item:", searchItem);
   };
 
-  const logoutUser = () => {
-    dispatch(clearUser());
-    toast.success("Logged out successfully!");
-    navigate("/"); 
+  const logoutUser = async () => {
+    try {
+      const updatedCartItems = cartItems
+        .filter(item => item.product) 
+        .map(item => ({
+          productId: item.product._id,
+          quantity: item.quantity,
+        }));
+      if (updatedCartItems.length > 0) {
+        await addToCart({ updatedCartItems }).unwrap();
+        console.log("Cart updated successfully.");
+      } else {
+        console.log("No valid cart items to update.");
+      }
+      dispatch(clearCart());
+      dispatch(clearUser());
+      toast.success("Logged out successfully!");
+      navigate("/");
+    } catch (error) {
+      console.error("Failed to update cart before logout:", error);
+      toast.error("Failed to update cart. Please try again.");
+    }
   };
+  
+  
 
   const handleProfileRedirect = () => {
     if (user.role === "admin") {
@@ -84,12 +109,10 @@ const Navbar = () => {
             </>
           ) : (
             <>
-            <Link>
               <li style={{ color: "white", cursor: "pointer" }} onClick={logoutUser}>
                 Logout
               </li>
-            </Link>
-              <li style={{ cursor: "pointer" ,color:"white" }} onClick={handleProfileRedirect}>
+              <li style={{ cursor: "pointer", color: "white" }} onClick={handleProfileRedirect}>
                 <FaRegUser />
               </li>
             </>

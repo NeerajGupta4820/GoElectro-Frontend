@@ -38,13 +38,6 @@ const cartSlice = createSlice({
           state.totalQuantity -= item.quantity;
           state.totalAmount -= item.price * item.quantity;
           state.cartItems.splice(itemIndex, 1); // Remove the item from cart
-      
-          toast.success("Deleted", {
-            position: "top-center",
-            autoClose: 1000,
-            hideProgressBar: true,
-            theme: "dark",
-          });
           
           localStorage.setItem("cartItems", JSON.stringify(state.cartItems)); // Update localStorage
         }
@@ -96,7 +89,7 @@ const cartSlice = createSlice({
   },
 });
 
-export const { addToCart, removeFromCart, updateQuantity, clearCart } =
+export const { addToCart, removeFromCart, updateQuantity, clearCart,setCart } =
   cartSlice.actions;
 
 export default cartSlice.reducer;

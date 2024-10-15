@@ -21,7 +21,7 @@ const reviewApi = createApi({
     }),
     addReview: builder.mutation({
       query: (reviewData) => ({
-        url: '/api/review/create-review',
+        url: '/api/review/add-review',
         method: 'POST',
         body: reviewData,
       }),
@@ -39,16 +39,11 @@ const reviewApi = createApi({
         method: 'DELETE',
       }),
     }),
-    likeReview: builder.mutation({
-      query: (reviewId) => ({
-        url: `/api/review/like-review/${reviewId}`,
+    toggleLikeOrDislike: builder.mutation({
+      query: ({ reviewId, action }) => ({
+        url: `/api/review/toggle-like-dislike/${reviewId}`,
         method: 'POST',
-      }),
-    }),
-    dislikeReview: builder.mutation({
-      query: (reviewId) => ({
-        url: `/api/review/dislike-review/${reviewId}`,
-        method: 'POST',
+        body: { action },
       }),
     }),
   }),
@@ -60,8 +55,7 @@ export const {
   useAddReviewMutation,
   useUpdateReviewMutation,
   useDeleteReviewMutation,
-  useLikeReviewMutation,
-  useDislikeReviewMutation,
+  useToggleLikeOrDislikeMutation,
 } = reviewApi;
 
 export default reviewApi;

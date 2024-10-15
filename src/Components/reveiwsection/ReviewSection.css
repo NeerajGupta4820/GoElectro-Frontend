@@ -26,6 +26,7 @@
 }
 .review-subtitle {
   font-size: 1rem;
+  color: black;
   opacity: 0.75;
   margin-bottom: 1.5rem;
 }
@@ -102,6 +103,7 @@
 .rating-input {
   margin-bottom: 0.5rem;
   font-size: 1.2rem;
+  color: rgb(238, 185, 12);
 }
 .rating-input .active {
   color: rgb(238, 185, 12);
@@ -113,7 +115,7 @@
   border: 1px solid #ccc;
   border-radius: 5px;
 }
-.submit-button {
+.review-submit {
   background-color: #007bff;
   color: white;
   border: none;
@@ -121,8 +123,8 @@
   border-radius: 5px;
   cursor: pointer;
 }
-.submit-button:hover {  background-color: #022a55;
-  color: white;
+.review-submit:hover { 
+  background-color: rgb(69, 150, 236)
 }
 .load-more {
   text-align: center;
@@ -139,8 +141,20 @@
 .review-avatar {
   font-size: 2rem; 
   margin-right: 10px; 
-  color: #777; 
+  color: #353333; 
 }
-.review-rating{
-  color: rgb(241, 164, 21);
+.review-stars {
+  display: flex;
 }
+
+.review-stars .active {
+  color: #ffc107; 
+}
+
+.review-stars .inactive {
+  color: #ffc107; 
+}
+.review-stars {
+  display: flex;
+}
+

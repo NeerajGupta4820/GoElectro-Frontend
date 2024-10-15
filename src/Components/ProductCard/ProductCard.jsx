@@ -17,7 +17,7 @@ const ProductCard = ({ product }) => {
   const handleAddToCart = () => {
     currentIndex.current = (currentIndex.current + 1) % colors.length;
     setButtonColor(colors[currentIndex.current]);
-    dispatch(addToCart({id:product._id,price:product.price,quantity:1,product:product}));
+    dispatch(addToCart({productId:product._id,price:product.price,quantity:1,name:product.title,images:product.images}));
     toast.success("Added",{
       position:"top-center",
       autoClose:1000,

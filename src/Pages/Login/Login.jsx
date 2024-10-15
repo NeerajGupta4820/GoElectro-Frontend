@@ -1,13 +1,11 @@
 import { useState, useEffect } from "react";
 import { useLoginUserMutation } from "../../redux/api/userAPI.js";
-import { useGetCartQuery } from "../../redux/api/cartApi.js";
 import loginImage from "../../assets/Images/login/img.webp";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import { setUser } from "../../redux/slices/userSlice";
-import { addToCart } from "../../redux/slices/cartSlice";
 import "./Login.css";
 
 const Login = () => {
@@ -19,10 +17,6 @@ const Login = () => {
   const [loginUser, { isLoading }] = useLoginUserMutation();
   const token = useSelector((state) => state.user.token);
 
-  const { data: cartItems, refetch: refetchCart } = useGetCartQuery(undefined, {
-    skip: !token,
-  });
-
   useEffect(() => {
     const emailInput = document.getElementById("email");
     if (emailInput) {
@@ -30,19 +24,6 @@ const Login = () => {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("Cart Items:", cartItems);
-    if (cartItems?.success) {
-      dispatch(addToCart(cartItems.cart.cartItems));
-      localStorage.setItem("cartItems", JSON.stringify(cartItems.cart.cartItems));
-    }
-  }, [cartItems, dispatch]);
-
-  useEffect(() => {
-    if (token) {
-      refetchCart();
-    }
-  }, [token, refetchCart]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -56,8 +37,7 @@ const Login = () => {
       if (result.success) {
         const { token, user } = result;
         dispatch(setUser({ user, token }));
-        refetchCart();
-
+        
         toast.success("Login successful!", {
           position: "top-center",
           autoClose: 5000,

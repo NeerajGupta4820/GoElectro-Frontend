@@ -11,6 +11,7 @@ import UserProfile from './Pages/userProfile/userProfile';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import ProductDetail from './Pages/ProductDetailpage/ProductDetail';
 import About from './Pages/About/About';
+import AllProducts from './Pages/AllProducts/AllProducts';
 
 const App = () => {
   const ProtectedRoute = ({ children, role }) => {
@@ -37,6 +38,7 @@ const App = () => {
         <Route path='/about' element={<About/>}/>
         <Route path="/profile/*" element={<ProtectedRoute role="user"><UserProfile /></ProtectedRoute>}/>
         <Route path="/admin/*" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>}/>
+        <Route path='/allProducts' element={<AllProducts/>}/>
         <Route path="/product/:id" element={<ProductDetail />} /> 
       </Routes>
       <Footer />

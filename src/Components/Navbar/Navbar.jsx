@@ -2,20 +2,21 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../redux/slices/userSlice";
 import { clearCart } from "../../redux/slices/cartSlice";
-import { useAddToCartMutation } from "../../redux/api/cartApi"; 
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useUpdateCartMutation } from "../../redux/api/cartApi";
 import "./Navbar.css";
 import { FaRegUser } from "react-icons/fa";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const user = useSelector((state) => state.user.user);
+  const { cartItems = [], totalAmount, totalQuantity } = useSelector((state) => state.cart.cart || {});
+  console.log(cartItems);
 
-  const user = useSelector((state) => state.user.user) || JSON.parse(localStorage.getItem('user'));
-  const cartItems = useSelector((state) => state.cart.cartItems); 
-
-  const [addToCart] = useAddToCartMutation(); 
+  const [updateCart] = useUpdateCartMutation(); 
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [searchItem, setSearchItem] = useState("");
@@ -35,18 +36,7 @@ const Navbar = () => {
 
   const logoutUser = async () => {
     try {
-      const updatedCartItems = cartItems
-        .filter(item => item.product) 
-        .map(item => ({
-          productId: item.product._id,
-          quantity: item.quantity,
-        }));
-      if (updatedCartItems.length > 0) {
-        await addToCart({ updatedCartItems }).unwrap();
-        console.log("Cart updated successfully.");
-      } else {
-        console.log("No valid cart items to update.");
-      }
+      await updateCart({ cartItems, totalQuantity, totalAmount }).unwrap();
       dispatch(clearCart());
       dispatch(clearUser());
       toast.success("Logged out successfully!");
@@ -56,12 +46,10 @@ const Navbar = () => {
       toast.error("Failed to update cart. Please try again.");
     }
   };
-  
-  
 
   const handleProfileRedirect = () => {
     if (user.role === "admin") {
-      navigate("/admin"); 
+      navigate("/admin");
     } else {
       navigate("/profile");
     }

@@ -2,10 +2,11 @@ import { createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
 
 const initialState = {
-  cartId: null,
-  cartItems: [],
-  totalQuantity: 0,
-  totalAmount: 0,
+  cart: {
+    cartItems: [],
+    totalQuantity: 0,
+    totalAmount: 0,
+  },
 };
 
 const cartSlice = createSlice({
@@ -13,75 +14,60 @@ const cartSlice = createSlice({
   initialState,
   reducers: {
     setCartData: (state, action) => {
-      const { cartItems, totalAmount, totalQuantity, _id } = action.payload;
-      state.cartItems = cartItems;
-      state.totalAmount = totalAmount;
-      state.totalQuantity = totalQuantity;
-      state.cartId = _id;
+      const cart = action.payload;
+      state.cart.cartItems = cart.cartItems ;
+      state.cart.totalQuantity = cart.totalQuantity ;
+      state.cart.totalAmount = cart.totalAmount ;
 
-      localStorage.setItem("cartItems", JSON.stringify(cartItems));
+      localStorage.setItem("cartData", JSON.stringify(cart));
     },
-    
-    // Corrected addToCart reducer
     addToCart: (state, action) => {
       const { productId, price, quantity, name, images } = action.payload;
-      const existingItem = state.cartItems.find(
+      const existingItem = state.cart.cartItems.find(
         (item) => item.productId._id === productId
       );
 
       if (existingItem) {
-        // If the item already exists, just update the quantity
-        state.totalQuantity += quantity;
+        state.cart.totalQuantity += quantity;
         existingItem.quantity += quantity;
-
-        // Update total amount (accounting for additional quantity)
-        state.totalAmount += price * quantity;
-
-        toast.info(`${name} quantity updated`, {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: true,
-          theme: "dark",
-        });
+        state.cart.totalAmount += price * quantity;
       } else {
-        // If it's a new item, add it to the cart
-        state.cartItems.push({
+        state.cart.cartItems.push({
           productId: { _id: productId, title: name, price, images },
           quantity,
         });
 
-        state.totalQuantity += quantity;
-        state.totalAmount += price * quantity; // Correctly adding the price * quantity
-
-        toast.success(`${name} added to cart`, {
-          position: "top-center",
-          autoClose: 1000,
-          hideProgressBar: true,
-          theme: "dark",
-        });
+        state.cart.totalQuantity += quantity;
+        state.cart.totalAmount += price * quantity;
       }
-
-      // Save the updated cart to local storage
-      localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+      const cartData = {
+        cartItems: state.cart.cartItems,
+        totalQuantity: state.cart.totalQuantity,
+        totalAmount: state.cart.totalAmount,
+      };
+      localStorage.setItem("cartData", JSON.stringify(cartData));
     },
-
     removeFromCart: (state, action) => {
-      const itemIndex = state.cartItems.findIndex(
+      const itemIndex = state.cart.cartItems.findIndex(
         (item) => item.productId._id === action.payload.productId
       );
 
       if (itemIndex !== -1) {
-        const item = state.cartItems[itemIndex];
-        state.totalQuantity -= item.quantity;
-        state.totalAmount -= item.productId.price * item.quantity; // Correctly reduce price * quantity
-        state.cartItems.splice(itemIndex, 1);
+        const item = state.cart.cartItems[itemIndex];
+        state.cart.totalQuantity -= item.quantity;
+        state.cart.totalAmount -= item.productId.price * item.quantity;
+        state.cart.cartItems.splice(itemIndex, 1);
 
-        localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+        const cartData = {
+          cartItems: state.cart.cartItems,
+          totalQuantity: state.cart.totalQuantity,
+          totalAmount: state.cart.totalAmount,
+        };
+        localStorage.setItem("cartData", JSON.stringify(cartData));
       }
     },
-
     updateQuantity: (state, action) => {
-      const existingItem = state.cartItems.find(
+      const existingItem = state.cart.cartItems.find(
         (item) => item.productId._id === action.payload.productId
       );
 
@@ -90,10 +76,10 @@ const cartSlice = createSlice({
         const quantityDifference = newQuantity - existingItem.quantity;
 
         if (newQuantity < 1) {
-          state.totalQuantity -= existingItem.quantity;
-          state.totalAmount -= existingItem.productId.price * existingItem.quantity;
-          state.cartItems = state.cartItems.filter(
-            (item) => item.productId._id !== existingItem.productId
+          state.cart.totalQuantity -= existingItem.quantity;
+          state.cart.totalAmount -= existingItem.productId.price * existingItem.quantity;
+          state.cart.cartItems = state.cart.cartItems.filter(
+            (item) => item.productId._id !== existingItem.productId._id
           );
           toast.success("Deleted", {
             position: "top-center",
@@ -102,27 +88,24 @@ const cartSlice = createSlice({
             theme: "dark",
           });
         } else {
-          state.totalQuantity += quantityDifference;
-          state.totalAmount +=
-            quantityDifference * existingItem.productId.price; // Adjust total price based on quantity change
+          state.cart.totalQuantity += quantityDifference;
+          state.cart.totalAmount += quantityDifference * existingItem.productId.price;
           existingItem.quantity = newQuantity;
         }
 
-        localStorage.setItem("cartItems", JSON.stringify(state.cartItems));
+        const cartData = {
+          cartItems: state.cart.cartItems,
+          totalQuantity: state.cart.totalQuantity,
+          totalAmount: state.cart.totalAmount,
+        };
+        localStorage.setItem("cartData", JSON.stringify(cartData));
       }
     },
-
     clearCart: (state) => {
-      state.cartItems = [];
-      state.totalAmount = 0;
-      state.totalQuantity = 0;
-      toast.success("Cart Cleared", {
-        position: "top-center",
-        autoClose: 1000,
-        hideProgressBar: true,
-        theme: "dark",
-      });
-      localStorage.removeItem("cartItems");
+      state.cart.cartItems = [];
+      state.cart.totalAmount = 0;
+      state.cart.totalQuantity = 0;
+      localStorage.removeItem("cartData");
     },
   },
 });

@@ -3,9 +3,10 @@ import { useLoginUserMutation } from "../../redux/api/userAPI.js";
 import loginImage from "../../assets/Images/login/img.webp";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { setUser } from "../../redux/slices/userSlice";
+import { setCartData } from "../../redux/slices/cartSlice";
 import "./Login.css";
 
 const Login = () => {
@@ -15,7 +16,6 @@ const Login = () => {
   const navigate = useNavigate();
 
   const [loginUser, { isLoading }] = useLoginUserMutation();
-  const token = useSelector((state) => state.user.token);
 
   useEffect(() => {
     const emailInput = document.getElementById("email");
@@ -23,7 +23,6 @@ const Login = () => {
       emailInput.focus();
     }
   }, []);
-
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -34,10 +33,14 @@ const Login = () => {
 
     try {
       const result = await loginUser({ email, password }).unwrap();
-      if (result.success) {
-        const { token, user } = result;
+      console.log(result);
+      if ("result:",result.success) {
+        const { token, user, cart} = result;
+
         dispatch(setUser({ user, token }));
-        
+        dispatch(setCartData({cart}));
+        localStorage.setItem("cartData", JSON.stringify(cart));
+
         toast.success("Login successful!", {
           position: "top-center",
           autoClose: 5000,

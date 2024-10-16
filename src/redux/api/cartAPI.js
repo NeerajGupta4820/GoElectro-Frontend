@@ -15,6 +15,7 @@ const cartApi = createApi({
   endpoints: (builder) => ({
     getCart: builder.query({
       query: () => '/api/cart/get',
+      method:"GET"
     }),
     addToCart: builder.mutation({
       query: (cartItem) => ({
@@ -24,10 +25,10 @@ const cartApi = createApi({
       }),
     }),
     updateCart: builder.mutation({
-      query: (updatedCartItems) => ({
+      query: (cart) => ({
         url: '/api/cart/update',
         method: 'POST',
-        body: { updatedCartItems },
+        body: { cart },
       }),
     }),
     clearCart: builder.mutation({
@@ -40,7 +41,6 @@ const cartApi = createApi({
   }),
 });
 
-// Export the cartApi to use in other files
 export const {
   useGetCartQuery,
   useAddToCartMutation,

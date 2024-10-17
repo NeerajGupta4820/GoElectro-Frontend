@@ -26,13 +26,6 @@ const reviewApi = createApi({
         body: reviewData,
       }),
     }),
-    updateReview: builder.mutation({
-      query: ({ reviewId, reviewData }) => ({
-        url: `/api/review/update-review/${reviewId}`,
-        method: 'PUT',
-        body: reviewData,
-      }),
-    }),
     deleteReview: builder.mutation({
       query: (reviewId) => ({
         url: `/api/review/delete-review/${reviewId}`,
@@ -53,7 +46,6 @@ export const {
   useGetReviewsByProductIdQuery,
   useGetReviewByIdQuery,
   useAddReviewMutation,
-  useUpdateReviewMutation,
   useDeleteReviewMutation,
   useToggleLikeOrDislikeMutation,
 } = reviewApi;

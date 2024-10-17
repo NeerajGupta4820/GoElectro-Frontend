@@ -1,5 +1,5 @@
 import { useState, useRef } from 'react'; 
-import { FaShoppingCart } from 'react-icons/fa';
+import { FaShoppingCart,FaStar,FaRegStar } from 'react-icons/fa';
 import {Link} from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/slices/cartSlice";
@@ -38,13 +38,20 @@ const ProductCard = ({ product }) => {
 
   return (
     <div className="product-card">
+      <div className="products-card-img">
       <Link to={`/product/${product._id}`}>
         <img src={productImage} alt={product.title} className="product-photo" />
         <h3 className="product-title">{product.title}</h3>
       </Link>
-      <p>{product.price}</p>
+      </div>
+      <div className="product-card-info">
+      <p>Rs.{product.price}</p>
       <p>{product.stock > 0 ? 'In Stock' : 'Out of Stock'}</p>
-      <p className="product-rating">Rating: {product.ratings}</p>
+      <div className="products-stars">
+        {[...Array(5)].map((_, i) => (
+          i < product.ratings ? <FaStar key={i} className="active" /> : <FaRegStar key={i} className="inactive" />
+        ))}
+        </div>
       <button 
         className={`add-to-cart ${isAdded ? 'added' : ''}`} 
         onClick={handleAddToCart}
@@ -53,6 +60,7 @@ const ProductCard = ({ product }) => {
         <FaShoppingCart className={`cart-icon ${isAdded ? 'move' : ''}`} />
         {isAdded ? 'Added' : 'Add to Cart'}
       </button>
+      </div>
     </div>
   );
 };

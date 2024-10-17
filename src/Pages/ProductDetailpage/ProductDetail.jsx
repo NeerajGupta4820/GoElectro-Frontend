@@ -1,14 +1,26 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect,useRef } from "react";
+import { FaShoppingCart} from 'react-icons/fa';
 import { useParams } from "react-router-dom";
+import { addToCart } from "../../redux/slices/cartSlice";
+import { useDispatch } from "react-redux";
 import { useGetProductByIdQuery, useGetRelatedProductsQuery } from "../../redux/api/productAPI";
+import { toast } from "react-toastify";
 import Loader from "../../Components/Loader/Loader";
 import "./ProductDetail.css";
 import ProductSlider from "../../Components/ProductSlider/ProductSlider";
 import ReviewSection from "../../Components/reveiwsection/ReviewSection";
 
 const ProductDetail = () => {
+  
   const { id } = useParams();
   const { data, isLoading, isError } = useGetProductByIdQuery(id);
+  console.log(data)
+  const dispatch = useDispatch();
+  const [isAdded, setIsAdded] = useState(false);
+  const [buttonColor, setButtonColor] = useState('#rgb(247, 139, 90)'); 
+  const currentIndex = useRef(0); 
+
+  const colors = ['#4dbdd6', '#28a745', '#ffc107', '#dc3545'];
   const product = data?.product;
 
   const { data: relatedData, isLoading: relatedLoading } = useGetRelatedProductsQuery(id);
@@ -33,6 +45,25 @@ const ProductDetail = () => {
   const toggleDescription = () => {
     setShowFullDescription(!showFullDescription);
   };
+
+  const handleAddToCart = () => {
+    currentIndex.current = (currentIndex.current + 1) % colors.length;
+    setButtonColor(colors[currentIndex.current]);
+    dispatch(addToCart({productId:product._id,price:product.price,quantity:1,name:product.title,images:product.images}));
+    toast.success("Added",{
+      position:"top-center",
+      autoClose:1000,
+      hideProgressBar:true,
+      theme:"dark",
+    })
+    setIsAdded(true);
+    
+    setTimeout(() => {
+      setButtonColor('#rgb(247, 139, 90)'); 
+      setIsAdded(false);
+    }, 1500); 
+  };
+
 
   const shortDescription = product.description.split(" ").slice(0, 100).join(" ") + "...";
 
@@ -65,12 +96,27 @@ const ProductDetail = () => {
 
         <div className="product-detail-info">
           <h1>{product.title}</h1>
-          <h2>Price: ${product.price}</h2>
+          <h2>Price: <span> Rs.{product.price}</span></h2>
           <p>{product.stock > 0 ? "In Stock" : "Out of Stock"}</p>
+          {
+          product.stock>0 ?
+          <button 
+          className={`add-to-cart ${isAdded ? 'added' : ''}`} 
+          onClick={handleAddToCart}
+          style={{ backgroundColor: buttonColor }} >
+          <FaShoppingCart className={`cart-icon ${isAdded ? 'move' : ''}`} />
+          {isAdded ? 'Added' : 'Add to Cart'}
+          </button>:
+          <button className="notcart-icon" disabled>
+            <FaShoppingCart/>Add to Cart
+          </button>
+        }
           <p>Rating: {product.ratings}</p>
           <p>Category: {product.category?.name}</p>
-          <div className="color-options">
-            <h3>Select Color:</h3>
+          {
+            product.images.length>1?
+            <div className="color-options">
+            <h3>Colors:</h3>
             {product.images.map((image, index) => (
               <button
                 key={index}
@@ -82,7 +128,9 @@ const ProductDetail = () => {
                 style={{ backgroundColor: image.color }}
               />
             ))}
-          </div>
+          </div>:
+            ""
+          }
           <p>
             {showFullDescription ? product.description : shortDescription}
           </p>

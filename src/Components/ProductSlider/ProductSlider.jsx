@@ -38,7 +38,7 @@ const ProductSlider = ({ products, title, isLoading, link }) => {
       onMouseLeave={() => setIsHovered(false)}
     >
       <h1>{title}</h1>
-      {link && <Link to={link} className="findmore">More</Link>}
+      {link && <Link to="allproducts" className="findmore">More</Link>}
       <main className="slider-main">
         {isLoading ? (
           <Loader type="data" />

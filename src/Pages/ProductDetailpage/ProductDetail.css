@@ -81,6 +81,10 @@
 .product-detail-info h2 {
   margin-bottom: 10px;
 }
+.product-detail-info h2 span {
+    font-weight: 400;
+    font-size: 1.3rem;
+}
 .product-detail-info p{
     color: black;
 }
@@ -88,11 +92,10 @@
   background-color: #007bff;
   color: white;
   border: none;
-  padding: 10px 15px;
   margin-top: 10px;
   cursor: pointer;
   border-radius: 5px;
-  font-size: 1rem;
+  font-size: 0.8rem;
   transition: background-color 0.3s ease;
 }
 

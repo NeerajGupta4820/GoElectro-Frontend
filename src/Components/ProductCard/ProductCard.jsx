@@ -52,14 +52,19 @@ const ProductCard = ({ product }) => {
           i < product.ratings ? <FaStar key={i} className="active" /> : <FaRegStar key={i} className="inactive" />
         ))}
         </div>
-      <button 
-        className={`add-to-cart ${isAdded ? 'added' : ''}`} 
-        onClick={handleAddToCart}
-        style={{ backgroundColor: buttonColor }} 
-      >
-        <FaShoppingCart className={`cart-icon ${isAdded ? 'move' : ''}`} />
-        {isAdded ? 'Added' : 'Add to Cart'}
-      </button>
+        {
+          product.stock>0 ?
+          <button 
+          className={`add-to-cart ${isAdded ? 'added' : ''}`} 
+          onClick={handleAddToCart}
+          style={{ backgroundColor: buttonColor }} >
+          <FaShoppingCart className={`cart-icon ${isAdded ? 'move' : ''}`} />
+          {isAdded ? 'Added' : 'Add to Cart'}
+          </button>:
+          <button className="notcart-icon" disabled>
+            <FaShoppingCart/>Add to Cart
+          </button>
+        }
       </div>
     </div>
   );

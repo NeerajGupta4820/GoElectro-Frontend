@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { FaShoppingCart, FaStar, FaRegStar } from "react-icons/fa";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";
@@ -10,6 +10,7 @@ const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const [isAdded, setIsAdded] = useState(false);
   const [buttonColor, setButtonColor] = useState("#rgb(247, 139, 90)");
+  const navigate = useNavigate();
 
   const colors = ["#4dbdd6", "#28a745", "#ffc107", "#dc3545"];
   const currentIndex = useRef(0);
@@ -40,6 +41,10 @@ const ProductCard = ({ product }) => {
     }, 1500);
   };
 
+  const handleImageClick = (id)=>{
+    navigate(`/product/${id}`);
+  }
+
   const productImage =
     product.images &&
     product.images.length > 0 &&
@@ -50,14 +55,15 @@ const ProductCard = ({ product }) => {
   return (
     <div className="product-card">
       <div className="products-card-img">
-        <Link to={`/product/${product._id}`}>
+        
           <img
+            onClick={()=>handleImageClick(product._id)}
             src={productImage}
             alt={product.title}
             className="product-photo"
           />
 
-        </Link>
+        
       </div>
       <div className="product-card-info">
       <h4 className="product-title">{product.title}</h4>

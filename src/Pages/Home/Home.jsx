@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "./Home.css";
 import Header from "../../Components/Header/Header";
 import ProductSlider from "../../Components/ProductSlider/ProductSlider";
@@ -11,6 +11,11 @@ import { useFetchAllCategoriesQuery } from "../../redux/api/categoryAPI";
 const Home = () => {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();
+
+  const handleCategory = (id)=>{
+    navigate('/allProducts',{state:{category:id}});
+  }
 
   const { data: productData, isLoading: isProductLoading } = useGetLatestProductsQuery();
   const products = productData?.products || [];
@@ -35,15 +40,15 @@ const Home = () => {
         ) : (
           <ul className="categories-list">
             {categoryData?.data.map((category) => (
-              <li key={category.id}>
-                <Link to={`/category/${category.slug}`}>
+              <li key={category._id}>
+                <a onClick={()=>handleCategory(category._id)}>
                   <img
                     src={category.image}
                     alt={category.name}
                     className="category-image"
                   />
                   {category.name}
-                </Link>
+                </a>
               </li>
             ))}
           </ul>

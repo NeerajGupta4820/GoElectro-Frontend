@@ -1,106 +1,120 @@
-import emailjs from "emailjs-com";
-import { useState } from "react";
-import { toast } from "react-toastify";
-import svg from "../../assets/Images/contact/svg.webp";
+import contact_7 from "../../assets/Images/contact/contact_7.png";
+import PropTypes from "prop-types";
+import { MdEmail, MdPhone, MdWeb } from 'react-icons/md';
+import { MdLocationOn, MdAccessTime } from 'react-icons/md';
+import { SiGmail } from 'react-icons/si';
+import classNames from "classnames";
 import "./Contact.css";
 
-const Contact = () => {
-  const serviceID = import.meta.env.REACT_APP_SERVICE_ID;
-  const templateID = import.meta.env.REACT_APP_TEMPLATE_ID;
-  const key = import.meta.env.REACT_APP_KEY;
-  const [loading,setLoading] = useState(false);
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    message: "",
-  });
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
+const contactInfoList = [
+    {
+        icon: <MdEmail />,
+        label: "email@easyfrontend.com",
+        href: "mailto:email@easyfrontend.com",
+    },
+    {
+        icon: <MdPhone />,
+        label: "+880 1742-0****0",
+        href: "callto:+880 1742-0****0",
+    },
+    { icon: <MdWeb />, label: "easyfrontend.com", href: "https://easyfrontend.com" },
+];
 
-  const handleSubmit = (e) => {
-    setLoading(true);
-    e.preventDefault();
-    if(formData.name == "" || formData.email == "" || formData.message == ""){
-      toast.error("All fields are mandatory");
-      setLoading(false);
-      return;
-    }
-    emailjs
-      .send(
-        `${serviceID}`,
-        `${templateID}`, 
-        formData,
-        `${key}` 
-      )
-      .then(
-        (response) => {
-          console.log("SUCCESS!", response.status, response.text);
-          toast.success("Email sent Successfully");
-          setFormData({
-            name: "",
-            email: "",
-            subject: "",
-            message: "",
-          });
-        },
-        (error) => {
-          console.error("FAILED...", error);
-          toast.error("Failed to send email.");
+const ContactForm = () => {
+
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        const form = event.currentTarget;
+
+        if (form.checkValidity() === false) {
+            event.preventDefault();
+            event.stopPropagation();
         }
-      ).finally(()=>
+    };
 
-        setLoading(false)
-      );
+    return (
+        <form className="contact-form" noValidate onSubmit={handleSubmit}>
+            <div className="mb-4">
+                <input
+                    type="text"
+                    name="name"
+                    className="form-input"
+                    placeholder="Enter Name"
+                    required
+                />
+            </div>
+            <div className="mb-4">
+                <input
+                    type="email"
+                    name="email"
+                    className="form-input"
+                    placeholder="Enter Email"
+                    required
+                />
+            </div>
+            <div className="mb-4">
+                <textarea
+                    name="message"
+                    className="form-input"
+                    placeholder="Enter Message"
+                    rows="4"
+                    required
+                ></textarea>
+            </div>
+            <div className="text-start">
+                <button type="submit" className="submit-button">
+                    send
+                </button>
+            </div>
+        </form>
+    );
+};
 
+const ContactFormCard = () => (
+    <div className="contact-form-card">
+        <h2>Leave a message</h2>
+        <span>We love to hear from you</span>
+        <ContactForm />
+    </div>
+);
 
-    
-  };
-  return (
-    <div className="contact">
-      <section className="form-details">
-        <div className="form-content">
-          <form>
-            <span>LEAVE A MESSAGE</span>
-            <h2>We love to hear from you</h2>
-            <input
-              type="text"
-              placeholder="Your Good Name"
-              name="name"
-              required
-              value={formData.name}
-              onChange={handleChange}
-            />
-            <input
-              type="text"
-              placeholder="E-mail"
-              name="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-            />
-            <textarea
-              cols="30"
-              rows="10"
-              placeholder="Your message"
-              name="message"
-              required
-              value={formData.message}
-              onChange={handleChange}
-            ></textarea>
-            <button className="normal" onClick={handleSubmit} disabled={loading}>
-              {loading === true? "Sending...":"Submit"}
-            </button>
-          </form>
-        </div>
-        <div className="svg-container">
-          <img src={svg} alt="Contact SVG" />
-        </div>
-      </section>
+const ContactInfo = ({ contactInfoList }) => (
+    <div className="contact-info">
+        {contactInfoList.map((info, i) => (
+            <div className={classNames("info-item", { "mt-6": i })} key={i}>
+                {info.icon}
+                <a className="info-link" href={info.href || "#!"}>
+                    {info.label}
+                </a>
+            </div>
+        ))}
+    </div>
+);
+
+ContactInfo.propTypes = {
+    contactInfoList: PropTypes.array.isRequired,
+};
+
+const Contact = () => {
+    return (
+        <section className="contact-section">
+            <div className="container">
+                <div className="contact-grid">
+                    <div className="contact-image">
+                        <div
+                            className="image-background"
+                            style={{
+                                backgroundImage: `url(${contact_7})`,
+                            }}
+                        >
+                            <ContactInfo contactInfoList={contactInfoList} />
+                        </div>
+                    </div>
+                    <div className="contact-form-container">
+                        <ContactFormCard />
+                    </div>
+                </div>
+            </div>
       <section className="contact-details">
         <div className="details">
           <span>Get in touch</span>
@@ -108,20 +122,19 @@ const Contact = () => {
           <h3>Head Office</h3>
           <div>
             <li>
-              <i className="fa-solid fa-location-dot"></i>
+              <MdLocationOn/>
               <p>Maharshi Dayanand University, Rohtak, India</p>
             </li>
             <li>
-              <i className="fa-solid fa-envelope"></i>
+              <SiGmail/>
               <p>contact@example.com</p>
             </li>
             <li>
-              <i className="fa-solid fa-phone"></i>
+              <MdPhone/>
               <p>+01 2222 365 / (+91) 01 2345 6789</p>
             </li>
             <li>
-              <i className="fa-solid fa-clock"></i>
-              <p>Monday to Saturday: 9.00am to 5.00pm</p>
+              <MdAccessTime/><p>Monday to Saturday: 9.00am to 5.00pm</p>
             </li>
           </div>
         </div>
@@ -137,8 +150,8 @@ const Contact = () => {
           ></iframe>
         </div>
       </section>
-    </div>
-  );
+        </section>
+    );
 };
 
 export default Contact;

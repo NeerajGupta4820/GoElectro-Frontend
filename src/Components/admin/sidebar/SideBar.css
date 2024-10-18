@@ -30,7 +30,7 @@
   padding: 10px 20px;
 }
 .sidebar li.active {
-  background-color: rgb(247, 139, 90);
+  background-color: #48a55c;
   border-radius: 5px;
 }
 .sidebar a {

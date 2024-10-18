@@ -1,108 +1,160 @@
 @import url("https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap");
 .ffff {
   font-family: outfit;
+  background-color: white;
   padding: 75px;
 }
-
-/* Section Styles */
-.text-2xl {
-  font-size: 1.5rem; /* 24px */
+.ffff h2,p{
+  color: gray;
 }
-
+.text-2xl {
+  font-size: 1.5rem; 
+}
 .text-center {
   text-align: center;
 }
-
 .pt-8 {
-  padding-top: 2rem; /* 32px */
+  padding-top: 2rem;
 }
-
 .border-t {
-  border-top: 1px solid #e5e7eb; /* Gray for border */
+  border-top: 1px solid #111111; 
 }
-
 .my-10 {
-  margin: 2.5rem 0; /* 40px */
+  margin: 2.5rem 0; 
 }
-
-/* Flexbox Styles */
 .flex {
   display: flex;
 }
-
 .flex-col {
   flex-direction: column;
 }
-
 .md\:flex-row {
-  flex-direction: row; /* Applies for medium screens and above */
+  flex-direction: row; 
 }
-
 .gap-16 {
-  gap: 4rem; /* 64px */
+  gap: 4rem; 
 }
-
-/* Image Styles */
 .w-full {
   width: 100%;
 }
-
 .md\:max-w-\[450px\] {
-  max-width: 450px; /* Set max width for medium screens */
+  max-width: 450px; 
 }
-
-/* Text Styles */
 .text-xl {
-  font-size: 1.25rem; /* 20px */
+  font-size: 1.25rem; 
 }
-
 .py-4 {
-  padding: 1rem 0; /* 16px */
+  padding: 1rem 0; 
 }
-
 .text-sm {
-  font-size: 0.875rem; /* 14px */
+  font-size: 0.875rem; 
 }
-
 .mb-20 {
-  margin-bottom: 5rem; /* 80px */
+  margin-bottom: 5rem;
 }
-
-/* Border Styles */
 .border {
-  border: 1px solid #e5e7eb; /* Gray border */
+  border: 1px solid #767677; 
 }
-
 .px-10 {
-  padding-left: 2.5rem; /* 40px */
-  padding-right: 2.5rem; /* 40px */
+  padding-left: 2.5rem; 
+  padding-right: 2.5rem; 
 }
-
 .md\:px-16 {
-  padding-left: 4rem; /* 64px */
-  padding-right: 4rem; /* 64px */
+  padding-left: 4rem; 
+  padding-right: 4rem; 
 }
-
 .py-8 {
-  padding-top: 2rem; /* 32px */
-  padding-bottom: 2rem; /* 32px */
+  padding-top: 2rem; 
+  padding-bottom: 2rem; 
 }
-
 .sm\:py-10 {
-  padding-top: 2.5rem; /* 40px */
-  padding-bottom: 2.5rem; /* 40px */
+  padding-top: 2.5rem; 
+  padding-bottom: 2.5rem; 
 }
-
-/* Gap Styles */
 .gap-5 {
-  gap: 1.25rem; /* 20px */
+  gap: 1.25rem;
 }
-
-/* Text Color Styles */
 .text-gray-600 {
-  color: #4b5563; /* Dark gray color */
+  color: #4b5563; 
+}
+.text-gray-800 {
+  color: #1f2937; 
+}
+.about-section {
+  padding: 60px 0;
+  background-color: #fff;
+  color: #333;
+}
+.section-title {
+  color: black !important;
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.section-description {
+  color: black !important;
+  font-size: 1.25rem;
+  opacity: 0.8;
+  margin-bottom: 40px;
+}
+.story-row {
+  display: flex;
+  flex-wrap: wrap;
+  margin-bottom: 50px;
+}
+.col-12 {
+  width: 100%;
+}
+.md-col-5 {
+  width: 50%;
+}
+.order-lg-2 {
+  order: 2;
+}
+.story-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+.story-title {
+  font-size: 1.8rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+.story-description {
+  font-size: 1rem;
+  text-align: justify;
+  opacity: 0.7;
+}
+.story-image-wrapper {
+  text-align: center;
+}
+.story-image {
+  max-width: 100%;
+  height: auto;
+  max-width: 30rem;
+  max-width: 30rem;
+  border-radius: 10px;
+}
+.pl-lg {
+  padding-left: 60px;
+}
+.pr-lg {
+  padding-right: 60px;
+}
+.clicked-text{
+  color: black !important;
+}
+.equal-width-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+.equal-width-item {
+  box-shadow: 1px 2px 20px rgba(0, 0, 0, 0.5);
+  flex: 1 1 30%;
+  max-width: 30%; 
+  box-sizing: border-box;
+  text-align: center;
 }
 
-.text-gray-800 {
-  color: #1f2937; /* Darker gray color */
-}

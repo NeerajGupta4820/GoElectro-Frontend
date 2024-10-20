@@ -11,6 +11,7 @@ import UserProfile from './Pages/userProfile/userProfile';
 import AdminDashboard from './Pages/Admin/AdminDashboard';
 import ProductDetail from './Pages/ProductDetailpage/ProductDetail';
 import About from './Pages/About/About';
+import './App.css'
 import AllProducts from './Pages/AllProducts/AllProducts';
 
 const App = () => {

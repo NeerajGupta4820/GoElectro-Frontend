@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { MdEmail, MdPhone, MdWeb } from 'react-icons/md';
 import { MdLocationOn, MdAccessTime } from 'react-icons/md';
 import { SiGmail } from 'react-icons/si';
-import classNames from "classnames";
+//import classNames from "classnames";
 import "./Contact.css";
 
 const contactInfoList = [

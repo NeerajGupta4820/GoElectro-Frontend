@@ -1,28 +1,146 @@
-.profile-details {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  background-color: #f4f4f4;
-  border-radius: 8px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  max-width: 600px;
-  margin: 20px auto;
+/* Page Container */
+.profile-page {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  background-color: #f5f5f5;
 }
-.profile-title {
-  color: #2b2a2a;
+
+/* Profile Container */
+.profile-container {
+  display: flex;
+  background-color: white;
+  width: 600px;
+  border-radius: 15px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Left Section (Image and Add Button) */
+.profile-image-section {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40%;
+  position: relative;
+}
+
+.image-container {
+  position: relative;
+}
+
+.round-img {
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 5px solid #ddd;
+}
+
+/* Add Button (Floating) */
+.add-btn {
+  position: absolute;
+  bottom: 15px;
+  right: -10px;
+  background-color: #4caf50;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 20px;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.add-btn:hover {
+  background-color: #333;
+}
+
+/* Right Section (User Info) */
+.profile-info-section {
+  padding-left: 20px;
+  width: 60%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Name and Role */
+.profile-name {
+  font-size: 24px;
+  font-weight: bold;
+  margin-bottom: 10px;
+}
+.profile-role {
+  font-size: 16px;
+  color: #777;
   margin-bottom: 20px;
 }
-.profile-info {
-  font-size: 1.1rem;
-  color: #333;
-  margin: 10px 0;
+
+/* Bio */
+.profile-bio {
+  font-size: 14px;
+  color: #555;
+  margin-bottom: 20px;
 }
-.profile-photo {
-  margin-top: 20px;
-  text-align: center;
+
+/* Stats Section */
+.profile-stats {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
 }
-.user-image {
-  max-width: 150px;
-  height: auto;
-  border-radius: 50%;
-  border: 2px solid #4dbdd6;
+.stat-item h3 {
+  font-size: 20px;
+  margin-bottom: 5px;
+}
+.stat-item p {
+  font-size: 14px;
+  color: #777;
+}
+
+/* Buttons */
+.profile-actions {
+  display: flex;
+  justify-content: space-between;
+}
+.follow-btn,
+.message-btn {
+  background-color: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 20px;
+  border-radius: 25px;
+  cursor: pointer;
+}
+.message-btn {
+  background-color: #008cba;
+}
+.follow-btn:hover,
+.message-btn:hover {
+  background-color: #333;
+  color: white;
+}
+
+.modal-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  height: 35%;
+}
+.modal-content input{
+  height: 30px;
+  outline: none;
+  border-radius: 8px;
+  border: none;
+}
+.modal-content > div{
+  display: flex;
+  justify-content: space-between;
+  margin-top: 10px;
 }

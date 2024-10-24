@@ -20,6 +20,7 @@ const UpdateProduct = () => {
 
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
+  const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
@@ -33,6 +34,7 @@ const UpdateProduct = () => {
     if (productData) {
       setProductName(productData.product.title);
       setPrice(productData.product.price);
+      setPrice(productData.product.stock);
       setDescription(productData.product.description);
       setCategory(productData.product.category);
       setBrand(productData.product.brand);
@@ -166,6 +168,7 @@ const UpdateProduct = () => {
     const updatedProductData = {
       title: productName,
       price,
+      stock,
       description,
       category,
       brand,
@@ -222,6 +225,16 @@ const UpdateProduct = () => {
             id="price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="stock">Stock</label>
+          <input
+            type="number"
+            id="stock"
+            value={stock}
+            onChange={(e) => setStock(e.target.value)}
             required
           />
         </div>

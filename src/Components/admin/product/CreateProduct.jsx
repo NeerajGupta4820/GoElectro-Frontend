@@ -10,6 +10,7 @@ import "./CreateProduct.css";
 const CreateProduct = () => {
   const [productName, setProductName] = useState("");
   const [price, setPrice] = useState("");
+  const [stock, setStock] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
@@ -93,6 +94,7 @@ const CreateProduct = () => {
     const productData = {
       title: productName,
       price,
+      stock,
       description,
       category,
       brand,
@@ -134,6 +136,16 @@ const CreateProduct = () => {
             id="price"
             value={price}
             onChange={(e) => setPrice(e.target.value)}
+            required
+          />
+        </div>
+        <div className="form-group">
+          <label htmlFor="stock">stock</label>
+          <input
+            type="number"
+            id="stock"
+            value={stock}
+            onChange={(e) => setStock(e.target.value)}
             required
           />
         </div>

@@ -1,11 +1,13 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
+import { useNavigate } from 'react-router-dom';
 import { removeFromCart, updateQuantity, setCartData, clearCart } from "../../redux/slices/cartSlice";
 import "./Cart.css";
 
 const Cart = () => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const { cartItems = [], totalAmount, totalQuantity } = useSelector((state) => state.cart.cart || {});
 
   const handleRemove = (productId) => {
@@ -24,6 +26,10 @@ const Cart = () => {
     dispatch(clearCart());
     toast.success("Cart cleared successfully.");
   };
+
+  const handleCheckout=()=>{
+    navigate('/checkout')
+  }
 
   useEffect(() => {
     const savedCart = JSON.parse(localStorage.getItem("cartData"));
@@ -87,7 +93,7 @@ const Cart = () => {
               <span>Subtotal:</span>
               <span>₹{(totalAmount - totalAmount * 0.1 + totalAmount * 0.05).toFixed(2)}</span>
             </div>
-            <button className="checkout-button">Proceed to Checkout</button>
+            <button className="checkout-button" onClick={handleCheckout}>Proceed to Checkout</button>
             <button className="clear-cart-button" onClick={handleClearCart}>
               Clear Cart
             </button>

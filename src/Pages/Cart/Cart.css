@@ -108,18 +108,18 @@
   color: rgb(92, 142, 235);
 }
 .checkout-button {
-  width: 100%;
-  padding: 15px;
-  background-color: rgb(247, 139, 90);
-  color: #ffffff;
+  padding: 10px;
+  margin: 0 0 1rem 0;
+  background-color: #007bff;
+  color: white;
   border: none;
-  border-radius: 5px;
-  font-size: 16px;
+  border-radius: 4px;
   cursor: pointer;
-  transition: background-color 0.3s ease;
+  font-size: 16px;
 }
+
 .checkout-button:hover {
-  background-color: rgb(215, 108, 70);
+  background-color: #0056b3;
 }
 @media (max-width: 768px) {
   .cart-content {

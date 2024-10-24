@@ -13,6 +13,7 @@ import ProductDetail from './Pages/ProductDetailpage/ProductDetail';
 import About from './Pages/About/About';
 import './App.css'
 import AllProducts from './Pages/AllProducts/AllProducts';
+import Checkout from './Pages/checkout/Checkout';
 
 const App = () => {
   const ProtectedRoute = ({ children, role }) => {
@@ -37,6 +38,7 @@ const App = () => {
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         <Route path='/about' element={<About/>}/>
+        <Route path='/checkout' element={<Checkout/>}/>
         <Route path="/profile/*" element={<ProtectedRoute role="user"><UserProfile /></ProtectedRoute>}/>
         <Route path="/admin/*" element={<ProtectedRoute role="admin"><AdminDashboard /></ProtectedRoute>}/>
         <Route path='/allProducts' element={<AllProducts/>}/>

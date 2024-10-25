@@ -60,7 +60,7 @@ const About = () => {
       <div className="text-2xl text-center pt-8 border-t">
         <h1 className="">About Us</h1>
       </div>
-      <div className="my-10 flex flex-col md:flex-row gap-16">
+      <div className="my-10 flex flex-col md:flex-row gap-16 asec">
         <img className="w-full md:max-w-[450px]" src={img3} alt="" />
         <div className="flex flex-col justify-center gap-6 md:wd-2/4">
           <p className="">
@@ -85,11 +85,11 @@ const About = () => {
         </div>
       </div>
 
-      <div className="text-xl py-4">
+      <div className="text-xl py-4 wy">
         <h1>Why Choose Us</h1>
       </div>
 
-      <div className="flex flex-col md:flex-row text-sm mb-20">
+      <div className="flex flex-col md:flex-row text-sm mb-20 equal-width-containerc">
         <div className="flex flex-col md:flex-row text-sm mb-20 equal-width-container">
           {[
             {

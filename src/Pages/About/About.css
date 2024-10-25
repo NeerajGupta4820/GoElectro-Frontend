@@ -160,3 +160,40 @@
   text-align: center;
 }
 
+@media  screen and (max-width:750px) {
+  .ffff{
+    padding: 20px;
+  }
+  .asec{
+    flex-direction: column;
+  }
+  .asec img{
+    width: 100%;
+  }
+  .equal-width-container{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    flex-wrap: nowrap;
+    align-items: center;
+  }
+  .equal-width-item{
+    max-width: 80%;
+  }
+  .story-row{
+    flex-direction: column;
+    flex-wrap: nowrap;
+    box-sizing: border-box;
+  }
+  .story-row > div > div > img{
+    max-width: 100%;
+  }
+  .md-col-5{
+    width: 100%;
+  }
+  .wy{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}

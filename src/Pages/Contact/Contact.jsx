@@ -1,120 +1,119 @@
 import contact_7 from "../../assets/Images/contact/contact_7.png";
 import PropTypes from "prop-types";
-import { MdEmail, MdPhone, MdWeb } from 'react-icons/md';
-import { MdLocationOn, MdAccessTime } from 'react-icons/md';
-import { SiGmail } from 'react-icons/si';
+import { MdEmail, MdPhone, MdWeb } from "react-icons/md";
+import { MdLocationOn, MdAccessTime } from "react-icons/md";
+import { SiGmail } from "react-icons/si";
 import classNames from "classnames";
 import "./Contact.css";
 
 const contactInfoList = [
-    {
-        icon: <MdEmail />,
-        label: "email@easyfrontend.com",
-        href: "mailto:email@easyfrontend.com",
-    },
-    {
-        icon: <MdPhone />,
-        label: "+880 1742-0****0",
-        href: "callto:+880 1742-0****0",
-    },
-    { icon: <MdWeb />, label: "easyfrontend.com", href: "https://easyfrontend.com" },
+  {
+    icon: <MdEmail />,
+    label: "email@GoElectro.com",
+    href: "mailto:email@GoElectro.com",
+  },
+  {
+    icon: <MdPhone />,
+    label: "+880 1742-0****0",
+    href: "callto:+880 1742-0****0",
+  },
+  { icon: <MdWeb />, label: "GoElectro.com", href: "https://goElectro.com" },
 ];
 
 const ContactForm = () => {
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    const form = event.currentTarget;
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        const form = event.currentTarget;
+    if (form.checkValidity() === false) {
+      event.preventDefault();
+      event.stopPropagation();
+    }
+  };
 
-        if (form.checkValidity() === false) {
-            event.preventDefault();
-            event.stopPropagation();
-        }
-    };
-
-    return (
-        <form className="contact-form" noValidate onSubmit={handleSubmit}>
-            <div className="mb-4">
-                <input
-                    type="text"
-                    name="name"
-                    className="form-input"
-                    placeholder="Enter Name"
-                    required
-                />
-            </div>
-            <div className="mb-4">
-                <input
-                    type="email"
-                    name="email"
-                    className="form-input"
-                    placeholder="Enter Email"
-                    required
-                />
-            </div>
-            <div className="mb-4">
-                <textarea
-                    name="message"
-                    className="form-input"
-                    placeholder="Enter Message"
-                    rows="4"
-                    required
-                ></textarea>
-            </div>
-            <div className="text-start">
-                <button type="submit" className="submit-button">
-                    send
-                </button>
-            </div>
-        </form>
-    );
+  return (
+    <form className="contact-form" noValidate onSubmit={handleSubmit}>
+      <div className="mb-4">
+        <input
+          type="text"
+          name="name"
+          className="form-input"
+          placeholder="Enter Name"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <input
+          type="email"
+          name="email"
+          className="form-input"
+          placeholder="Enter Email"
+          required
+        />
+      </div>
+      <div className="mb-4">
+        <textarea
+          name="message"
+          className="form-input"
+          placeholder="Enter Message"
+          rows="4"
+          required
+        ></textarea>
+      </div>
+      <div className="text-start">
+        <button type="submit" className="submit-button">
+          send
+        </button>
+      </div>
+    </form>
+  );
 };
 
 const ContactFormCard = () => (
-    <div className="contact-form-card">
-        <h2>Leave a message</h2>
-        <span>We love to hear from you</span>
-        <ContactForm />
-    </div>
+  <div className="contact-form-card">
+    <h2>Leave a message</h2>
+    <span>We love to hear from you</span>
+    <ContactForm />
+  </div>
 );
 
 const ContactInfo = ({ contactInfoList }) => (
-    <div className="contact-info">
-        {contactInfoList.map((info, i) => (
-            <div className={classNames("info-item", { "mt-6": i })} key={i}>
-                {info.icon}
-                <a className="info-link" href={info.href || "#!"}>
-                    {info.label}
-                </a>
-            </div>
-        ))}
-    </div>
+  <div className="contact-info">
+    {contactInfoList.map((info, i) => (
+      <div className={classNames("info-item", { "mt-6": i })} key={i}>
+        {info.icon}
+        <a className="info-link" href={info.href || "#!"}>
+          {info.label}
+        </a>
+      </div>
+    ))}
+  </div>
 );
 
 ContactInfo.propTypes = {
-    contactInfoList: PropTypes.array.isRequired,
+  contactInfoList: PropTypes.array.isRequired,
 };
 
 const Contact = () => {
-    return (
-        <section className="contact-section">
-            <div className="container">
-                <div className="contact-grid">
-                    <div className="contact-image">
-                        <div
-                            className="image-background"
-                            style={{
-                                backgroundImage: `url(${contact_7})`,
-                            }}
-                        >
-                            <ContactInfo contactInfoList={contactInfoList} />
-                        </div>
-                    </div>
-                    <div className="contact-form-container">
-                        <ContactFormCard />
-                    </div>
-                </div>
+  return (
+    <section className="contact-section">
+      <div className="container">
+        <div className="contact-grid">
+          <div className="contact-image">
+            <div
+              className="image-background"
+              style={{
+                backgroundImage: `url(${contact_7})`,
+              }}
+            >
+              {/* <ContactInfo contactInfoList={contactInfoList} /> */}
             </div>
+          </div>
+          <div className="contact-form-container">
+            <ContactFormCard />
+          </div>
+        </div>
+      </div>
       <section className="contact-details">
         <div className="details">
           <span>Get in touch</span>
@@ -122,19 +121,20 @@ const Contact = () => {
           <h3>Head Office</h3>
           <div>
             <li>
-              <MdLocationOn/>
+              <MdLocationOn />
               <p>Maharshi Dayanand University, Rohtak, India</p>
             </li>
             <li>
-              <SiGmail/>
+              <SiGmail />
               <p>contact@example.com</p>
             </li>
             <li>
-              <MdPhone/>
+              <MdPhone />
               <p>+01 2222 365 / (+91) 01 2345 6789</p>
             </li>
             <li>
-              <MdAccessTime/><p>Monday to Saturday: 9.00am to 5.00pm</p>
+              <MdAccessTime />
+              <p>Monday to Saturday: 9.00am to 5.00pm</p>
             </li>
           </div>
         </div>
@@ -150,8 +150,8 @@ const Contact = () => {
           ></iframe>
         </div>
       </section>
-        </section>
-    );
+    </section>
+  );
 };
 
 export default Contact;

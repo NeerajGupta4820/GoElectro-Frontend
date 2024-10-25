@@ -14,7 +14,7 @@ const Navbar = () => {
   
   const user = useSelector((state) => state.user.user);
   const { cartItems = [], totalAmount, totalQuantity } = useSelector((state) => state.cart.cart || {});
-  console.log(cartItems);
+
 
   const [updateCart] = useUpdateCartMutation(); 
 
@@ -31,7 +31,6 @@ const Navbar = () => {
 
   const handleSearchSubmit = (e) => {
     e.preventDefault();
-    console.log("Search Item:", searchItem);
   };
 
   const logoutUser = async () => {
@@ -42,8 +41,7 @@ const Navbar = () => {
       toast.success("Logged out successfully!");
       navigate("/");
     } catch (error) {
-      console.error("Failed to update cart before logout:", error);
-      toast.error("Failed to update cart. Please try again.");
+      toast.error("Failed to update cart. Please try again.",error);
     }
   };
 

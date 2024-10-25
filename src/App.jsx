@@ -18,7 +18,6 @@ import Checkout from './Pages/checkout/Checkout';
 const App = () => {
   const ProtectedRoute = ({ children, role }) => {
     const { user } = useSelector((state) => state.user);
-    console.log(user); 
     if (!user) {
       return <Navigate to="/login" />;
     }

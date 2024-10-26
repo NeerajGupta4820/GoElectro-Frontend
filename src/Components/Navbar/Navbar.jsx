@@ -7,6 +7,7 @@ import { toast } from "react-toastify";
 import { useUpdateCartMutation } from "../../redux/api/cartApi";
 import "./Navbar.css";
 import { FaRegUser } from "react-icons/fa";
+import Pill from "../Pill/Pill";
 
 const Navbar = () => {
   const dispatch = useDispatch();
@@ -14,6 +15,8 @@ const Navbar = () => {
   
   const user = useSelector((state) => state.user.user);
   const { cartItems = [], totalAmount, totalQuantity } = useSelector((state) => state.cart.cart || {});
+  console.log(cartItems);
+  
 
 
   const [updateCart] = useUpdateCartMutation(); 
@@ -83,6 +86,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/cart">Cart</Link>
+            {cartItems.length != 0 && <Pill label={cartItems.length}/>}
           </li>
           {!user ? (
             <>

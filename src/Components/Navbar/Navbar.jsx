@@ -1,27 +1,23 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { clearUser } from "../../redux/slices/userSlice";
 import { clearCart } from "../../redux/slices/cartSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUpdateCartMutation } from "../../redux/api/cartApi";
-import "./Navbar.css";
-import { FaRegUser } from "react-icons/fa";
+import { FaBars, FaTimes, FaRegUser } from "react-icons/fa";
 import Pill from "../Pill/Pill";
+import "./Navbar.css";
 
 const Navbar = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  
   const user = useSelector((state) => state.user.user);
   const { cartItems = [], totalAmount, totalQuantity } = useSelector((state) => state.cart.cart || {});
-  console.log(cartItems);
-  
 
-
-  const [updateCart] = useUpdateCartMutation(); 
-
+  const [updateCart] = useUpdateCartMutation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [width,setWidth] = useState(false);
   const [searchItem, setSearchItem] = useState("");
 
   const toggleMobileMenu = () => {
@@ -44,7 +40,7 @@ const Navbar = () => {
       toast.success("Logged out successfully!");
       navigate("/");
     } catch (error) {
-      toast.error("Failed to update cart. Please try again.",error);
+      toast.error("Failed to update cart. Please try again.", error);
     }
   };
 
@@ -55,6 +51,22 @@ const Navbar = () => {
       navigate("/profile");
     }
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      if (window.innerWidth <= 900) {
+        setWidth(true);
+      }else{
+        setWidth(false);
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <nav className="navbar">
@@ -75,6 +87,9 @@ const Navbar = () => {
           </button>
         </form>
         <ul className={`navbar-links ${isMobileMenuOpen ? "active" : ""}`}>
+          {isMobileMenuOpen && <li className="menu-icon" onClick={toggleMobileMenu}>
+            <FaTimes/>
+          </li>}
           <li>
             <Link to="/">Home</Link>
           </li>
@@ -86,7 +101,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/cart">Cart</Link>
-            {cartItems.length != 0 && <Pill label={cartItems.length}/>}
+            {cartItems.length !== 0 && <Pill label={cartItems.length} />}
           </li>
           {!user ? (
             <>
@@ -108,9 +123,9 @@ const Navbar = () => {
             </>
           )}
         </ul>
-        <div className="menu-icon" onClick={toggleMobileMenu}>
-          <i className={`fas ${isMobileMenuOpen ? "fa-times" : "fa-bars"}`}></i>
-        </div>
+        {width && <div className="menu-icon" onClick={toggleMobileMenu}>
+          <FaBars />
+        </div>}
       </div>
     </nav>
   );

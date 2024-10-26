@@ -5,11 +5,11 @@ body {
 .categories-section {
   background-color: white;
   padding: 2rem 1rem;
+  overflow-x: scroll;
 }
 .categories-list {
   display: flex;
   justify-content: space-around;
-  overflow: scroll;
   width: 100%;
   list-style: none;
   padding: 0;
@@ -85,8 +85,10 @@ body {
   transform: scale(1.1);
 }
 @media (max-width: 768px) {
+
   .categories-list {
-    justify-content: space-evenly;
+    overflow: scroll;
+    width: 100%;
   }
   .category-image {
     width: 60px;

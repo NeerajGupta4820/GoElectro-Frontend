@@ -36,10 +36,6 @@ const AllProduct = () => {
 
   const products = data?.products || [];
 
-  const handleRowClick = (product) => {
-    setSelectedProduct(product);
-  };
-
   const handleClosePopup = (e) => {
     if (e.target.classList.contains('product-popup')) {
       setSelectedProduct(null);
@@ -75,7 +71,7 @@ const AllProduct = () => {
                 )}
               </td>
               <td>{product.title.slice(0, 10)}...</td>
-              <td>${product.price}</td>
+              <td>Rs.{product.price}</td>
               <td>{product.description.slice(0, 20)}...</td>
               <td>
                 <button className="edit-btn" onClick={() => handleUpdateProduct(product._id)}>Edit</button>
@@ -100,7 +96,7 @@ const AllProduct = () => {
             ) : (
               <span>No Image Available</span>
             )}
-            <p><strong>Price:</strong> ${selectedProduct.price}</p>
+            <p><strong>Price:</strong> Rs.{selectedProduct.price}</p>
             <p><strong>Description:</strong> {selectedProduct.description}</p>
           </div>
         </div>

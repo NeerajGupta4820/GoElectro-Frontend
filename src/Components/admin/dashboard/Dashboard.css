@@ -118,11 +118,6 @@
   border-radius: 5px;
   font-size: 0.75rem;
 }
-
-.products-list-section {
-  margin-top: 2rem;
-}
-
 .products-list-table {
   margin-top: 1rem;
 }
@@ -169,4 +164,13 @@
   padding: 5px;
   border-radius: 5px;
   font-size: 0.75rem;
+}
+.products-list-section {
+  margin-top: 2rem;
+  height: 300px;
+  overflow-y: hidden; 
+  scrollbar-width: none;
+}
+.products-list-section::-webkit-scrollbar {
+  display: none; 
 }

@@ -46,8 +46,16 @@ const userApi = createApi({
         method: 'GET',
       }),
     }),
+    resetPassword: builder.mutation({
+      query: ({ email, newPassword, confirmPassword }) => ({
+        url: '/api/user/reset-password',
+        method: 'POST',
+        body: { email, newPassword, confirmPassword },
+      }),
+    })
   }),
 });
 
-export const { useLoginUserMutation, useRegisterUserMutation, useUpdateUserMutation,  useLogoutUserMutation, useAllUsersMutation } = userApi;
+export const { useLoginUserMutation, useRegisterUserMutation, useUpdateUserMutation,
+    useLogoutUserMutation, useAllUsersMutation,useResetPasswordMutation  } = userApi;
 export default userApi;

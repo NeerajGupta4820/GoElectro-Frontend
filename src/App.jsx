@@ -5,6 +5,7 @@ import Navbar from './Components/Navbar/Navbar';
 import Footer from './Components/Footer/Footer';
 import Signup from './Pages/Signup/Signup';
 import Login from './Pages/Login/Login';
+import ForgotPassword from './Pages/forgotpassword/ForgotPassword';
 import Contact from './Pages/Contact/Contact';
 import Cart from './Pages/Cart/Cart';
 import UserProfile from './Pages/userProfile/userProfile'; 
@@ -34,6 +35,7 @@ const App = () => {
         <Route path="/" element={<Home />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/login" element={<Login />} />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
         <Route path="/contact" element={<Contact />} />
         <Route path="/cart" element={<Cart />} />
         <Route path='/about' element={<About/>}/>

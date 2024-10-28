@@ -1,20 +1,23 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useGetAllOrdersQuery, useUpdateOrderStatusMutation } from "../../../redux/api/orderAPI";
+import Loader from "../../../Components/Loader/Loader"
 import "./Transactions.css";
 
 const AdminTransactions = () => {
-  const { data, error, isLoading } = useGetAllOrdersQuery();
+  const { data, error, isLoading, refetch } = useGetAllOrdersQuery();
   const [updateOrderStatus] = useUpdateOrderStatusMutation();
   const [selectedOrder, setSelectedOrder] = useState(null);
   const [newStatus, setNewStatus] = useState("");
-  
   const [orders, setOrders] = useState([]);
+  const [showConfirmation, setShowConfirmation] = useState(false);
 
-  if (data && orders.length === 0) {
-    setOrders(Array.isArray(data) ? data : data?.orders || []);
-  }
+  useEffect(() => {
+    if (data && orders.length === 0) {
+      setOrders(Array.isArray(data) ? data : data?.orders || []);
+    }
+  }, [data, orders.length]);
 
-  if (isLoading) return <p>Loading orders...</p>;
+  if (isLoading) return <Loader type="page" size="large" />;
   if (error) return <p>Failed to load orders: {error.message}</p>;
 
   const openPopup = (order) => {
@@ -24,6 +27,15 @@ const AdminTransactions = () => {
 
   const closePopup = () => {
     setSelectedOrder(null);
+    setShowConfirmation(false);
+  };
+
+  const confirmStatusChange = () => {
+    if (newStatus === "Delivered" && selectedOrder.status !== "Delivered") {
+      setShowConfirmation(true);
+    } else {
+      handleChangeStatus();
+    }
   };
 
   const handleChangeStatus = async () => {
@@ -37,6 +49,7 @@ const AdminTransactions = () => {
       setOrders(updatedOrders);
 
       await updateOrderStatus({ id: selectedOrder._id, status: newStatus });
+      refetch(); // Refetch data to reflect changes
       closePopup();
     }
   };
@@ -113,13 +126,27 @@ const AdminTransactions = () => {
 
             <div className="status-update">
               <label>Status:</label>
-              <select value={newStatus} onChange={(e) => setNewStatus(e.target.value)}>
+              <select
+                value={newStatus}
+                onChange={(e) => setNewStatus(e.target.value)}
+                disabled={selectedOrder.status === "Delivered"}
+              >
                 <option value="Processing">Processing</option>
                 <option value="Shipped">Shipped</option>
                 <option value="Delivered">Delivered</option>
               </select>
-              <button onClick={handleChangeStatus} className="change-status-button">Change</button>
+              <button onClick={confirmStatusChange} className="change-status-button" disabled={selectedOrder.status === "Delivered"}>
+                Change
+              </button>
             </div>
+
+            {showConfirmation && (
+              <div className="confirmation-popup">
+                <p>Are you sure you want to mark this order as &quot;Delivered&quot;? This action cannot be undone.</p>
+                <button onClick={handleChangeStatus} className="confirm-button">Yes, Confirm</button>
+                <button onClick={() => setShowConfirmation(false)} className="cancel-button">Cancel</button>
+              </div>
+            )}
           </div>
         </div>
       )}

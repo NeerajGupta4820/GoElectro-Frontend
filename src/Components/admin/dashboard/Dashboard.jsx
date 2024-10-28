@@ -48,16 +48,16 @@ const Dashboard = () => {
   const subtotal = deliveredOrders.reduce((acc, order) => acc + order.subtotal, 0);
   const revenue = deliveredOrders.reduce((acc, order) => acc + order.total, 0);
   
-  const topTransaction = deliveredOrders.length > 0 
-    ? deliveredOrders.reduce((prev, current) => (prev.subtotal > current.subtotal) ? prev : current)
-    : null;
+  const topTransactions = deliveredOrders
+    .sort((a, b) => b.subtotal - a.subtotal)
+    .slice(0, 10);
 
   const headerData = [
     { label: "Total Users", value: usersLoading ? <Loader type="data" /> : totalUsersQuantity, percentage: 75 },
     { label: "Total Products", value: productsLoading ? <Loader type="data" /> : totalProductsQuantity, percentage: 90 },
     { label: "Total Categories", value: categoriesLoading ? <Loader type="data" /> : totalCategoriesQuantity, percentage: 100 },
-    { label: "Total Sale", value: `Rs.${subtotal}`, percentage: 60 },
-    { label: "Revenue", value: `Rs.${revenue}`, percentage: 95 },
+    { label: "Total Sale", value: `Rs.${subtotal.toFixed(2)}`, percentage: 60 },
+    { label: "Revenue", value: `Rs.${revenue.toFixed(2)}`, percentage: 95 },
   ];
 
   return (
@@ -66,7 +66,7 @@ const Dashboard = () => {
         {headerData.map((item, index) => (
           <div className="dashboard-header-cards" key={index}>
             <h4>{item.label}</h4>
-            <p>{item.value}</p>
+            <div>{item.value}</div>
             <div className="percentage-circle">
               <div
                 className="circle"
@@ -168,13 +168,15 @@ const Dashboard = () => {
               </tr>
             </thead>
             <tbody>
-              {topTransaction ? (
-                <tr>
-                  <td>{topTransaction._id}</td>
-                  <td>{topTransaction.user.name}</td>
-                  <td>Rs.{topTransaction.total}</td>
-                  <td>{new Date(topTransaction.createdAt).toLocaleDateString()}</td>
-                </tr>
+              {topTransactions.length > 0 ? (
+                topTransactions.map((transaction, index) => (
+                  <tr key={index}>
+                    <td>{transaction._id}</td>
+                    <td>{transaction.user.name}</td>
+                    <td>Rs.{transaction.subtotal.toFixed(2)}</td>
+                    <td>{new Date(transaction.createdAt).toLocaleDateString()}</td>
+                  </tr>
+                ))
               ) : (
                 <tr>
                   <td colSpan="4">No delivered transactions available.</td>

@@ -48,7 +48,7 @@ const Header = () => {
             key={index}
             src={image}
             alt={`Slide ${index + 1}`}
-            style={{filter:"blur(2px)"}}
+            style={{filter:"blur(0.5px)"}}
             className={`header-image ${
               index === currentImageIndex ? "active" : ""
             }`}

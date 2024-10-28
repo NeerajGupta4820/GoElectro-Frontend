@@ -16,6 +16,7 @@
     padding: 15px;
     border-radius: 8px;
     background-color: #f9f9f9;
+    width: 95%;
 }
 
 .price-range {
@@ -98,9 +99,10 @@ input[type="range"]::-moz-range-thumb {
     padding: 15px;
     border-radius: 8px;
     background-color: #f9f9f9;
-    width: 30%;
+    width: 20%;
     height: 100%;
     max-width: 20%;
+    min-width: 20%;
 }
 
 .product-grid {
@@ -111,4 +113,43 @@ input[type="range"]::-moz-range-thumb {
     gap: 20px;
     justify-items: center;
     align-items: center;
+    width: 80%;
+}
+
+.pagination{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 50px;
+}
+.pagination button{
+    margin: 5px;
+}
+
+@media screen and (max-width:840px) {
+    .cont{
+        flex-direction: column;
+    }
+    .add-filter{
+        min-width: none;
+        max-width: none;
+        width: 95%;
+        margin-bottom: 20px;
+        flex-direction: row;
+    }
+    .product-grid{
+        width: 100%;
+        align-items: center;
+        margin: 0px;
+        justify-content: center;
+    }
+}
+
+@media screen and (max-width:600px) {
+    .filter-grid{
+        width: 90%;
+    }
+    .add-filter{
+        width: 90%;
+    }
 }

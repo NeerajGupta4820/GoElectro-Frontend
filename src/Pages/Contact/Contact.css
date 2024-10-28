@@ -180,7 +180,12 @@
     justify-content: center;
     box-sizing: border-box;
   }
+  .contact-image{
+    margin: 0px;
+  }
   .contact-details{
     flex-direction: column;
+    margin: 0px 1rem;
+    margin-bottom: 50px;
   }
 }

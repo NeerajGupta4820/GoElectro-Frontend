@@ -9,12 +9,14 @@ import { FaStar } from "react-icons/fa";
 const AllProducts = () => {
   const [Product, setProduct] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
-  const location = useLocation();
+  const [currentPage, setCurrentPage] = useState(1);
+  const productsPerPage = 10;
 
+  const location = useLocation();
   const [filters, setFilters] = useState({
     category: location.state?.category || "",
     priceRange: [0, 100000],
-    brands: [], // Use an array to handle multiple brand selections
+    brands: [],
     rating: 0,
   });
   const [sortOption, setSortOption] = useState("default");
@@ -32,28 +34,24 @@ const AllProducts = () => {
   const applyFilters = () => {
     let updatedProducts = Product;
 
-    // Category Filter
     if (filters.category) {
       updatedProducts = updatedProducts.filter(
         (item) => item.category === filters.category
       );
     }
 
-    // Price Range Filter
     updatedProducts = updatedProducts.filter(
       (item) =>
         item.price >= filters.priceRange[0] &&
         item.price <= filters.priceRange[1]
     );
 
-    // Brand Filter (Handle multiple selected brands)
     if (filters.brands.length > 0) {
       updatedProducts = updatedProducts.filter((item) =>
         filters.brands.includes(item.brand)
       );
     }
 
-    // Rating Filter
     if (filters.rating > 0) {
       updatedProducts = updatedProducts.filter(
         (item) => item.ratings >= filters.rating
@@ -118,10 +116,9 @@ const AllProducts = () => {
     setFilters((prevFilters) => {
       const isBrandSelected = prevFilters.brands.includes(brand);
 
-      // Toggle brand selection
       const updatedBrands = isBrandSelected
-        ? prevFilters.brands.filter((b) => b !== brand) // Remove if already selected
-        : [...prevFilters.brands, brand]; // Add if not selected
+        ? prevFilters.brands.filter((b) => b !== brand)
+        : [...prevFilters.brands, brand];
 
       return {
         ...prevFilters,
@@ -134,11 +131,12 @@ const AllProducts = () => {
     setFilters({
       category: "",
       priceRange: [0, 100000],
-      brands: [], // Reset brands
+      brands: [],
       rating: 0,
     });
     setSortOption("default");
     setFilteredProducts(Product);
+    setCurrentPage(1);
   };
 
   const brands = [...new Set(Product.map((item) => item.brand))];
@@ -150,6 +148,19 @@ const AllProducts = () => {
     }));
   };
 
+  const handlePageChange = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  // Pagination logic
+  const indexOfLastProduct = currentPage * productsPerPage;
+  const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
+  const currentProducts = filteredProducts.slice(
+    indexOfFirstProduct,
+    indexOfLastProduct
+  );
+  const totalPages = Math.ceil(filteredProducts.length / productsPerPage);
+
   if (isLoading) {
     return <div>Loading...</div>;
   }
@@ -160,10 +171,9 @@ const AllProducts = () => {
 
   return (
     <div>
-      <h1>All Products</h1>
+      <h1 style={{textAlign:"center"}}>All Products</h1>
       <div className="p-container">
         <div className="filter-grid">
-          {/* Category Filter */}
           <label>
             Category:
             <select
@@ -181,7 +191,6 @@ const AllProducts = () => {
             </select>
           </label>
 
-          {/* Price Filter */}
           <label>
             Price Range:
             <div className="price-range">
@@ -223,7 +232,6 @@ const AllProducts = () => {
             </span>
           </label>
 
-          {/* Sort Options */}
           <label>
             Sort By:
             <select
@@ -238,14 +246,11 @@ const AllProducts = () => {
             </select>
           </label>
 
-          {/* Reset Filters Button */}
           <button onClick={resetFilters}>Reset Filters</button>
         </div>
 
         <div className="cont">
           <div className="add-filter">
-            
-            {/* Rating Filter */}
             <label>
               Rating:
               <div className="star-rating">
@@ -261,7 +266,6 @@ const AllProducts = () => {
               </div>
             </label>
 
-            {/* Brand Filter */}
             <label>
               Brand:
               <div className="brand-checkboxes">
@@ -279,14 +283,26 @@ const AllProducts = () => {
             </label>
           </div>
           <div className="product-grid">
-            {filteredProducts && filteredProducts.length > 0 ? (
-              filteredProducts.map((item) => (
+            {currentProducts.length > 0 ? (
+              currentProducts.map((item) => (
                 <ProductCard key={item._id} product={item} />
               ))
             ) : (
               <p>No products available.</p>
             )}
           </div>
+        </div>
+        {/* Pagination */}
+        <div className="pagination">
+          {Array.from({ length: totalPages }, (_, index) => (
+            <button
+              key={index + 1}
+              onClick={() => handlePageChange(index + 1)}
+              disabled={currentPage === index + 1}
+            >
+              {index + 1}
+            </button>
+          ))}
         </div>
       </div>
     </div>

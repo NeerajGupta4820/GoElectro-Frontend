@@ -17,7 +17,7 @@
 }
 
 .dashboard-content::-webkit-scrollbar {
-  display: none; /* For Chrome, Safari, and Opera */
+  display: none; 
 }
 .content-section {
   flex: 1;

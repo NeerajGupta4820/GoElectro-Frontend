@@ -131,9 +131,12 @@ const ProductDetail = () => {
           </div>:
             ""
           }
-          <p>
-            {showFullDescription ? product.description : shortDescription}
-          </p>
+          <div
+  dangerouslySetInnerHTML={{
+    __html: showFullDescription ? product.description : shortDescription,
+  }}
+></div>
+
           <button onClick={toggleDescription} className="toggle-description-btn">
             {showFullDescription ? "Show Less" : "Show More"}
           </button>

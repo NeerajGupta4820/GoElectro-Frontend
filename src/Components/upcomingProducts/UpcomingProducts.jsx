@@ -42,13 +42,13 @@ const UpcomingProducts = () => {
         ))}
       </div>
       {selectedProduct && (
-        <div className="modal" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+        <div className="upcoming-modal" onClick={closeModal}>
+          <div className="upcoming-modal-content" onClick={(e) => e.stopPropagation()}>
             <span className="close-button" onClick={closeModal}>
               &times;
             </span>
             <h2>{selectedProduct.name}</h2>
-            <img src={selectedProduct.image} alt={selectedProduct.name} className="modal-image-small" />
+            <img src={selectedProduct.image} alt={selectedProduct.name} className="upcoming-modal-image-small" />
             <p>{selectedProduct.description}</p>
             <p><strong>Price:</strong> {selectedProduct.price}</p>
           </div>

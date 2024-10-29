@@ -87,14 +87,14 @@ const Sell = () => {
       </div>
 
       {modalSale && (
-        <div className="modal-overlay" onClick={closeModal}>
-          <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-          <img src={modalSale.image} alt={modalSale.name} className="modal-image-small" />
-            <h2>{modalSale.title}</h2>
-            <p>{modalSale.description}</p>
+        <div className="sale-modal-overlay" onClick={closeModal}>
+          <div className="sale-modal-content" onClick={(e) => e.stopPropagation()}>
             <span className="close-button" onClick={closeModal}>
               &times;
             </span>
+            <h2>{modalSale.title}</h2>
+            <img src={modalSale.image} alt={modalSale.name} className="sale-modal-image-small" />
+            <p>{modalSale.description}</p>
           </div>
         </div>
       )}

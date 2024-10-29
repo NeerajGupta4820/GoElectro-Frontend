@@ -20,6 +20,17 @@ const userApi = createApi({
         body: credentials,
       }),
     }),
+    googleLogin: builder.mutation({
+      query: ({ email, name, photo, firebaseToken }) => ({
+        url: '/api/user/google',
+        method: 'POST',
+        body: { email, name, photo },
+        headers: {
+          Authorization: `Bearer ${firebaseToken}`,
+        },
+      }),
+    }),
+    
     registerUser: builder.mutation({
       query: (userData) => ({
         url: '/api/user/signup',
@@ -57,5 +68,5 @@ const userApi = createApi({
 });
 
 export const { useLoginUserMutation, useRegisterUserMutation, useUpdateUserMutation,
-    useLogoutUserMutation, useAllUsersMutation,useResetPasswordMutation  } = userApi;
+  useLogoutUserMutation, useAllUsersMutation,useResetPasswordMutation,useGoogleLoginMutation } = userApi;
 export default userApi;

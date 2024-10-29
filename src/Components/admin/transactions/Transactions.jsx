@@ -106,8 +106,8 @@ const AdminTransactions = () => {
       )}
 
       {selectedOrder && (
-        <div className="popup-overlay">
-          <div className="popup-content">
+        <div className="Transaction-popup-overlay">
+          <div className="Transaction-popup-content">
             <button onClick={closePopup} className="close-button">×</button>
             <h3>Order Details</h3>
             <p><strong>Order ID:</strong> {selectedOrder._id}</p>
@@ -141,7 +141,7 @@ const AdminTransactions = () => {
             </div>
 
             {showConfirmation && (
-              <div className="confirmation-popup">
+              <div className="confirmation-Transaction-popup">
                 <p>Are you sure you want to mark this order as &quot;Delivered&quot;? This action cannot be undone.</p>
                 <button onClick={handleChangeStatus} className="confirm-button">Yes, Confirm</button>
                 <button onClick={() => setShowConfirmation(false)} className="cancel-button">Cancel</button>

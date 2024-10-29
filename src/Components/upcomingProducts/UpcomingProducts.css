@@ -36,7 +36,7 @@
   width: 100%;
   grid-column: span 1; 
 }
-.modal {
+.upcoming-modal {
   position: fixed;
   top: 0;
   left: 0;
@@ -48,10 +48,13 @@
   align-items: center;
   z-index: 999;
 }
-.modal h2,p{
+.upcoming-modal h2{
   color: white;
 }
-.modal-content {
+.upcoming-modal p{
+  color: white !important;
+}
+.upcoming-modal-content {
   background-color: rgb(92, 142, 235);
   padding: 20px;
   border-radius: 10px;
@@ -60,7 +63,7 @@
   width: 100%;
   position: relative;
 }
-.modal-image-small {
+.upcoming-modal-image-small {
   width: 150px;
   height: 150px;
   object-fit: cover;

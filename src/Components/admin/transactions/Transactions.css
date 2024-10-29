@@ -45,7 +45,7 @@
   background-color: white;
 }
 
-.popup-overlay {
+.Transaction-popup-overlay {
   position: fixed;
   top: 0;
   left: 0;
@@ -58,7 +58,7 @@
   z-index: 1000;
 }
 
-.popup-content {
+.Transaction-popup-content {
   background: #ffffff;
   padding: 20px;
   border-radius: 8px;

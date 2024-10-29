@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useLoginUserMutation } from "../../redux/api/userAPI.js";
+import { useLoginUserMutation, useGoogleLoginMutation } from "../../redux/api/userAPI.js";
 import loginImage from "../../assets/Images/login/img.webp";
 import { FcGoogle } from "react-icons/fc";
 import { Link, useNavigate } from "react-router-dom";
@@ -7,6 +7,8 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 import { setUser } from "../../redux/slices/userSlice";
 import { setCartData } from "../../redux/slices/cartSlice";
+import { auth, googleProvider } from "./Firebase.jsx";
+import { signInWithPopup } from "firebase/auth";
 import "./Login.css";
 
 const Login = () => {
@@ -14,8 +16,8 @@ const Login = () => {
   const [password, setPassword] = useState("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
-  const [loginUser, { isLoading }] = useLoginUserMutation();
+  const [loginUser, { isLoading: isLoggingIn }] = useLoginUserMutation();
+  const [googleLogin, { isLoading: isGoogleLoggingIn }] = useGoogleLoginMutation();
 
   useEffect(() => {
     const emailInput = document.getElementById("email");
@@ -33,12 +35,11 @@ const Login = () => {
 
     try {
       const result = await loginUser({ email, password }).unwrap();
-      console.log(result);
-      if ("result:",result.success) {
-        const { token, user, cart} = result;
+      if (result.success) {
+        const { token, user, cart } = result;
 
         dispatch(setUser({ user, token }));
-        dispatch(setCartData({cart}));
+        dispatch(setCartData({ cart }));
         localStorage.setItem("cartData", JSON.stringify(cart));
 
         toast.success("Login successful!", {
@@ -69,10 +70,44 @@ const Login = () => {
     return re.test(email);
   };
 
-  const handleGoogleLogin = () => {
-    console.log("Login with Google");
+  const handleGoogleLogin = async () => {
+    try {
+      const result = await signInWithPopup(auth, googleProvider);
+      const user = result.user;
+      const token = await user.getIdToken(); 
+  
+      const response = await googleLogin({
+        email: user.email,
+        name: user.displayName,
+        photo: user.photoURL,
+        firebaseToken: token,
+      }).unwrap();
+  
+      if (response.success) {
+        dispatch(setUser({ user: response.user, token: response.token }));
+        dispatch(setCartData({ cart: response.cart }));
+        localStorage.setItem("cartData", JSON.stringify(response.cart));
+  
+        toast.success("Login successful with Google!", {
+          position: "top-center",
+          autoClose: 5000,
+          draggable: true,
+          theme: "dark",
+        });
+        
+        navigate("/");
+      } else {
+        throw new Error(response.message);
+      }
+    } catch (error) {
+      toast.error(`❌ Google login failed: ${error.message}`, {
+        position: "top-center",
+        autoClose: 5000,
+        theme: "dark",
+      });
+    }
   };
-
+  
   return (
     <div className="login-page">
       <div className="image-container">
@@ -101,11 +136,11 @@ const Login = () => {
               required
             />
           </div>
-          <button type="submit" disabled={isLoading}>
-            {isLoading ? "Logging in..." : "Login"}
+          <button type="submit" disabled={isLoggingIn}>
+            {isLoggingIn ? "Logging in..." : "Login"}
           </button>
-          <button className="google-login" onClick={handleGoogleLogin}>
-            <FcGoogle /> <span>Sign in with Google</span>
+          <button className="google-login" onClick={handleGoogleLogin} type="button" disabled={isGoogleLoggingIn}>
+            <FcGoogle /> <span>{isGoogleLoggingIn ? "Signing in..." : "Sign in with Google"}</span>
           </button>
         </form>
         <div className="links">

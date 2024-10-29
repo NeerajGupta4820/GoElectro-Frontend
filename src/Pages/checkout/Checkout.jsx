@@ -139,7 +139,7 @@ const Checkout = () => {
           {cartItems.map((item) => (
             <div className="cart-item" key={item.productId._id}>
               <img src={item.productId.images[0]?.imageLinks[0]} alt={item.productId.title} />
-              <div>
+              <div style={{color:"black"}}>
                 <p>{item.productId.title}</p>
                 <p>Quantity: {item.quantity}</p>
                 <p>Price: ${item.productId.price}</p>

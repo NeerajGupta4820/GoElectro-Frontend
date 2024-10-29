@@ -22,6 +22,7 @@
 
 .checkout-content {
   display: flex;
+  flex-direction: row;
   justify-content: space-between;
   gap: 20px;
 }
@@ -44,11 +45,11 @@
 }
 
 .checkout-form-group input {
-  padding: 12px;
-  width: 30rem;
+  width: 100%;
   border: 2px solid #ddd;
   border-radius: 6px;
   font-size: 16px;
+  height: 30px;
   transition: border-color 0.3s;
 }
 
@@ -59,7 +60,7 @@
 
 .place-order-button {
   padding: 12px;
-  background-color: #6c757d;
+  background-color: #007bff;
   color: white;
   border: none;
   border-radius: 6px;
@@ -79,7 +80,13 @@
   flex: 1;
   background-color: #f8f9fa;
   border-radius: 12px;
+  color: black;
   padding: 20px;
+}
+
+.checkout-cart-summary > p,
+.checkout-cart-summary > div> div > p{
+  color: black;
 }
 
 .cart-item {
@@ -115,4 +122,15 @@
 
 .checkout-trust-symbols img {
   margin: 0 10px;
+}
+
+@media screen and (max-width:700px) {
+  .checkout-content{
+    flex-direction: column;
+  }
+}
+@media screen and (max-width:550px) {
+  .checkout-container{
+    margin: 16px 2rem;
+  }
 }

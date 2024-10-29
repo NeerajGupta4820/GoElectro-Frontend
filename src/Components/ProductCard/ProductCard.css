@@ -2,10 +2,11 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  background-color: #f9f9f9;
+  /* background-color: #f9f9f9; */
+  background-color: white;
   border-radius: 8px;
-  min-width: 17rem;
-  height: 26rem;
+  min-width: 14rem;
+  height: 30rem;
   box-shadow: 10px 2px 8px rgba(0, 0, 0, 0.1);
   text-align: center;
   border: 1px solid rgb(92, 142, 235);
@@ -18,8 +19,7 @@
 }
 .products-card-img {
   flex: 0 0 40%;           
-  /* min-height: 60%;  */
-  margin: 1rem;
+  min-height: 60%;
   border-radius: 5px;
   cursor: pointer;  
   overflow: hidden; 

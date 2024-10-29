@@ -129,4 +129,7 @@
   .cart-items {
     margin-bottom: 20px;
   }
+  .checkout-button,.clear-cart-button{
+    margin: 0 0.5rem;
+  }
 }

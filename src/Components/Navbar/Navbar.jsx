@@ -8,6 +8,7 @@ import { useUpdateCartMutation } from "../../redux/api/cartApi";
 import {  FaTimes, FaRegUser } from "react-icons/fa";
 import {FaBars} from  "react-icons/fa6";
 import { FiShoppingCart } from "react-icons/fi";
+import logo from "../../assets/Images/Logo/CompactLogo.png";
 import Pill from "../Pill/Pill";
 import "./Navbar.css";
 
@@ -75,7 +76,7 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-logo">
-          <Link to="/">MyLogo</Link>
+          <Link to="/"><img src={logo} alt="" /></Link>
         </div>
         <ul className={`navbar-links ${isMobileMenuOpen ? "active" : ""}`}>
           {isMobileMenuOpen && (

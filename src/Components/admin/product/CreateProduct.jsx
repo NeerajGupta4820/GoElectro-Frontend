@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddProductMutation } from "../../../redux/api/productAPI";
 import { useFetchAllCategoriesQuery } from "../../../redux/api/categoryAPI";
+import {useFetchAllCouponsQuery} from "../../../redux/api/couponAPI";
 import { FaPlusCircle } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
@@ -15,11 +16,15 @@ const CreateProduct = () => {
   const [category, setCategory] = useState("");
   const [brand, setBrand] = useState("");
   const [colorImages, setColorImages] = useState([{ color: "", images: [] }]);
+  const [couponData, setCouponData] = useState([]);
+  const [selectedCoupon, setSelectedCoupon] = useState(null);
   const [uploading, setUploading] = useState(false);
 
   const { data: categories } = useFetchAllCategoriesQuery();
   const [addProduct] = useAddProductMutation();
   const navigate = useNavigate();
+
+  const {data:coupons,isLoading,error} = useFetchAllCouponsQuery();
 
   const handleImageChange = (index, e) => {
     const files = Array.from(e.target.files);
@@ -89,7 +94,6 @@ const CreateProduct = () => {
         }
       }
     }
-    console.log(colorImages);
 
     const productData = {
       title: productName,
@@ -99,6 +103,7 @@ const CreateProduct = () => {
       category,
       brand,
       images: productImages,
+      coupon: selectedCoupon, 
     };
 
     try {
@@ -140,7 +145,7 @@ const CreateProduct = () => {
           />
         </div>
         <div className="form-group">
-          <label htmlFor="stock">stock</label>
+          <label htmlFor="stock">Stock</label>
           <input
             type="number"
             id="stock"
@@ -170,6 +175,24 @@ const CreateProduct = () => {
             {categories?.data.map((cat) => (
               <option key={cat._id} value={cat._id}>
                 {cat.name}
+              </option>
+            ))}
+          </select>
+        </div>
+        <div className="form-group">
+          <label htmlFor="coupon">Coupon Code</label>
+          <select
+            id="coupon"
+            value={selectedCoupon ? selectedCoupon._id : ""}
+            onChange={(e) => {
+              const selected = couponData.find(coupon => coupon._id === e.target.value);
+              setSelectedCoupon(selected);
+            }}
+          >
+            <option value="">Select a coupon</option>
+            {coupons && coupons.coupons.map(coupon => (
+              <option key={coupon._id} value={coupon._id}>
+                {coupon.code} - ₹{coupon.discount}
               </option>
             ))}
           </select>

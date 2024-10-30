@@ -8,6 +8,7 @@ import Transaction from "../../Components/admin/transactions/Transactions";
 import "./AdminDashboard.css";
 import Stopwatch from "../../Components/admin/Apps/StopWatch";
 import CoinToss from "../../Components/admin/Apps/Toss"
+import Coupon from "../../Components/admin/coupon/Coupon";
 
 const AdminDashboard = () => {
   return (
@@ -19,6 +20,7 @@ const AdminDashboard = () => {
           <Route path="/dashboard" element={<Dashboard />} />
           <Route path="/product/*" element={<Product />} /> 
           <Route path="/categories/*" element={<Categories />} />
+          <Route path="/coupons" element={<Coupon/>}/>
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/customer" element={<Customer />} />
           <Route path="/app/stopwatch" element={<Stopwatch />} />

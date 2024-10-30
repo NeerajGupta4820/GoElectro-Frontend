@@ -53,6 +53,7 @@ const DivOne = ({ location }) => (
       <Li url="/admin/dashboard" text="Dashboard" Icon={RiDashboardFill} location={location} />
       <Li url="/admin/product" text="Product" Icon={RiShoppingBag3Fill} location={location} />
       <Li url="/admin/categories" text="Category" Icon={RiApps2AddFill} location={location} />
+      <Li url="/admin/coupons" text="Coupons" Icon={RiCoupon3Fill} location={location}/>
       <Li url="/admin/customer" text="Customer" Icon={IoIosPeople} location={location} />
       <Li url="/admin/transaction" text="Transaction" Icon={AiFillFileText} location={location} />
     </ul>

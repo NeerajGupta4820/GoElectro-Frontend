@@ -1,6 +1,6 @@
 import { useState, useRef } from "react";
 import { FaShoppingCart, FaStar, FaRegStar } from "react-icons/fa";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { addToCart } from "../../redux/slices/cartSlice";
 import { toast } from "react-toastify";

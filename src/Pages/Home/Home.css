@@ -5,8 +5,41 @@ body {
 .categories-section {
   background-color: white;
   padding: 2rem 1rem;
-  overflow-x: scroll;
+  text-align: center;
 }
+.categories-container {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.category-slider-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #0077b6;
+  margin: 0 1rem;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  font-size: 1.2rem;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+}
+
+.category-slider-button.prev {
+  left: -1rem;
+}
+
+.category-slider-button.next {
+  right: -1rem;
+}
+
+.category-slider-button:hover {
+  background-color: #0056b3;
+}
+
 .categories-list {
   display: flex;
   justify-content: space-around;

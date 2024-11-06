@@ -49,11 +49,9 @@ const CouponPage = () => {
   };
 
   const handleEditCoupon = (coupon) => {
-    console.log(coupon);
-
     setEditCoupon({
       ...coupon,
-      products: coupon.products || [],
+      products: coupon.products.map((product) => product._id),
     });
   };
 

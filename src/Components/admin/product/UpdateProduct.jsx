@@ -5,16 +5,18 @@ import {
   useUpdateProductMutation,
 } from "../../../redux/api/productAPI";
 import { useFetchAllCategoriesQuery } from "../../../redux/api/categoryAPI";
-import { FaSave } from "react-icons/fa";
+import { FaSave, FaPlus } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
 import "./UpdateProduct.css";
+import { useFetchAllCouponsQuery } from "../../../redux/api/couponAPI";
 
 const UpdateProduct = () => {
   const { id } = useParams();
   const { data: productData, isLoading: productLoading } =
     useGetProductByIdQuery(id);
   const { data: categories } = useFetchAllCategoriesQuery();
+  const {data:coupons} = useFetchAllCouponsQuery();
   const [updateProduct] = useUpdateProductMutation();
   const navigate = useNavigate();
 
@@ -29,6 +31,8 @@ const UpdateProduct = () => {
     { color: "", images: [], _id: "" },
   ]);
   const [uploading, setUploading] = useState(false);
+  const [associatedCoupons, setAssociatedCoupons] = useState([]);
+  const [selectedCoupon, setSelectedCoupon] = useState("");
 
   useEffect(() => {
     if (productData) {
@@ -139,7 +143,19 @@ const UpdateProduct = () => {
     return combinedImages;
   };
   
+  const handleAddCoupon = () => {
+    const newCoupon = coupons.find((coupon) => coupon._id === selectedCoupon);
+    if (newCoupon && !associatedCoupons.some((coupon) => coupon._id === newCoupon._id)) {
+      setAssociatedCoupons([...associatedCoupons, newCoupon]);
+      setSelectedCoupon("");
+    } else {
+      toast.error("Coupon already added or invalid.");
+    }
+  };
 
+  const handleRemoveCoupon = (couponId) => {
+    setAssociatedCoupons(associatedCoupons.filter((coupon) => coupon._id !== couponId));
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     const toastId = toast.loading("Updating product...");
@@ -262,6 +278,42 @@ const UpdateProduct = () => {
               </option>
             ))}
           </select>
+        </div>
+        <div className="form-group">
+          <label>Associated Coupons</label>
+          <ul>
+            {associatedCoupons.map((coupon) => (
+              <li key={coupon._id}>
+                {coupon.code} - ₹{coupon.discount}
+                <button
+                  type="button"
+                  onClick={() => handleRemoveCoupon(coupon._id)}
+                >
+                  Remove
+                </button>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <div className="form-group">
+          <label htmlFor="addCoupon">Add Coupon</label>
+          <select
+            id="addCoupon"
+            value={selectedCoupon}
+            onChange={(e) => setSelectedCoupon(e.target.value)}
+          >
+            <option value="">Select a coupon</option>
+            {coupons &&
+              coupons.coupons.map((coupon) => (
+                <option key={coupon._id} value={coupon._id}>
+                  {coupon.code} - ₹{coupon.discount}
+                </option>
+              ))}
+          </select>
+          <button type="button" onClick={handleAddCoupon}>
+            <FaPlus /> Add Coupon
+          </button>
         </div>
         <div className="form-group">
           <label htmlFor="brand">Brand</label>

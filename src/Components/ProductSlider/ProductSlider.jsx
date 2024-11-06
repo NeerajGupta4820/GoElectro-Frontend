@@ -27,7 +27,8 @@ const ProductSlider = ({ products, title, isLoading, link }) => {
   }, [products]);
 
   const getProductsToShow = () => {
-    const end = currentIndex + 4;
+    const itemsToShow = window.innerWidth < 480 ? 2 : window.innerWidth < 768 ? 3 : 4;
+    const end = currentIndex + itemsToShow;
     return products.slice(currentIndex, end).concat(products.slice(0, Math.max(0, end - products.length)));
   };
 

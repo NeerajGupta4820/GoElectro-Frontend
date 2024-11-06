@@ -1,17 +1,17 @@
-body {
-  font-family: "Roboto", sans-serif;
-  background-color: white;
-}
 .categories-section {
   background-color: white;
   padding: 2rem 1rem;
   text-align: center;
 }
+
 .categories-container {
   display: flex;
   align-items: center;
+  justify-content: center;
   position: relative;
+  overflow: hidden;
 }
+
 .category-slider-button {
   position: absolute;
   top: 50%;
@@ -48,11 +48,16 @@ body {
   padding: 0;
   margin: 0;
   cursor: pointer;
+  overflow-x: auto;
+  scroll-behavior: smooth;
 }
+
 .categories-list li {
   margin: 10px;
   text-align: center;
+  flex: 0 0 auto;
 }
+
 .categories-list a {
   text-decoration: none;
   color: #333;
@@ -61,9 +66,11 @@ body {
   display: block;
   transition: color 0.3s ease;
 }
+
 .categories-list a:hover {
   color: #007bff;
 }
+
 .category-image {
   width: 80px;
   height: 80px;
@@ -75,15 +82,18 @@ body {
   margin-left: auto;
   margin-right: auto;
 }
+
 .newsletter-section {
   padding: 1rem;
   background-color: rgb(62, 125, 242);
   text-align: center;
   margin-top: 2rem;
 }
-.newsletter-section h2{
+
+.newsletter-section h2 {
   color: white;
 }
+
 .newsletter-form {
   display: flex;
   justify-content: center;
@@ -98,6 +108,7 @@ body {
   margin-right: 10px;
   width: 250px;
 }
+
 .newsletter-button {
   padding: 10px 15px;
   background-color: rgb(247, 139, 90);
@@ -107,32 +118,66 @@ body {
   cursor: pointer;
   transition: background-color 0.3s ease;
 }
+
 .newsletter-button:hover {
   background-color: #3aa2b4;
 }
+
 .subscription-message {
   margin-top: 1rem;
   color: black;
 }
+
 .categories-list a:hover .category-image {
   transform: scale(1.1);
 }
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+  .category-image {
+    width: 70px;
+    height: 70px;
+  }
+}
+
 @media (max-width: 768px) {
+  .categories-container {
+    justify-content: flex-start;
+    padding: 0 10px;
+  }
 
   .categories-list {
-    overflow: scroll;
-    width: 100%;
+    overflow-x: scroll;
+    gap: 10px;
   }
+
+  .category-slider-button {
+    display: none;
+  }
+
   .category-image {
     width: 60px;
     height: 60px;
   }
-}@media (max-width: 480px) {
+}
+
+@media (max-width: 480px) {
   .category-image {
     width: 50px;
     height: 50px;
   }
+
   .categories-list li {
     margin: 5px;
+  }
+
+  .newsletter-input {
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 10px;
+  }
+
+  .newsletter-form {
+    flex-direction: column;
   }
 }

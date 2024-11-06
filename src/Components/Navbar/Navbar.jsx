@@ -5,8 +5,8 @@ import { clearCart } from "../../redux/slices/cartSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { useUpdateCartMutation } from "../../redux/api/cartApi";
-import {  FaTimes, FaRegUser } from "react-icons/fa";
-import {FaBars} from  "react-icons/fa6";
+import { FaTimes, FaRegUser } from "react-icons/fa";
+import { FaBars } from "react-icons/fa6";
 import { FiShoppingCart } from "react-icons/fi";
 import logo from "../../assets/Images/Logo/CompactLogo.png";
 import Pill from "../Pill/Pill";
@@ -25,8 +25,8 @@ const Navbar = () => {
   const [updateCart] = useUpdateCartMutation();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [width, setWidth] = useState(false);
-
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const toggleDropdown = () => {
     setDropdownOpen((prev) => !prev);
@@ -34,6 +34,13 @@ const Navbar = () => {
 
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen((prev) => !prev);
+  };
+
+  const handleSearch = () => {
+    if (searchTerm) {
+      navigate(`/search?query=${searchTerm}`);
+      setSearchTerm(""); // Clear the search field after navigating
+    }
   };
 
   const logoutUser = async () => {
@@ -66,7 +73,6 @@ const Navbar = () => {
     };
 
     window.addEventListener("resize", handleResize);
-
     handleResize();
 
     return () => window.removeEventListener("resize", handleResize);
@@ -76,15 +82,32 @@ const Navbar = () => {
     <nav className="navbar">
       <div className="navbar-container">
         <div className="navbar-logo">
-          <Link to="/"><img src={logo} alt="" /></Link>
+          <Link to="/">
+            {/* <img src={logo} alt="" /> */}
+            MyLogo
+          </Link>
         </div>
+        
+        {/* Search Input */}
+        <div className="navbar-search">
+          <input
+            type="text"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            placeholder="Search products..."
+            className="search-input"
+          />
+          <button onClick={handleSearch} className="search-button">Search</button>
+        </div>
+
         <ul className={`navbar-links ${isMobileMenuOpen ? "active" : ""}`}>
           {isMobileMenuOpen && (
             <li className="menu-icon" onClick={toggleMobileMenu}>
               <FaTimes />
             </li>
           )}
-          <li>
+          {/* <li>
             <Link to="/">Home</Link>
           </li>
           <li>
@@ -92,7 +115,7 @@ const Navbar = () => {
           </li>
           <li>
             <Link to="/contact">Contact</Link>
-          </li>
+          </li> */}
           <li>
             <Link to="/cart">
               <FiShoppingCart />
@@ -142,7 +165,7 @@ const Navbar = () => {
                       borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
                     }}
                   >
-                    Profile
+                    Dashboard
                   </li>
                   <li
                     onClick={logoutUser}

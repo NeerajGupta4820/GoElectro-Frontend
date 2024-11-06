@@ -54,7 +54,7 @@ const Header = () => {
             }`}
           />
         ))}
-        <form
+        {/* <form
           className="search-form"
         >
           <input
@@ -73,7 +73,7 @@ const Header = () => {
           >
             Search
           </button>
-        </form>
+        </form> */}
       </div>
     </section>
   );

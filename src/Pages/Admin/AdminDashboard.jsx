@@ -9,6 +9,9 @@ import "./AdminDashboard.css";
 import Stopwatch from "../../Components/admin/Apps/StopWatch";
 import CoinToss from "../../Components/admin/Apps/Toss"
 import Coupon from "../../Components/admin/coupon/Coupon";
+import BarChart from "../../Components/admin/Charts/BarChart";
+import PieChart from "../../Components/admin/Charts/PieChart";
+import LineChart from "../../Components/admin/Charts/LineChart";
 
 const AdminDashboard = () => {
   return (
@@ -23,6 +26,9 @@ const AdminDashboard = () => {
           <Route path="/coupons" element={<Coupon/>}/>
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/customer" element={<Customer />} />
+          <Route path="/chart/bar" element={<BarChart/>}/>
+          <Route path="/chart/pie" element={<PieChart/>}/>
+          <Route path="/chart/line" element={<LineChart/>}/>
           <Route path="/app/stopwatch" element={<Stopwatch />} />
           <Route path="/app/toss" element={<CoinToss />} />
         </Routes>

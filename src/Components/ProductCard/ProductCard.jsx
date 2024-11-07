@@ -43,7 +43,8 @@ const ProductCard = ({ product }) => {
 
   const handleImageClick = (id) => {
     navigate(`/product/${id}`);
-  }
+    window.scrollTo(0, 0);
+  };
 
   const productImage =
     product.images &&

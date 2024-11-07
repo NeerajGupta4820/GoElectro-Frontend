@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import { useSelector } from 'react-redux';
 import Home from './Pages/Home/Home';
 import Navbar from './Components/Navbar/Navbar';
+import ScrollToTop from './Components/ScrollToTop/ScrollToTop';
 import Footer from './Components/Footer/Footer';
 import Signup from './Pages/Signup/Signup';
 import Login from './Pages/Login/Login';
@@ -30,6 +31,7 @@ const App = () => {
 
   return (
     <Router>
+      <ScrollToTop />
       <Navbar />
       <Routes>
         <Route path="/" element={<Home />} />

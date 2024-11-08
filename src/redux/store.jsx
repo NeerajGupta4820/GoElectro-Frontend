@@ -10,6 +10,7 @@ import reviewApi from './api/reviewApi.js';
 import cartApi from './api/cartAPI.js';
 import orderApi from './api/orderApi.js';
 import couponAPI from './api/couponAPI.JS';
+import chartApi from './api/chartAPI.JS';
 
 const store = configureStore({
   reducer: {
@@ -24,6 +25,7 @@ const store = configureStore({
     [cartApi.reducerPath]: cartApi.reducer,
     [orderApi.reducerPath]: orderApi.reducer,
     [couponAPI.reducerPath]: couponAPI.reducer,
+    [chartApi.reducerPath]:chartApi.reducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(
@@ -34,6 +36,7 @@ const store = configureStore({
       cartApi.middleware,
       orderApi.middleware,
       couponAPI.middleware,
+      chartApi.middleware,
     ),
 });
 

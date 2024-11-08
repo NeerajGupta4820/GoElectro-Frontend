@@ -63,9 +63,9 @@ const DivTwo = ({ location }) => (
   <div>
     <h5>Charts</h5>
     <ul>
-      <Li url="/admin/chart/bar" text="Bar" Icon={FaChartBar} location={location} />
-      <Li url="/admin/chart/pie" text="Pie" Icon={FaChartPie} location={location} />
-      <Li url="/admin/chart/line" text="Line" Icon={FaChartLine} location={location} />
+      <Li url="/admin/charts" text="All Charts" Icon={FaChartBar} location={location} />
+      {/* <Li url="/admin/chart/pie" text="Pie" Icon={FaChartPie} location={location} />
+      <Li url="/admin/chart/line" text="Line" Icon={FaChartLine} location={location} /> */}
     </ul>
   </div>
 );

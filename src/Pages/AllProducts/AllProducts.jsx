@@ -1,25 +1,27 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
+import { Range } from "react-range"; 
 import "./allProducts.css";
 import { useGetAllProductsQuery } from "../../redux/api/productAPI";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import { useFetchAllCategoriesQuery } from "../../redux/api/categoryAPI";
-import { useLocation } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 
 const AllProducts = () => {
   const [Product, setProduct] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
-  const productsPerPage = 10;
-
-  const location = useLocation();
+  const productsPerPage = 9;
+  
   const [filters, setFilters] = useState({
-    category: location.state?.category || "",
     priceRange: [0, 100000],
     brands: [],
     rating: 0,
   });
-  const [sortOption, setSortOption] = useState("default");
+  const [selectedCategories, setSelectedCategories] = useState([]);
+  const [priceSortOption, setPriceSortOption] = useState(null); 
+  const [dateSortOption, setDateSortOption] = useState(null); 
+  const [showFilterPopup, setShowFilterPopup] = useState(false);
+  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 779);
 
   const { data: products, error, isLoading } = useGetAllProductsQuery();
   const { data: categoryData } = useFetchAllCategoriesQuery();
@@ -31,12 +33,21 @@ const AllProducts = () => {
     }
   }, [products]);
 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsSmallScreen(window.innerWidth <= 779);
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const applyFilters = () => {
     let updatedProducts = Product;
 
-    if (filters.category) {
-      updatedProducts = updatedProducts.filter(
-        (item) => item.category === filters.category
+    if (selectedCategories.length > 0) {
+      updatedProducts = updatedProducts.filter((item) =>
+        selectedCategories.includes(item.category)
       );
     }
 
@@ -58,64 +69,49 @@ const AllProducts = () => {
       );
     }
 
+    // Apply price sorting if selected
+    if (priceSortOption === "priceLowToHigh") {
+      updatedProducts = updatedProducts.sort((a, b) => a.price - b.price);
+    } else if (priceSortOption === "priceHighToLow") {
+      updatedProducts = updatedProducts.sort((a, b) => b.price - a.price);
+    }
+
+    // Apply date sorting if selected
+    if (dateSortOption === "newest") {
+      updatedProducts = updatedProducts.sort(
+        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
+      );
+    } else if (dateSortOption === "oldest") {
+      updatedProducts = updatedProducts.sort(
+        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+      );
+    }
+
     setFilteredProducts(updatedProducts);
   };
 
   useEffect(() => {
     applyFilters();
-  }, [filters, Product]);
+  }, [filters, selectedCategories, Product, priceSortOption, dateSortOption]);
 
-  useEffect(() => {
-    if (location.state?.category) {
-      setFilters((prevFilters) => ({
-        ...prevFilters,
-        category: location.state.category,
-      }));
-    }
-  }, [location.state?.category]);
-
-  const sortProducts = (products) => {
-    if (sortOption === "priceLowToHigh") {
-      return products.sort((a, b) => a.price - b.price);
-    } else if (sortOption === "priceHighToLow") {
-      return products.sort((a, b) => b.price - a.price);
-    } else if (sortOption === "newest") {
-      return products.sort(
-        (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
-      );
-    } else if (sortOption === "oldest") {
-      return products.sort(
-        (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-      );
-    }
-    return products;
+  const handleCategoryChange = (categoryId) => {
+    setSelectedCategories((prevSelected) =>
+      prevSelected.includes(categoryId)
+        ? prevSelected.filter((id) => id !== categoryId)
+        : [...prevSelected, categoryId]
+    );
   };
 
-  useEffect(() => {
-    const sortedProducts = sortProducts([...filteredProducts]);
-    setFilteredProducts(sortedProducts);
-  }, [sortOption]);
-
-  const handleFilterChange = (e) => {
-    const { name, value } = e.target;
+  const handleStarChange = (rating) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
-      [name]: value,
-    }));
-  };
-
-  const handlePriceChange = (e) => {
-    const value = e.target.value.split(",").map(Number);
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      priceRange: value,
+      rating: prevFilters.rating === rating ? 0 : rating, // Toggle the rating
     }));
   };
 
   const handleBrandChange = (brand) => {
     setFilters((prevFilters) => {
       const isBrandSelected = prevFilters.brands.includes(brand);
-
       const updatedBrands = isBrandSelected
         ? prevFilters.brands.filter((b) => b !== brand)
         : [...prevFilters.brands, brand];
@@ -129,30 +125,23 @@ const AllProducts = () => {
 
   const resetFilters = () => {
     setFilters({
-      category: "",
       priceRange: [0, 100000],
       brands: [],
       rating: 0,
     });
-    setSortOption("default");
+    setSelectedCategories([]);
+    setPriceSortOption(null);
+    setDateSortOption(null);
     setFilteredProducts(Product);
     setCurrentPage(1);
   };
 
   const brands = [...new Set(Product.map((item) => item.brand))];
 
-  const handleStarClick = (rating) => {
-    setFilters((prevFilters) => ({
-      ...prevFilters,
-      rating,
-    }));
+  const toggleFilterPopup = () => {
+    setShowFilterPopup(!showFilterPopup);
   };
 
-  const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  // Pagination logic
   const indexOfLastProduct = currentPage * productsPerPage;
   const indexOfFirstProduct = indexOfLastProduct - productsPerPage;
   const currentProducts = filteredProducts.slice(
@@ -169,106 +158,113 @@ const AllProducts = () => {
     return <div>Error: {error.message}</div>;
   }
 
+  const handlePriceRangeChange = (values) => {
+    setFilters((prevFilters) => ({
+      ...prevFilters,
+      priceRange: values,
+    }));
+  };
+
   return (
-    <div>
-      <h1 style={{textAlign:"center"}}>All Products</h1>
-      <div className="p-container">
-        <div className="filter-grid">
-          <label>
-            Category:
-            <select
-              name="category"
-              value={filters.category}
-              onChange={handleFilterChange}
-            >
-              <option value="">All</option>
-              {categoryData &&
-                categoryData.data.map((category) => (
-                  <option key={category._id} value={category._id}>
-                    {category.name}
+    <div className="all-products">
+      <h1 style={{ textAlign: "center" }}>All Products</h1>
+      <div className="top-bar">
+        <button className="filter-button" onClick={toggleFilterPopup}>
+          Sorting
+        </button>
+        <button className="reset-button" onClick={resetFilters}>
+          Reset
+        </button>
+      </div>
+      <div className="layout">
+        <div className="allProducts-sidebar">
+        {isSmallScreen ? (
+            <>
+              <div className="category-section">
+                <h3>Categories</h3>
+                <select
+                  onChange={(e) => setSelectedCategories([e.target.value])}
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select Category
                   </option>
-                ))}
-            </select>
-          </label>
-
-          <label>
-            Price Range:
-            <div className="price-range">
-              <input
-                type="range"
-                min="0"
-                max="100000"
-                value={filters.priceRange[0]}
-                onChange={(e) => {
-                  const value = Math.min(
-                    Number(e.target.value),
-                    filters.priceRange[1]
-                  );
-                  setFilters((prevFilters) => ({
-                    ...prevFilters,
-                    priceRange: [value, prevFilters.priceRange[1]],
-                  }));
-                }}
-              />
-              <input
-                type="range"
-                min="0"
-                max="100000"
-                value={filters.priceRange[1]}
-                onChange={(e) => {
-                  const value = Math.max(
-                    Number(e.target.value),
-                    filters.priceRange[0]
-                  );
-                  setFilters((prevFilters) => ({
-                    ...prevFilters,
-                    priceRange: [prevFilters.priceRange[0], value],
-                  }));
-                }}
-              />
-            </div>
-            <span>
-              {filters.priceRange[0]} - {filters.priceRange[1]}
-            </span>
-          </label>
-
-          <label>
-            Sort By:
-            <select
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-            >
-              <option value="default">Default</option>
-              <option value="priceLowToHigh">Price: Low to High</option>
-              <option value="priceHighToLow">Price: High to Low</option>
-              <option value="newest">Newest</option>
-              <option value="oldest">Oldest</option>
-            </select>
-          </label>
-
-          <button onClick={resetFilters}>Reset Filters</button>
-        </div>
-
-        <div className="cont">
-          <div className="add-filter">
-            <label>
-              Rating:
-              <div className="star-rating">
-                {[1, 2, 3, 4, 5].map((star) => (
-                  <FaStar
-                    key={star}
-                    size={24}
-                    color={star <= filters.rating ? "#ffc107" : "#e4e5e9"}
-                    onClick={() => handleStarClick(star)}
-                    style={{ cursor: "pointer" }}
-                  />
+                  {categoryData &&
+                    categoryData.data.map((category) => (
+                      <option key={category._id} value={category._id}>
+                        {category.name}
+                      </option>
+                    ))}
+                </select>
+              </div>
+              <div className="rating-section">
+                <h3>Ratings</h3>
+                <select
+                  onChange={(e) => setFilters({ ...filters, rating: e.target.value })}
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select Rating
+                  </option>
+                  <option>1 star</option>
+                  <option>2 star</option>
+                  <option>3 star</option>
+                  <option>4 star</option>
+                  <option>5 star</option>
+                </select>
+              </div>
+              <div className="brand-section">
+                <h3>Brands</h3>
+                <select
+                  onChange={(e) => handleBrandChange(e.target.value)}
+                  defaultValue=""
+                >
+                  <option value="" disabled>
+                    Select Brand
+                  </option>
+                  {brands.map((brand, index) => (
+                    <option key={index} value={brand}>
+                      {brand}
+                    </option>
+                  ))}
+                </select>
+              </div>
+          </>
+            ) : (
+              <>
+              <div className="category-checkboxes">
+                <h3>Categories</h3>
+                {categoryData &&
+                  categoryData.data.map((category) => (
+                    <div key={category._id}>
+                      <input
+                        type="checkbox"
+                        checked={selectedCategories.includes(category._id)}
+                        onChange={() => handleCategoryChange(category._id)}
+                      />
+                      <label>{category.name}</label>
+                    </div>
+                  ))}
+              </div>
+              <div className="rating-checkboxes">
+              <h3>Rating</h3>
+                {[1,2,3,4,5].map((star) => (
+                  <div key={star} className="rating-option">
+                    <input
+                      type="checkbox"
+                      checked={filters.rating === star}
+                      onChange={() => handleStarChange(star)}
+                    />
+                    <label>
+                      {Array.from({ length: star }, (_, i) => (
+                        <FaStar key={i} color="#f4c150" />
+                      ))}
+                    </label>
+                  </div>
                 ))}
               </div>
-            </label>
-
-            <label>
-              Brand:
               <div className="brand-checkboxes">
+              <h3>Brands</h3>
                 {brands.map((brand, index) => (
                   <div key={index}>
                     <input
@@ -280,31 +276,135 @@ const AllProducts = () => {
                   </div>
                 ))}
               </div>
-            </label>
-          </div>
-          <div className="product-grid">
-            {currentProducts.length > 0 ? (
-              currentProducts.map((item) => (
-                <ProductCard key={item._id} product={item} />
-              ))
-            ) : (
-              <p>No products available.</p>
+              </>
             )}
-          </div>
-        </div>
-        {/* Pagination */}
-        <div className="pagination">
-          {Array.from({ length: totalPages }, (_, index) => (
-            <button
-              key={index + 1}
-              onClick={() => handlePageChange(index + 1)}
-              disabled={currentPage === index + 1}
-            >
-              {index + 1}
-            </button>
+            </div>
+        <div className="product-grid">
+          {currentProducts.map((product) => (
+            <ProductCard key={product._id} product={product} />
           ))}
         </div>
       </div>
+
+      <div className="pagination">
+        {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
+          <button
+            key={page}
+            className={page === currentPage ? "active" : ""}
+            onClick={() =>{
+              window.scrollTo(0, 0);
+              setCurrentPage(page)
+            }}
+          >
+            {page}
+          </button>
+        ))}
+      </div>
+
+      {showFilterPopup && (
+        <div className="filter-popup">
+          <div className="filter-popup-content">
+            <button className="close-popup" onClick={toggleFilterPopup}>
+              Close
+            </button>
+            <h3>Price Range</h3>
+            <Range
+              step={100}
+              min={0}
+              max={100000}
+              values={filters.priceRange}
+              onChange={handlePriceRangeChange}
+              renderTrack={({ props, children }) => (
+                <div
+                  {...props}
+                  style={{
+                    ...props.style,
+                    height: "6px",
+                    background: "#ccc",
+                    margin: "1rem 0",
+                  }}
+                >
+                  {children}
+                </div>
+              )}
+              renderThumb={({ props, index }) => (
+                <div
+                  {...props}
+                  style={{
+                    ...props.style,
+                    height: "20px",
+                    width: "20px",
+                    borderRadius: "50%",
+                    backgroundColor: "#4dbdd6",
+                    boxShadow: "0 0 3px rgba(0, 0, 0, 0.4)",
+                  }}
+                />
+              )}
+            />
+            <div className="price-display">
+              <span>
+                Price: ${filters.priceRange[0]} - ${filters.priceRange[1]}
+              </span>
+            </div>
+
+            <h3>Sort by Price</h3>
+            <div>
+              <input
+                type="checkbox"
+                checked={priceSortOption === "priceLowToHigh"}
+                onChange={() =>
+                  setPriceSortOption(
+                    priceSortOption === "priceLowToHigh"
+                      ? null
+                      : "priceLowToHigh"
+                  )
+                }
+              />
+              <label>Price Low to High</label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                checked={priceSortOption === "priceHighToLow"}
+                onChange={() =>
+                  setPriceSortOption(
+                    priceSortOption === "priceHighToLow"
+                      ? null
+                      : "priceHighToLow"
+                  )
+                }
+              />
+              <label>Price High to Low</label>
+            </div>
+
+            <h3>Sort by Date</h3>
+            <div>
+              <input
+                type="checkbox"
+                checked={dateSortOption === "newest"}
+                onChange={() =>
+                  setDateSortOption(
+                    dateSortOption === "newest" ? null : "newest"
+                  )
+                }
+              />
+              <label>Newest</label>
+            </div>
+            <div>
+              <input
+                type="checkbox"
+                checked={dateSortOption === "oldest"}
+                onChange={() =>
+                  setDateSortOption(
+                    dateSortOption === "oldest" ? null : "oldest"
+                  )
+                }
+              />
+              <label>Oldest</label>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };

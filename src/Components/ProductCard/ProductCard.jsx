@@ -41,9 +41,10 @@ const ProductCard = ({ product }) => {
     }, 1500);
   };
 
-  const handleImageClick = (id)=>{
+  const handleImageClick = (id) => {
     navigate(`/product/${id}`);
-  }
+    window.scrollTo(0, 0);
+  };
 
   const productImage =
     product.images &&
@@ -55,18 +56,15 @@ const ProductCard = ({ product }) => {
   return (
     <div className="product-card">
       <div className="products-card-img">
-        
-          <img
-            onClick={()=>handleImageClick(product._id)}
-            src={productImage}
-            alt={product.title}
-            className="product-photo"
-          />
-
-        
+        <img
+          onClick={() => handleImageClick(product._id)}
+          src={productImage}
+          alt={product.title}
+          className="product-photo"
+        />
       </div>
       <div className="product-card-info">
-      <h4 className="product-title">{product.title}</h4>
+        <h4 className="product-title">{product.title}</h4>
         <p>Rs.{product.price}</p>
         <p>{product.stock > 0 ? "In Stock" : "Out of Stock"}</p>
         <div className="products-stars">

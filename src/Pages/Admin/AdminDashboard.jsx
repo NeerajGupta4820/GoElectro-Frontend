@@ -12,6 +12,7 @@ import Coupon from "../../Components/admin/coupon/Coupon";
 import BarChart from "../../Components/admin/Charts/BarChart";
 import PieChart from "../../Components/admin/Charts/PieChart";
 import LineChart from "../../Components/admin/Charts/LineChart";
+import Chart from "../../Components/admin/Charts/Chart";
 
 const AdminDashboard = () => {
   return (
@@ -26,9 +27,10 @@ const AdminDashboard = () => {
           <Route path="/coupons" element={<Coupon/>}/>
           <Route path="/transaction" element={<Transaction />} />
           <Route path="/customer" element={<Customer />} />
-          <Route path="/chart/bar" element={<BarChart/>}/>
+          <Route path="/charts" element={<Chart/>}/>
+          {/* <Route path="/chart/bar" element={<BarChart/>}/>
           <Route path="/chart/pie" element={<PieChart/>}/>
-          <Route path="/chart/line" element={<LineChart/>}/>
+          <Route path="/chart/line" element={<LineChart/>}/> */}
           <Route path="/app/stopwatch" element={<Stopwatch />} />
           <Route path="/app/toss" element={<CoinToss />} />
         </Routes>

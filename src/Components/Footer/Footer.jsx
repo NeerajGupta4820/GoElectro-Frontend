@@ -1,6 +1,7 @@
 import "./Footer.css";
 import logo from "../../assets/Images/Logo/Logo.webp";
 import { FaRegEnvelope, FaArrowRight,FaFacebookF, FaTwitter,FaWhatsapp,FaPinterestP } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
@@ -34,10 +35,10 @@ const Footer = () => {
           <ul>
             <li>
               <a href=""></a></li>
-              <li><a href="">Home</a></li>
-              <li><a href="">About</a></li>
-              <li><a href="">All Products</a></li>
-              <li><a href="">Contact</a></li>
+              
+              <li><Link to="/">Home</Link></li>
+              <li><Link to="/about">About</Link></li>
+              <li><Link to="/contact">Contact</Link></li>
           </ul>
         </div>
         <div className="f-col">
@@ -58,7 +59,7 @@ const Footer = () => {
         </div>
       </div>
       <hr />
-      <p>Developed by Sanjeev and Neeraj</p>
+      <p>Developed by <b>Sanjeev</b> and <b>Neeraj</b></p>
     </footer>
   );
 };

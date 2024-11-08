@@ -39,7 +39,7 @@ const Navbar = () => {
   const handleSearch = () => {
     if (searchTerm) {
       navigate(`/search?query=${searchTerm}`);
-      setSearchTerm(""); // Clear the search field after navigating
+      setSearchTerm("");
     }
   };
 
@@ -87,35 +87,40 @@ const Navbar = () => {
             MyLogo
           </Link>
         </div>
-        
+
         {/* Search Input */}
         <div className="navbar-search">
           <input
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            onKeyDown={(e) => e.key === 'Enter' && handleSearch()}
+            onKeyDown={(e) => e.key === "Enter" && handleSearch()}
             placeholder="Search products..."
             className="search-input"
           />
-          <button onClick={handleSearch} className="search-button">Search</button>
+          <button onClick={handleSearch} className="search-button">
+            Search
+          </button>
         </div>
 
         <ul className={`navbar-links ${isMobileMenuOpen ? "active" : ""}`}>
           {isMobileMenuOpen && (
-            <li className="menu-icon" onClick={toggleMobileMenu}>
-              <FaTimes />
-            </li>
+            <>
+              <li className="menu-icon" onClick={toggleMobileMenu}>
+                <FaTimes />
+              </li>
+              <li>
+                <Link to="/">Home</Link>
+              </li>
+              <li>
+                <Link to="/about">About</Link>
+              </li>
+              <li>
+                <Link to="/contact">Contact</Link>
+              </li>
+            </>
           )}
-          {/* <li>
-            <Link to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li> */}
+          {/* */}
           <li>
             <Link to="/cart">
               <FiShoppingCart />

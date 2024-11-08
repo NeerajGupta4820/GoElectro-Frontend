@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { Routes, Route, Navigate } from "react-router-dom";
 import BarChart from "./BarChart";
 import PieChart from "./PieChart";
 import LineChart from "./LineChart";
@@ -11,6 +10,13 @@ import {
 import "./chart.css";
 
 const Chart = () => {
+  const getRandomColor = () => {
+        const r = Math.floor(Math.random() * 256);
+        const g = Math.floor(Math.random() * 256);
+        const b = Math.floor(Math.random() * 256);
+        const a = (Math.random() * 0.5 + 0.4).toFixed(2);
+        return `rgba(${r}, ${g}, ${b}, ${a})`;
+      };
   const [getProduct, { data: products, isLoading, error }] =
     useGetProductMutation();
   const [getOrder] = useGetOrderMutation();
@@ -21,7 +27,7 @@ const Chart = () => {
   const [userAdminData, setUserAdminData] = useState({});
   const [userMonthlyData, setUserMonthlyData] = useState({});
   const [userAgeData, setUserAgeData] = useState({});
-  const [toDisplay,setToDisplay] = useState("Bar");
+  const [toDisplay,setToDisplay] = useState("Line");
 
   useEffect(() => {
     const fetchData = async () => {
@@ -106,7 +112,7 @@ const Chart = () => {
         {
           label: "Stock per Category",
           data: stockData,
-          backgroundColor: "rgba(75, 192, 192, 0.6)",
+          backgroundColor: getRandomColor,
           borderColor: "rgba(75, 192, 192, 1)",
           borderWidth: 1,
         },
@@ -134,7 +140,7 @@ const Chart = () => {
           label: "Stock Status",
           data: [inStockCount, outOfStockCount],
           backgroundColor: [
-            "rgba(54, 162, 235, 0.6)",
+            "rgba(255, 99, 132, 0.6)",
             "rgba(255, 99, 132, 0.6)",
           ],
           borderColor: ["rgba(54, 162, 235, 1)", "rgba(255, 99, 132, 1)"],

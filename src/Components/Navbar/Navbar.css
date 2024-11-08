@@ -111,10 +111,15 @@
     padding: 1rem;
     transition: transform 0.3s;
     transform: translateX(100%);
+    margin-top: 0px;
   }
 
   .navbar-links.active {
     transform: translateX(0);
+  }
+
+  .navbar-links > li{
+    margin: 15px;
   }
 
   .menu-icon {

@@ -22,10 +22,10 @@ const Footer = () => {
               <span></span>
             </div>
           </h3>
-          <p>ITPL Road</p>
-          <p>Whitefield, Banglore</p>
-          <p>Karnataka, PIN 124103m iNDIA</p>
-          <p className="email-id">lasfjls@gmail.com</p>
+          <p>MDU Rohtak</p>
+          <p>124001, Haryana</p>
+          <p>INDIA</p>
+          <p className="email-id">goelectro@gmail.com</p>
           <h4>+91-9999999999</h4>
         </div>
         <div className="f-col">
@@ -33,9 +33,6 @@ const Footer = () => {
               <span></span>
             </div></h3>
           <ul>
-            <li>
-              <a href=""></a></li>
-              
               <li><Link to="/">Home</Link></li>
               <li><Link to="/about">About</Link></li>
               <li><Link to="/contact">Contact</Link></li>

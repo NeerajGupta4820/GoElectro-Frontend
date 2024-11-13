@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useResetPasswordMutation } from "../../redux/api/userAPI"; 
-import forgotPasswordImage from "../../assets/Images/login/img.webp"; 
+import forgotPasswordImage from "../../assets/Images/forgotpassword/fimg.avif"; 
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./ForgotPassword.css";
@@ -56,7 +56,7 @@ const ForgotPassword = () => {
   };
 
   return (
-    <div className="forgot-password-page">
+    <div className="login-page">
       <div className="image-container">
         <img src={forgotPasswordImage} alt="Forgot Password" />
       </div>

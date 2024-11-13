@@ -2,9 +2,9 @@
     padding: 20px 0;
     text-align: center;
     color: #fff;
-    padding: 100px 0px 30px;
-    border-top-left-radius: 125px;
-    background: linear-gradient(to right,grey,silver);
+    padding: 50px 0px 30px;
+    /*border-top-left-radius: 125px; */
+    background: linear-gradient(to right,gray,black);
   }
   
   .f-row{
@@ -27,9 +27,13 @@
     flex-basis: 15%;
   }
   .f-col h3{
-    width: fit-content;
+    width: 100%;
     margin-bottom: 40px;
     position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
   }
   .email-id{
     width: fit-content;
@@ -37,6 +41,9 @@
     margin: 20px 0px;
   }
 
+  .f-col > ul{
+    padding-left: 0px;
+  }
   .f-col ul li{
     list-style: none;
     margin-bottom: 12px;
@@ -96,13 +103,14 @@
     text-align: center;
   }
   .underline{
-    width: 100%;
+    width: 30%;
+    margin: auto;
     height: 5px;
     background: #767676;
     border-radius: 3px;
     position: absolute;
     top: 25px;
-    left: 0;
+    left: 35%;
     overflow: hidden;
   }
   .underline span{

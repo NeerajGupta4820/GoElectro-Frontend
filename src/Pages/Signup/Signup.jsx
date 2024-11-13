@@ -16,6 +16,7 @@ const Signup = () => {
     email: "",
     password: "",
     phone: "",
+    age:"",
     photo: null,
   });
 
@@ -183,6 +184,16 @@ const Signup = () => {
               id="phone"
               name="phone"
               value={formData.phone}
+              onChange={handleChange}
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="age">Age</label>
+            <input
+              type="tel"
+              id="age"
+              name="age"
+              value={formData.age}
               onChange={handleChange}
             />
           </div>

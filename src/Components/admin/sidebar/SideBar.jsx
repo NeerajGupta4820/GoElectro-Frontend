@@ -2,8 +2,6 @@ import { useEffect, useState } from "react";
 import { AiFillFileText } from "react-icons/ai";
 import {
   FaChartBar,
-  FaChartLine,
-  FaChartPie,
   FaGamepad,
   FaStopwatch,
 } from "react-icons/fa";
@@ -20,20 +18,17 @@ import "./SideBar.css";
 
 const AdminSidebar = () => {
   const location = useLocation();
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [phoneActive, setPhoneActive] = useState(window.innerWidth < 900);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
+  const closeSidebar = () => setIsOpen(false);
 
   useEffect(() => {
     const resizeHandler = () => setPhoneActive(window.innerWidth < 900);
-
-    resizeHandler();
-    
     window.addEventListener("resize", resizeHandler);
     return () => window.removeEventListener("resize", resizeHandler);
   }, []);
-  console.log(phoneActive);
   
   return (
     <>
@@ -42,12 +37,12 @@ const AdminSidebar = () => {
           <HiMenuAlt4 />
         </button>
       )}
-      <aside className={`sidebar ${isOpen ? "" : "collapsed"}`}>
-        <DivOne location={location} />
-        <DivTwo location={location} />
-        <DivThree location={location} />
-        {phoneActive && (
-          <button id="close-sidebar" onClick={toggleSidebar}>
+      <aside className={`sidebar ${isOpen ? "collapsed" : ""}`}>
+        <DivOne location={location} closeSidebar={closeSidebar} />
+        <DivTwo location={location} closeSidebar={closeSidebar} />
+        <DivThree location={location} closeSidebar={closeSidebar} />
+        {phoneActive && isOpen && (
+          <button id="close-sidebar" onClick={closeSidebar}>
             Close
           </button>
         )}
@@ -56,7 +51,7 @@ const AdminSidebar = () => {
   );
 };
 
-const DivOne = ({ location }) => (
+const DivOne = ({ location, closeSidebar }) => (
   <div>
     <h5>Dashboard</h5>
     <ul>
@@ -65,36 +60,41 @@ const DivOne = ({ location }) => (
         text="Dashboard"
         Icon={RiDashboardFill}
         location={location}
+        closeSidebar={closeSidebar}
       />
       <Li
         url="/admin/product"
         text="Product"
         Icon={RiShoppingBag3Fill}
         location={location}
+        closeSidebar={closeSidebar}
       />
       <Li
         url="/admin/categories"
         text="Category"
         Icon={RiApps2AddFill}
         location={location}
+        closeSidebar={closeSidebar}
       />
       <Li
         url="/admin/customer"
         text="Customer"
         Icon={IoIosPeople}
         location={location}
+        closeSidebar={closeSidebar}
       />
       <Li
         url="/admin/transaction"
         text="Transaction"
         Icon={AiFillFileText}
         location={location}
+        closeSidebar={closeSidebar}
       />
     </ul>
   </div>
 );
 
-const DivTwo = ({ location }) => (
+const DivTwo = ({ location, closeSidebar }) => (
   <div>
     <h5>Charts</h5>
     <ul>
@@ -103,14 +103,13 @@ const DivTwo = ({ location }) => (
         text="All Charts"
         Icon={FaChartBar}
         location={location}
+        closeSidebar={closeSidebar}
       />
-      {/* <Li url="/admin/chart/pie" text="Pie" Icon={FaChartPie} location={location} />
-      <Li url="/admin/chart/line" text="Line" Icon={FaChartLine} location={location} /> */}
     </ul>
   </div>
 );
 
-const DivThree = ({ location }) => (
+const DivThree = ({ location, closeSidebar }) => (
   <div>
     <h5>Apps</h5>
     <ul>
@@ -119,27 +118,30 @@ const DivThree = ({ location }) => (
         text="Stopwatch"
         Icon={FaStopwatch}
         location={location}
+        closeSidebar={closeSidebar}
       />
       <Li
         url="/admin/coupons"
         text="Coupons"
         Icon={RiCoupon3Fill}
         location={location}
+        closeSidebar={closeSidebar}
       />
       <Li
         url="/admin/app/toss"
         text="Toss"
         Icon={FaGamepad}
         location={location}
+        closeSidebar={closeSidebar}
       />
     </ul>
   </div>
 );
 
-const Li = ({ url, text, location, Icon }) => {
+const Li = ({ url, text, location, Icon, closeSidebar }) => {
   const isActive = location.pathname.startsWith(url);
   return (
-    <li className={isActive ? "active" : ""}>
+    <li className={isActive ? "active" : ""} onClick={closeSidebar}>
       <Link to={url}>
         <Icon />
         {text}

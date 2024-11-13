@@ -1,41 +1,45 @@
-import { Routes, Route, Navigate } from "react-router-dom"; 
-import AdminSidebar from "../../Components/admin/sidebar/SideBar";
-import Dashboard from "../../Components/admin/dashboard/Dashboard"; 
-import Product from "../../Components/admin/product/Product"; 
-import Categories from "../../Components/admin/category/Categories"; 
-import Customer from "../../Components/admin/customers/Customers"; 
-import Transaction from "../../Components/admin/transactions/Transactions"; 
-import "./AdminDashboard.css";
+import { Navigate, Route, Routes } from "react-router-dom";
 import Stopwatch from "../../Components/admin/Apps/StopWatch";
-import CoinToss from "../../Components/admin/Apps/Toss"
-import Coupon from "../../Components/admin/coupon/Coupon";
-import BarChart from "../../Components/admin/Charts/BarChart";
-import PieChart from "../../Components/admin/Charts/PieChart";
-import LineChart from "../../Components/admin/Charts/LineChart";
+import CoinToss from "../../Components/admin/Apps/Toss";
+import Categories from "../../Components/admin/category/Categories";
 import Chart from "../../Components/admin/Charts/Chart";
+import Coupon from "../../Components/admin/coupon/Coupon";
+import Customer from "../../Components/admin/customers/Customers";
+import Dashboard from "../../Components/admin/dashboard/Dashboard";
+import Product from "../../Components/admin/product/Product";
+import AdminSidebar from "../../Components/admin/sidebar/SideBar";
+import Transaction from "../../Components/admin/transactions/Transactions";
+import { HiMenuAlt4 } from "react-icons/hi";
+import "./AdminDashboard.css";
 
 const AdminDashboard = () => {
   return (
-    <div className="admin-dashboard">
-      <AdminSidebar />
-      <main className="dashboard-content">
-        <Routes>
-          <Route path="/" element={<Navigate to="/admin/dashboard" />} />
-          <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/product/*" element={<Product />} /> 
-          <Route path="/categories/*" element={<Categories />} />
-          <Route path="/coupons" element={<Coupon/>}/>
-          <Route path="/transaction" element={<Transaction />} />
-          <Route path="/customer" element={<Customer />} />
-          <Route path="/charts" element={<Chart/>}/>
-          {/* <Route path="/chart/bar" element={<BarChart/>}/>
-          <Route path="/chart/pie" element={<PieChart/>}/>
-          <Route path="/chart/line" element={<LineChart/>}/> */}
-          <Route path="/app/stopwatch" element={<Stopwatch />} />
-          <Route path="/app/toss" element={<CoinToss />} />
-        </Routes>
-      </main>
-    </div>
+    <>
+      <header className="dashboard-main-header">
+        <button id="hamburger">
+          <HiMenuAlt4 />
+        </button>
+        <h1>Admin Dashboard</h1>
+      </header>
+      <div className="admin-dashboard">
+        {/* Header section */}
+        <AdminSidebar />
+        <main className="dashboard-content">
+          <Routes>
+            <Route path="/" element={<Navigate to="/admin/dashboard" />} />
+            <Route path="/dashboard" element={<Dashboard />} />
+            <Route path="/product/*" element={<Product />} />
+            <Route path="/categories/*" element={<Categories />} />
+            <Route path="/coupons" element={<Coupon />} />
+            <Route path="/transaction" element={<Transaction />} />
+            <Route path="/customer" element={<Customer />} />
+            <Route path="/charts" element={<Chart />} />
+            <Route path="/app/stopwatch" element={<Stopwatch />} />
+            <Route path="/app/toss" element={<CoinToss />} />
+          </Routes>
+        </main>
+      </div>
+    </>
   );
 };
 

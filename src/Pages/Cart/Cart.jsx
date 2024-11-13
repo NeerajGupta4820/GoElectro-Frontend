@@ -9,6 +9,7 @@ const Cart = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { cartItems = [], totalAmount, totalQuantity } = useSelector((state) => state.cart.cart || {});
+  console.log(cartItems)
 
   const handleRemove = (productId) => {
     dispatch(removeFromCart({ productId }));

@@ -51,6 +51,7 @@ const Dashboard = () => {
   const topTransactions = deliveredOrders
     .sort((a, b) => b.subtotal - a.subtotal)
     .slice(0, 10);
+    console.log(topTransactions)
 
   const headerData = [
     { label: "Total Users", value: usersLoading ? <Loader type="data" /> : totalUsersQuantity, percentage: 75 },
@@ -172,7 +173,7 @@ const Dashboard = () => {
                 topTransactions.map((transaction, index) => (
                   <tr key={index}>
                     <td>{transaction._id}</td>
-                    <td>{transaction.user.name}</td>
+                    {/* <td>{transaction.user.name}</td> */}
                     <td>Rs.{transaction.subtotal.toFixed(2)}</td>
                     <td>{new Date(transaction.createdAt).toLocaleDateString()}</td>
                   </tr>

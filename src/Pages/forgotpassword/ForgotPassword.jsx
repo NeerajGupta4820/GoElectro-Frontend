@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useResetPasswordMutation } from "../../redux/api/userAPI"; 
-import forgotPasswordImage from "../../assets/Images/forgotpassword/fimg.avif"; 
+import forgotPasswordImage from "../../assets/Images/forgotPassword/fimg.avif"; 
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "./ForgotPassword.css";

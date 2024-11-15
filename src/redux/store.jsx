@@ -8,7 +8,7 @@ import productApi from './api/productAPI.js';
 import categoryApi from './api/categoryAPI.js';
 import reviewApi from './api/reviewAPI.js';
 import cartApi from './api/cartAPI.js';
-import orderApi from './api/orderApi.js';
+import orderApi from './api/orderAPI.js';
 import couponAPI from './api/couponAPI.js';
 import chartApi from './api/chartAPI.js';
 

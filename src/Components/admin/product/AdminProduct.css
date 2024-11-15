@@ -1,6 +1,10 @@
+.admin-product-heading{
+  display: flex;
+  justify-content: center;
+}
 .product-header {
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   align-items: center;
 }
 .add-product-btn {
@@ -13,4 +17,12 @@
 }
 .add-product-btn:hover {
   background-color: #218838;
+}
+@media(max-width:730px){
+  .admin-product-heading{
+    font-size: 1.5rem;
+  }
+  .add-product-btn{
+    font-size: 0.8rem;
+  }
 }

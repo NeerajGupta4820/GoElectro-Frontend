@@ -12,9 +12,9 @@ const AdminCategory = () => {
 
   return (
     <div className="content-section">
-      <div className="product-header">
-        <h1>Category Management</h1>
-        <button className="add-product-btn" onClick={handleAddProduct}>
+        <h1 className="admin-category-heading">Category Management</h1>
+      <div className="category-header">
+        <button className="add-category-btn" onClick={handleAddProduct}>
         <FaPlusCircle />Add category
         </button>
       </div>

@@ -23,8 +23,7 @@ const AllCategories = () => {
         setIsModalOpen(false);
         setCategoryToDelete(null);
       } catch (error) {
-        console.error('Failed to delete category:', error);
-        toast.error('Failed to delete category. Please try again.'); 
+        toast.error('Failed to delete category. Please try again.',error.message); 
       }
     }
   };
@@ -49,11 +48,11 @@ const AllCategories = () => {
   return (
     <div className="all-categories-container">
       <ToastContainer />
-      <h2>All Categories</h2>
+      <h2 className="all-categories-heading">All Categories</h2>
+      <div className="main-categories-table">
       <table className="categories-table">  
         <thead>
           <tr>
-            <th>ID</th>
             <th>Name</th>
             <th>Parent Category</th>
             <th>Image</th>
@@ -63,7 +62,6 @@ const AllCategories = () => {
         <tbody>
           {categoriesData?.data.map((category) => (
             <tr key={category._id}>
-              <td>{category._id}</td>
               <td>{category.name}</td>
               <td>{category.parentCategory ? category.parentCategory.name : 'None'}</td>
               <td>
@@ -85,7 +83,7 @@ const AllCategories = () => {
           ))}
         </tbody>
       </table>
-
+      </div>
       {isModalOpen && (
         <div className="modal-overlay">
           <div className="modal-content">

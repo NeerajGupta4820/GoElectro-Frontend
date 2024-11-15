@@ -16,14 +16,12 @@ const AllProduct = () => {
   }, [refetch]);
 
   const handleDelete = async (id) => {
-    console.log(id);
     try {
       await deleteProduct(id).unwrap();
       toast.success('Product deleted successfully!');
       refetch();
     } catch (error) {
-      console.error('Failed to delete product:', error);
-      toast.error('Failed to delete product. Please try again.');
+      toast.error('Failed to delete product. Please try again.',error.message);
     }
   };
 
@@ -45,7 +43,8 @@ const AllProduct = () => {
   return (
     <div className="product-table-container">
       <ToastContainer />
-      <h1>All Products</h1>
+      <h1 className="all-products-heading">All Products</h1>
+      <div className="main-product-table-container">
       <table className="product-table">
         <thead>
           <tr>
@@ -81,7 +80,7 @@ const AllProduct = () => {
           ))}
         </tbody>
       </table>
-
+      </div>
       {selectedProduct && (
         <div className="product-popup" onClick={handleClosePopup}>
           <div className="popup-content">

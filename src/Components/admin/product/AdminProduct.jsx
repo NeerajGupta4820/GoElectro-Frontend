@@ -12,8 +12,8 @@ const AdminProduct = () => {
 
   return (
     <div className="content-section">
+        <h1 className="admin-product-heading">Product Management</h1>
       <div className="product-header">
-        <h1>Product Management</h1>
         <button className="add-product-btn" onClick={handleAddProduct}>
         <FaPlusCircle />Add Product
         </button>

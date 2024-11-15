@@ -1,4 +1,3 @@
-import React from 'react';
 import './Pill.css';
 
 const Pill = ({ label, onClick }) => (

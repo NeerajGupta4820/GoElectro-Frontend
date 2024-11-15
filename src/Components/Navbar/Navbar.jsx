@@ -4,7 +4,7 @@ import { clearUser } from "../../redux/slices/userSlice";
 import { clearCart } from "../../redux/slices/cartSlice";
 import { useNavigate, Link } from "react-router-dom";
 import { toast } from "react-toastify";
-import { useUpdateCartMutation } from "../../redux/api/cartApi";
+import { useUpdateCartMutation } from "../../redux/api/cartAPI";
 import { FaTimes, FaRegUser } from "react-icons/fa";
 import { FaBars } from "react-icons/fa6";
 import { FiShoppingCart } from "react-icons/fi";

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAddProductMutation } from "../../../redux/api/productAPI";
 import { useFetchAllCategoriesQuery } from "../../../redux/api/categoryAPI";
@@ -24,7 +24,7 @@ const CreateProduct = () => {
   const [addProduct] = useAddProductMutation();
   const navigate = useNavigate();
 
-  const {data:coupons,isLoading,error} = useFetchAllCouponsQuery();
+  const {data:coupons} = useFetchAllCouponsQuery();
 
   const handleImageChange = (index, e) => {
     const files = Array.from(e.target.files);

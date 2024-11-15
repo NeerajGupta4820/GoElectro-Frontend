@@ -36,23 +36,21 @@ const Customers = () => {
             <th>Name</th>
             <th>Email</th>
             <th>Role</th>
-            <th>Status</th>
           </tr>
         </thead>
         <tbody>
           {users.length > 0 ? (
             users.map((user) => (
               <tr key={user.id}>
-                <td><img src={user.photo} alt={user.name} /></td>
+                <td><img src={user.photo} alt={user.name} className="customer-photo" /></td>
                 <td>{user.name}</td>
                 <td>{user.email}</td>
                 <td>{user.role}</td>
-                <td>{user.active ? 'Active' : 'Inactive'}</td>
               </tr>
             ))
           ) : (
             <tr>
-              <td colSpan="6">No users found</td>
+              <td colSpan="4">No users found</td>
             </tr>
           )}
         </tbody>

@@ -43,11 +43,11 @@
 }
 
 .customers-table tbody tr:nth-child(even) {
-  background-color: #fdddac;
+  background-color: #e3f0fd;
 }
 
 .customers-table tbody tr:hover {
-  background-color: #f0b88b;
+  background-color: #b2d8fc;
 }
 
 .customers-table td img {

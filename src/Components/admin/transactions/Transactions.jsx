@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { useGetAllOrdersQuery, useUpdateOrderStatusMutation } from "../../../redux/api/orderAPI";
-import Loader from "../../../Components/Loader/Loader"
+import Loader from "../../../Components/Loader/Loader";
 import "./Transactions.css";
 
 const AdminTransactions = () => {
@@ -63,12 +63,12 @@ const AdminTransactions = () => {
         <table className="Transactions-orders-table">
           <thead>
             <tr>
+              <th>Photos</th>
               <th>Date</th>
-              <th>Total</th>
               <th>Status</th>
-              <th>Item</th>
-              <th>Quantity</th>
+              <th>Total</th>
               <th>Price</th>
+              <th>Quantity</th>
               <th>Manage</th>
             </tr>
           </thead>
@@ -76,21 +76,21 @@ const AdminTransactions = () => {
             {orders.map((order) =>
               order.orderItems.map((item, index) => (
                 <tr key={`${order._id}-${item.productId}`}>
-                  {index === 0 && (
-                    <>
-                      <td rowSpan={order.orderItems.length}>{new Date(order.createdAt).toLocaleDateString()}</td>
-                      <td rowSpan={order.orderItems.length}>Rs.{order.total.toFixed(2)}</td>
-                      <td rowSpan={order.orderItems.length}>{order.status}</td>
-                    </>
-                  )}
                   <td>
                     <div className="Transactions-order-item">
                       <img src={item.photo} alt={item.name} />
                       <span>{item.name}</span>
                     </div>
                   </td>
-                  <td>{item.quantity}</td>
+                  {index === 0 && (
+                    <>
+                      <td rowSpan={order.orderItems.length}>{new Date(order.createdAt).toLocaleDateString()}</td>
+                      <td rowSpan={order.orderItems.length}>{order.status}</td>
+                      <td rowSpan={order.orderItems.length}>Rs.{order.total.toFixed(2)}</td>
+                    </>
+                  )}
                   <td>Rs.{item.price.toFixed(2)}</td>
+                  <td>{item.quantity}</td>
                   {index === 0 && (
                     <td rowSpan={order.orderItems.length}>
                       <button onClick={() => openPopup(order)} className="Transactions-view-order-details">

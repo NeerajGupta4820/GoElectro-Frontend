@@ -4,7 +4,7 @@ import { useNavigate, NavLink, Routes, Route } from "react-router-dom";
 import ProfileDetails from "../../Components/user/ProfileDetails";
 import Orders from "../../Components/user/UserOrders";
 import Cart from "../Cart/Cart";
-import "./UserProfile.css";
+import "./userProfile.css";
 
 const UserProfile = () => {
   const { user } = useSelector((state) => state.user);

@@ -3,14 +3,14 @@ import cartReducer from './slices/cartSlice.js';
 import userReducer from './slices/userSlice.js';
 import productReducer from './slices/productSlice.js';
 import categoryReducer from './slices/categorySlice.js';
-import userApi from './api/userApi.js';
-import productApi from './api/productApi.js';
-import categoryApi from './api/categoryApi.js';
-import reviewApi from './api/reviewApi.js';
+import userApi from './api/userAPI.js';
+import productApi from './api/productAPI.js';
+import categoryApi from './api/categoryAPI.js';
+import reviewApi from './api/reviewAPI.js';
 import cartApi from './api/cartAPI.js';
 import orderApi from './api/orderApi.js';
-import couponAPI from './api/couponAPI.JS';
-import chartApi from './api/chartAPI.JS';
+import couponAPI from './api/couponAPI.js';
+import chartApi from './api/chartAPI.js';
 
 const store = configureStore({
   reducer: {

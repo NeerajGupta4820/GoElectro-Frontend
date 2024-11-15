@@ -39,7 +39,7 @@
   padding: 10px 20px;
 }
 .sidebar li.active {
-  background-color: #48a55c;
+  background-color: #3470b4;
   border-radius: 5px;
 }
 .sidebar a {
@@ -48,31 +48,35 @@
 }
 @media (max-width: 900px) {
   .sidebar {
-    width: 30%; /* Sidebar width when it appears as an overlay */
+    width: 40%; 
     position: fixed;
-    top: 60px; /* Adjust based on your layout */
+    top: 60px;
     left: 0;
     height: calc(100vh - 60px);
     z-index: 10;
-    transform: translateX(-100%); /* Initially off-screen */
+    transform: translateX(-100%); 
   }
 
   .sidebar.collapsed {
-    transform: translateX(0); /* Slide in when toggled */
+    transform: translateX(0)
   }
 
   #hamburger {
     display: block;
-    position: fixed;
-    top: 120px;
+    position: absolute;
+    top: 90px;
     left: 20px;
     z-index: 2;
+    background-color: white;
+    color: black;
   }
 
   #close-sidebar {
     display: block;
     position: absolute;
-    top: 30px;
-    right: 10px;
+    margin-bottom: 2rem;
+    /* top: 30px; */
+    right: auto;
+    background-color: black;
   }
 }

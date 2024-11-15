@@ -19,7 +19,7 @@ const AdminDashboard = () => {
         <button id="hamburger">
           <HiMenuAlt4 />
         </button>
-        <h1>Admin Dashboard</h1>
+        <h2>Admin Dashboard</h2>
       </header>
       <div className="admin-dashboard">
         {/* Header section */}

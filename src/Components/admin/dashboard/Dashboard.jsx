@@ -173,7 +173,7 @@ const Dashboard = () => {
                 topTransactions.map((transaction, index) => (
                   <tr key={index}>
                     <td>{transaction._id}</td>
-                    {/* <td>{transaction.user.name}</td> */}
+                    <td>neeraj</td>
                     <td>Rs.{transaction.subtotal.toFixed(2)}</td>
                     <td>{new Date(transaction.createdAt).toLocaleDateString()}</td>
                   </tr>

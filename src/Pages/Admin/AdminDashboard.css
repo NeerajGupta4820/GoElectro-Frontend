@@ -42,6 +42,8 @@
 .dashboard-main-header {
   display: flex;
   justify-content: center;
+  height: 4rem;
   background-color: #3470b4;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  color: white;
 }

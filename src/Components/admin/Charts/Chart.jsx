@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import BarChart from "./BarChart";
 import PieChart from "./PieChart";
 import LineChart from "./LineChart";
@@ -8,6 +8,8 @@ import {
     useGetUsersMutation,
   } from "../../../redux/api/chartAPI";
 import "./chart.css";
+import dayjs from "dayjs";
+
 
 const Chart = () => {
   const getRandomColor = () => {
@@ -17,8 +19,7 @@ const Chart = () => {
         const a = (Math.random() * 0.5 + 0.4).toFixed(2);
         return `rgba(${r}, ${g}, ${b}, ${a})`;
       };
-  const [getProduct, { data: products, isLoading, error }] =
-    useGetProductMutation();
+  const [getProduct, { isLoading, error }] = useGetProductMutation();
   const [getOrder] = useGetOrderMutation();
   const [getUser] = useGetUsersMutation();
   const [chartData, setChartData] = useState({});
@@ -27,7 +28,7 @@ const Chart = () => {
   const [userAdminData, setUserAdminData] = useState({});
   const [userMonthlyData, setUserMonthlyData] = useState({});
   const [userAgeData, setUserAgeData] = useState({});
-  const [toDisplay,setToDisplay] = useState("Line");
+  const [toDisplay,setToDisplay] = useState("Bar");
 
   useEffect(() => {
     const fetchData = async () => {

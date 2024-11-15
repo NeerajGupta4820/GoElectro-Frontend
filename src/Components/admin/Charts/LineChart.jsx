@@ -1,36 +1,10 @@
-import React from "react";
 import { Line } from "react-chartjs-2"; 
-
-import {
-  Chart as ChartJS,
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend,
-} from "chart.js";
+import {Chart as ChartJS,LineElement,PointElement,CategoryScale,LinearScale,Title,Tooltip,Legend,} from "chart.js";
 import "./chart.css";
-ChartJS.register(
-  LineElement,
-  PointElement,
-  CategoryScale,
-  LinearScale,
-  Title,
-  Tooltip,
-  Legend
-);
+ChartJS.register(LineElement,PointElement,CategoryScale,LinearScale,Title,Tooltip,Legend);
 
 const LineChart = ({ data }) => {
-  const {
-    chartData,
-    stockChartData,
-    orderChartData,
-    userAdminData,
-    userMonthlyData,
-    userAgeData,
-  } = data;
+  const {chartData,stockChartData,orderChartData,userAdminData,userMonthlyData,userAgeData,} = data;
   console.log(chartData);
 
   return (

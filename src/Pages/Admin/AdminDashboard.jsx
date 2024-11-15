@@ -1,6 +1,6 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 import Stopwatch from "../../Components/admin/Apps/StopWatch";
-import CoinToss from "../../Components/admin/Apps/Toss";
+// import CoinToss from "../../Components/admin/Apps/Toss";
 import Categories from "../../Components/admin/category/Categories";
 import Chart from "../../Components/admin/Charts/Chart";
 import Coupon from "../../Components/admin/coupon/Coupon";
@@ -35,7 +35,7 @@ const AdminDashboard = () => {
             <Route path="/customer" element={<Customer />} />
             <Route path="/charts" element={<Chart />} />
             <Route path="/app/stopwatch" element={<Stopwatch />} />
-            <Route path="/app/toss" element={<CoinToss />} />
+            {/* <Route path="/app/toss" element={<CoinToss />} /> */}
           </Routes>
         </main>
       </div>

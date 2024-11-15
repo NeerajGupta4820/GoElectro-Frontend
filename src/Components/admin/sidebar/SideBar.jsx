@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { AiFillFileText } from "react-icons/ai";
 import {
   FaChartBar,
-  FaGamepad,
+  // FaGamepad,
   FaStopwatch,
 } from "react-icons/fa";
 import { HiMenuAlt4 } from "react-icons/hi";
@@ -127,13 +127,13 @@ const DivThree = ({ location, closeSidebar }) => (
         location={location}
         closeSidebar={closeSidebar}
       />
-      <Li
+      {/* <Li
         url="/admin/app/toss"
         text="Toss"
         Icon={FaGamepad}
         location={location}
         closeSidebar={closeSidebar}
-      />
+      /> */}
     </ul>
   </div>
 );

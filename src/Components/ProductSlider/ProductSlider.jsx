@@ -1,22 +1,19 @@
 import { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
-import ProductCard from '../ProductCard/ProductCard'; 
-import Loader from '../Loader/Loader'; 
-import './ProductSlider.css'; 
+import ProductCard from '../ProductCard/ProductCard';
+import Loader from '../Loader/Loader';
+import './ProductSlider.css';
 
 const ProductSlider = ({ products, title, isLoading, link }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
-  const [isHovered, setIsHovered] = useState(false);
 
   useEffect(() => {
-    if (isHovered) return;
-
     const slideInterval = setInterval(() => {
       handleNextClick();
-    }, 2000);
+    }, 5000); 
 
-    return () => clearInterval(slideInterval);
-  }, [currentIndex, products, isHovered]);
+    return () => clearInterval(slideInterval); 
+  }, [currentIndex, products]); 
 
   const handlePrevClick = useCallback(() => {
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? products.length - 1 : prevIndex - 1));
@@ -33,11 +30,7 @@ const ProductSlider = ({ products, title, isLoading, link }) => {
   };
 
   return (
-    <div 
-      className="product-slider"
-      onMouseEnter={() => setIsHovered(true)} 
-      onMouseLeave={() => setIsHovered(false)}
-    >
+    <div className="product-slider">
       <h1>{title}</h1>
       {link && <Link to="allproducts" className="findmore">More</Link>}
       <main className="slider-main">

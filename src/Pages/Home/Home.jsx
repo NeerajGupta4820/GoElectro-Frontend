@@ -7,6 +7,7 @@ import Sale from "../../Components/Sale/Sale";
 import UpcomingProducts from "../../Components/upcomingProducts/UpcomingProducts";
 import { useFetchAllCategoriesQuery } from "../../redux/api/categoryAPI";
 import "./Home.css";
+import CategoriesProducts from "../../Components/HomeProductComponent/CategoriesProducts";
 
 const Home = () => {
   const [email, setEmail] = useState("");
@@ -99,9 +100,10 @@ const Home = () => {
         isLoading={isProductLoading}
         link="/filter"
       />
-
       {/* Sale Section */}
       <Sale />
+      
+      <CategoriesProducts/>
 
       {/* Newsletter Section */}
       <section className="newsletter-section">

@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import { FaShoppingCart, FaStar, FaRegStar } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -10,10 +10,18 @@ const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const [isAdded, setIsAdded] = useState(false);
   const [buttonColor, setButtonColor] = useState("#rgb(247, 139, 90)");
+  const [isZooming, setIsZooming] = useState(true);
   const navigate = useNavigate();
 
   const colors = ["#4dbdd6", "#28a745", "#ffc107", "#dc3545"];
   const currentIndex = useRef(0);
+
+  useEffect(() => {
+    const zoomTimeout = setTimeout(() => {
+      setIsZooming(false);
+    }, 10000); 
+    return () => clearTimeout(zoomTimeout);
+  }, []);
 
   const handleAddToCart = () => {
     currentIndex.current = (currentIndex.current + 1) % colors.length;
@@ -54,7 +62,7 @@ const ProductCard = ({ product }) => {
       : "path/to/placeholder-image.jpg";
 
   return (
-    <div className="product-card">
+    <div className={`product-card ${isZooming ? "zooming" : ""}`}>
       <div className="products-card-img">
         <img
           onClick={() => handleImageClick(product._id)}

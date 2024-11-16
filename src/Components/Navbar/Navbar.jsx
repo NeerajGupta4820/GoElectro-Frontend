@@ -107,6 +107,9 @@ const Navbar = () => {
               <li onClick={toggleMobileMenu}>
                 <Link to="/contact">Contact</Link>
               </li>
+              <li onClick={toggleMobileMenu}>
+                <Link to="/allproducts">All Products</Link>
+              </li>
             </>
           )}
           <li>

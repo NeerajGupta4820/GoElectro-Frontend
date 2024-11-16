@@ -1,6 +1,6 @@
 .product-slider {
   padding: 20px 5px;
-  background-color: #dbd7d7;
+  /* background-color: #dbd7d7; */
 }
 
 .product-slider h1 {
@@ -68,6 +68,7 @@
   flex: 0 0 auto;
   width: 200px;
   transition: width 0.3s ease-in-out;
+  transition: transform 0.5s ease-in-out
 }
 
 /* Tablet */

@@ -42,6 +42,13 @@ const orderApi = createApi({
         method: 'DELETE', 
       }),
     }),
+    verifyPayment: builder.mutation({
+      query: (paymentData) => ({
+        url: '/api/order/verify-payment',
+        method: 'POST',
+        body: paymentData,
+      }),
+    }),
   }),
 });
 
@@ -52,6 +59,7 @@ export const {
   useAddOrderMutation,
   useUpdateOrderStatusMutation,
   useDeleteOrderMutation,
+  useVerifyPaymentMutation,
 } = orderApi;
 
 export default orderApi;

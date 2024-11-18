@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useAddOrderMutation } from "../../redux/api/orderAPI";
+import { useAddOrderMutation, useVerifyPaymentMutation } from "../../redux/api/orderAPI";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { clearCart } from "../../redux/slices/cartSlice";
@@ -20,11 +20,43 @@ const Checkout = () => {
   });
 
   const [addOrder] = useAddOrderMutation();
+  const [verifyPayment] = useVerifyPaymentMutation();
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
     setShippingInfo((prev) => ({ ...prev, [name]: value }));
   };
+
+  const handlePayment = async (orderId, razorpayOrderId, razorpayAmount) => {
+    const options = {
+      key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+      amount: razorpayAmount,
+      currency: "INR",
+      name: "Your Store Name",
+      description: "Order Payment",
+      order_id: razorpayOrderId,
+      handler: async (response) => {
+        try {
+          const paymentData = {
+            razorpayOrderId: response.razorpay_order_id,
+            razorpayPaymentId: response.razorpay_payment_id,
+            razorpaySignature: response.razorpay_signature,
+          };
+          await verifyPayment(paymentData).unwrap();
+          toast.success("Payment successful and order placed!");
+          dispatch(clearCart());
+          navigate("/");
+        } catch (error) {
+          toast.error("Payment verification failed.");
+        }
+      },
+      prefill: { name: user.name, email: user.email },
+    };
+  
+    const rzp = new window.Razorpay(options);
+    rzp.open();
+  };
+  
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -35,7 +67,7 @@ const Checkout = () => {
       shippingCharges: 0,
       discount: totalAmount * 0.1,
       total: totalAmount - totalAmount * 0.1 + totalAmount * 0.05,
-      orderItems: cartItems.map(item => ({
+      orderItems: cartItems.map((item) => ({
         name: item.productId.title,
         photo: item.productId.images[0]?.imageLinks[0],
         price: item.productId.price,
@@ -44,21 +76,16 @@ const Checkout = () => {
       })),
       user: user._id,
     };
+
     try {
-      await addOrder(orderData).unwrap();
-      dispatch(clearCart());
-      toast.success("Checkout successfully");
-      navigate("/");
+      const { razorpayOrderId, razorpayAmount, order } = await addOrder(orderData).unwrap();
+      toast.info("Redirecting to payment...");
+      handlePayment(order._id, razorpayOrderId, razorpayAmount);
     } catch (error) {
       console.error("Failed to place order:", error);
       toast.error(
         `❌ Checkout Failed: ${error.response?.data?.message || error.message}`,
-        {
-          position: "top-center",
-          autoClose: 5000,
-          hideProgressBar: true,
-          theme: "dark",
-        }
+        { position: "top-center", autoClose: 5000, hideProgressBar: true, theme: "dark" }
       );
     }
   };
@@ -133,13 +160,15 @@ const Checkout = () => {
             Place Order
           </button>
         </form>
-
         <div className="checkout-cart-summary">
           <h3>Your Cart</h3>
           {cartItems.map((item) => (
             <div className="cart-item" key={item.productId._id}>
-              <img src={item.productId.images[0]?.imageLinks[0]} alt={item.productId.title} />
-              <div style={{color:"black"}}>
+              <img
+                src={item.productId.images[0]?.imageLinks[0]}
+                alt={item.productId.title}
+              />
+              <div style={{ color: "black" }}>
                 <p>{item.productId.title}</p>
                 <p>Quantity: {item.quantity}</p>
                 <p>Price: ${item.productId.price}</p>
@@ -148,17 +177,6 @@ const Checkout = () => {
           ))}
           <p>Total: ${totalAmount.toFixed(2)}</p>
         </div>
-      </div>
-
-      <div className="checkout-payment-options">
-        <p>Payment Options:</p>
-        <button className="payment-option">Pay with PayPal</button>
-        <button className="payment-option">Pay with Google Pay</button>
-      </div>
-
-      <div className="checkout-trust-symbols">
-        <img src="/images/ssl-badge.png" alt="SSL Secure" />
-        <img src="/images/trust-badge.png" alt="Trusted Payment" />
       </div>
     </div>
   );

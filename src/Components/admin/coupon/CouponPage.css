@@ -1,8 +1,17 @@
 .coupon-page {
     padding: 20px;
+    width: 100%;
+    background-color: white;
+    box-shadow: 0px 0px 10px 2px silver;
     font-family: Arial, sans-serif;
+    border-radius: 5px;
+    box-sizing: content-box;
 }
-
+.coupon-page thead{
+    background-color: #45a049;
+    color: white;
+    height: 50px;
+}
 .coupon-table, .product-table-scrollable table {
     width: 100%;
     border-collapse: collapse;

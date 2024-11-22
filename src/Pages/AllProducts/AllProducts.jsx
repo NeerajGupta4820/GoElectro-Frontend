@@ -1,25 +1,30 @@
 import { useState, useEffect } from "react";
-import { Range } from "react-range"; 
+import { Range } from "react-range";
 import "./allProducts.css";
 import { useGetAllProductsQuery } from "../../redux/api/productAPI";
 import ProductCard from "../../Components/ProductCard/ProductCard";
 import { useFetchAllCategoriesQuery } from "../../redux/api/categoryAPI";
+import { useLocation } from "react-router-dom";
 import { FaStar } from "react-icons/fa";
 
 const AllProducts = () => {
+  const location = useLocation();
   const [Product, setProduct] = useState([]);
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const productsPerPage = 9;
-  
+
   const [filters, setFilters] = useState({
+    category: "",
     priceRange: [0, 100000],
     brands: [],
     rating: 0,
   });
-  const [selectedCategories, setSelectedCategories] = useState([]);
-  const [priceSortOption, setPriceSortOption] = useState(null); 
-  const [dateSortOption, setDateSortOption] = useState(null); 
+  console.log(location.state.category);
+
+  const [selectedCategories, setSelectedCategories] = useState([location.state.category ]);
+  const [priceSortOption, setPriceSortOption] = useState(null);
+  const [dateSortOption, setDateSortOption] = useState(null);
   const [showFilterPopup, setShowFilterPopup] = useState(false);
   const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 779);
 
@@ -45,38 +50,42 @@ const AllProducts = () => {
   const applyFilters = () => {
     let updatedProducts = Product;
 
+    // Filter by selected categories
     if (selectedCategories.length > 0) {
       updatedProducts = updatedProducts.filter((item) =>
-        selectedCategories.includes(item.category)
+        selectedCategories.includes(item.category._id)
       );
     }
 
+    // Filter by price range
     updatedProducts = updatedProducts.filter(
       (item) =>
         item.price >= filters.priceRange[0] &&
         item.price <= filters.priceRange[1]
     );
 
+    // Filter by brands
     if (filters.brands.length > 0) {
       updatedProducts = updatedProducts.filter((item) =>
         filters.brands.includes(item.brand)
       );
     }
 
+    // Filter by rating
     if (filters.rating > 0) {
       updatedProducts = updatedProducts.filter(
         (item) => item.ratings >= filters.rating
       );
     }
 
-    // Apply price sorting if selected
+    // Sort by price
     if (priceSortOption === "priceLowToHigh") {
       updatedProducts = updatedProducts.sort((a, b) => a.price - b.price);
     } else if (priceSortOption === "priceHighToLow") {
       updatedProducts = updatedProducts.sort((a, b) => b.price - a.price);
     }
 
-    // Apply date sorting if selected
+    // Sort by date
     if (dateSortOption === "newest") {
       updatedProducts = updatedProducts.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -105,7 +114,7 @@ const AllProducts = () => {
   const handleStarChange = (rating) => {
     setFilters((prevFilters) => ({
       ...prevFilters,
-      rating: prevFilters.rating === rating ? 0 : rating, // Toggle the rating
+      rating: prevFilters.rating === rating ? 0 : rating,
     }));
   };
 
@@ -178,7 +187,7 @@ const AllProducts = () => {
       </div>
       <div className="layout">
         <div className="allProducts-sidebar">
-        {isSmallScreen ? (
+          {isSmallScreen ? (
             <>
               <div className="category-section">
                 <h3>Categories</h3>
@@ -200,7 +209,9 @@ const AllProducts = () => {
               <div className="rating-section">
                 <h3>Ratings</h3>
                 <select
-                  onChange={(e) => setFilters({ ...filters, rating: e.target.value })}
+                  onChange={(e) =>
+                    setFilters({ ...filters, rating: e.target.value })
+                  }
                   defaultValue=""
                 >
                   <option value="" disabled>
@@ -229,9 +240,9 @@ const AllProducts = () => {
                   ))}
                 </select>
               </div>
-          </>
-            ) : (
-              <>
+            </>
+          ) : (
+            <>
               <div className="category-checkboxes">
                 <h3>Categories</h3>
                 {categoryData &&
@@ -247,8 +258,8 @@ const AllProducts = () => {
                   ))}
               </div>
               <div className="rating-checkboxes">
-              <h3>Rating</h3>
-                {[1,2,3,4,5].map((star) => (
+                <h3>Rating</h3>
+                {[1, 2, 3, 4, 5].map((star) => (
                   <div key={star} className="rating-option">
                     <input
                       type="checkbox"
@@ -264,7 +275,7 @@ const AllProducts = () => {
                 ))}
               </div>
               <div className="brand-checkboxes">
-              <h3>Brands</h3>
+                <h3>Brands</h3>
                 {brands.map((brand, index) => (
                   <div key={index}>
                     <input
@@ -276,9 +287,9 @@ const AllProducts = () => {
                   </div>
                 ))}
               </div>
-              </>
-            )}
-            </div>
+            </>
+          )}
+        </div>
         <div className="product-grid">
           {currentProducts.map((product) => (
             <ProductCard key={product._id} product={product} />
@@ -291,9 +302,9 @@ const AllProducts = () => {
           <button
             key={page}
             className={page === currentPage ? "active" : ""}
-            onClick={() =>{
+            onClick={() => {
               window.scrollTo(0, 0);
-              setCurrentPage(page)
+              setCurrentPage(page);
             }}
           >
             {page}

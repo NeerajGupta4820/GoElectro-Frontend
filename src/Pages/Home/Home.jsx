@@ -77,7 +77,7 @@ const Home = () => {
                       alt={category.name}
                       className="category-image"
                     />
-                    {category.name}
+                    {window.innerWidth > 480 ? category.name : ""}
                   </a>
                 </li>
               ))}

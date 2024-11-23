@@ -28,11 +28,12 @@ const Checkout = () => {
   };
 
   const handlePayment = async (orderId, razorpayOrderId, razorpayAmount) => {
+    console.log("Razorpay amount in paise (frontend):", razorpayAmount);
     const options = {
       key: import.meta.env.VITE_RAZORPAY_KEY_ID,
       amount: razorpayAmount,
       currency: "INR",
-      name: "Your Store Name",
+      name: "GOElecto",
       description: "Order Payment",
       order_id: razorpayOrderId,
       handler: async (response) => {
@@ -47,7 +48,7 @@ const Checkout = () => {
           dispatch(clearCart());
           navigate("/");
         } catch (error) {
-          toast.error("Payment verification failed.");
+          toast.error("Payment verification failed.",error.message);
         }
       },
       prefill: { name: user.name, email: user.email },
@@ -171,11 +172,11 @@ const Checkout = () => {
               <div style={{ color: "black" }}>
                 <p>{item.productId.title}</p>
                 <p>Quantity: {item.quantity}</p>
-                <p>Price: ${item.productId.price}</p>
+                <p>Price: Rs.{item.productId.price}</p>
               </div>
             </div>
           ))}
-          <p>Total: ${totalAmount.toFixed(2)}</p>
+          <p>Total: Rs.{totalAmount.toFixed(2)}</p>
         </div>
       </div>
     </div>

@@ -32,7 +32,7 @@ const ProductSlider = ({ products, title, isLoading, link }) => {
   return (
     <div className="product-slider">
       <h1>{title}</h1>
-      {link && <Link to="allproducts" className="findmore">More</Link>}
+      {link && <Link to="allProducts" className="findmore">More</Link>}
       <main className="slider-main">
         {isLoading ? (
           <Loader type="data" />

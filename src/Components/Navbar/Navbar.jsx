@@ -22,6 +22,7 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
   const mobileMenuRef = useRef(null);
+  const dropdownRef = useRef(null); // Add ref for dropdown
 
   const toggleDropdown = () => setDropdownOpen((prev) => !prev);
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
@@ -41,7 +42,7 @@ const Navbar = () => {
       toast.success("Logged out successfully!");
       navigate("/");
     } catch (error) {
-      toast.error("Failed to update cart. Please try again.",error.message);
+      toast.error("Failed to update cart. Please try again.", error.message);
     }
   };
 
@@ -60,15 +61,26 @@ const Navbar = () => {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
-  // Close sidebar on outside click
   useEffect(() => {
     const handleClickOutside = (event) => {
+      // Close dropdown if click is outside of dropdown
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  useEffect(() => {
+    const handleClickOutsideMobileMenu = (event) => {
       if (mobileMenuRef.current && !mobileMenuRef.current.contains(event.target)) {
         setIsMobileMenuOpen(false);
       }
     };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutsideMobileMenu);
+    return () => document.removeEventListener("mousedown", handleClickOutsideMobileMenu);
   }, []);
 
   return (
@@ -108,7 +120,7 @@ const Navbar = () => {
                 <Link to="/contact">Contact</Link>
               </li>
               <li onClick={toggleMobileMenu}>
-                <Link to="/allproducts">All Products</Link>
+                <Link to="/allProducts">All Products</Link>
               </li>
             </>
           )}
@@ -128,14 +140,42 @@ const Navbar = () => {
               </li>
             </>
           ) : (
-            <li onClick={toggleDropdown} style={{ position: "relative", cursor: "pointer", color: "white" }}>
+            <li
+              ref={dropdownRef}
+              onClick={toggleDropdown}
+              style={{ position: "relative", cursor: "pointer", color: "white" }}
+            >
               <FaRegUser style={{ color: "black", fontWeight: "600" }} />
               {dropdownOpen && (
-                <ul style={{ position: "absolute", top: "100%", right: 0, backgroundColor: "#333", color: "white", listStyleType: "none", padding: "0.5rem", borderRadius: "8px", boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)", minWidth: "120px", zIndex: 1000 }}>
-                  <li onClick={handleProfileRedirect} style={{ cursor: "pointer", padding: "0.5rem", borderBottom: "1px solid rgba(255, 255, 255, 0.2)" }}>
+                <ul
+                  style={{
+                    position: "absolute",
+                    top: "100%",
+                    right: 0,
+                    backgroundColor: "#333",
+                    color: "white",
+                    listStyleType: "none",
+                    padding: "0.5rem",
+                    borderRadius: "8px",
+                    boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.2)",
+                    minWidth: "120px",
+                    zIndex: 1000,
+                  }}
+                >
+                  <li
+                    onClick={handleProfileRedirect}
+                    style={{
+                      cursor: "pointer",
+                      padding: "0.5rem",
+                      borderBottom: "1px solid rgba(255, 255, 255, 0.2)",
+                    }}
+                  >
                     Dashboard
                   </li>
-                  <li onClick={logoutUser} style={{ cursor: "pointer", padding: "0.5rem", color: "#ff4d4d" }}>
+                  <li
+                    onClick={logoutUser}
+                    style={{ cursor: "pointer", padding: "0.5rem", color: "#ff4d4d" }}
+                  >
                     Logout
                   </li>
                 </ul>
@@ -143,7 +183,7 @@ const Navbar = () => {
             </li>
           )}
         </ul>
-        
+
         {width && (
           <div className="menu-icon" onClick={toggleMobileMenu}>
             <FaBars />

@@ -1,9 +1,9 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import { AiFillFileText } from "react-icons/ai";
 import {
-  FaChartBar,
-  // FaGamepad,
-  FaStopwatch,
+FaChartBar,
+// FaGamepad,
+FaStopwatch,
 } from "react-icons/fa";
 import { HiMenuAlt4 } from "react-icons/hi";
 import { IoIosPeople } from "react-icons/io";
@@ -20,9 +20,21 @@ const AdminSidebar = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [phoneActive, setPhoneActive] = useState(window.innerWidth < 900);
+  const sidebarRef=useRef(false);
 
   const toggleSidebar = () => setIsOpen(!isOpen);
   const closeSidebar = () => setIsOpen(false);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (sidebarRef.current && !sidebarRef.current.contains(event.target)) {
+        setIsOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  
 
   useEffect(() => {
     const resizeHandler = () => setPhoneActive(window.innerWidth < 900);
@@ -37,7 +49,7 @@ const AdminSidebar = () => {
           <HiMenuAlt4 />
         </button>
       )}
-      <aside className={`sidebar ${isOpen ? "collapsed" : ""}`}>
+      <aside ref={sidebarRef} className={`sidebar ${isOpen ? "collapsed" : ""}`}>
         <DivOne location={location} closeSidebar={closeSidebar} />
         <DivTwo location={location} closeSidebar={closeSidebar} />
         <DivThree location={location} closeSidebar={closeSidebar} />

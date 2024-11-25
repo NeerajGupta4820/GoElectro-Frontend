@@ -20,9 +20,10 @@ const AllProducts = () => {
     brands: [],
     rating: 0,
   });
-  console.log(location.state.category);
 
-  const [selectedCategories, setSelectedCategories] = useState([location.state.category ]);
+  const [selectedCategories, setSelectedCategories] = useState(
+    location.state?.category ? [location.state.category] : []
+  );
   const [priceSortOption, setPriceSortOption] = useState(null);
   const [dateSortOption, setDateSortOption] = useState(null);
   const [showFilterPopup, setShowFilterPopup] = useState(false);
@@ -50,42 +51,36 @@ const AllProducts = () => {
   const applyFilters = () => {
     let updatedProducts = Product;
 
-    // Filter by selected categories
     if (selectedCategories.length > 0) {
       updatedProducts = updatedProducts.filter((item) =>
         selectedCategories.includes(item.category._id)
       );
     }
 
-    // Filter by price range
     updatedProducts = updatedProducts.filter(
       (item) =>
         item.price >= filters.priceRange[0] &&
         item.price <= filters.priceRange[1]
     );
 
-    // Filter by brands
     if (filters.brands.length > 0) {
       updatedProducts = updatedProducts.filter((item) =>
         filters.brands.includes(item.brand)
       );
     }
 
-    // Filter by rating
     if (filters.rating > 0) {
       updatedProducts = updatedProducts.filter(
         (item) => item.ratings >= filters.rating
       );
     }
 
-    // Sort by price
     if (priceSortOption === "priceLowToHigh") {
       updatedProducts = updatedProducts.sort((a, b) => a.price - b.price);
     } else if (priceSortOption === "priceHighToLow") {
       updatedProducts = updatedProducts.sort((a, b) => b.price - a.price);
     }
 
-    // Sort by date
     if (dateSortOption === "newest") {
       updatedProducts = updatedProducts.sort(
         (a, b) => new Date(b.createdAt) - new Date(a.createdAt)
@@ -173,6 +168,7 @@ const AllProducts = () => {
       priceRange: values,
     }));
   };
+
 
   return (
     <div className="all-products">
